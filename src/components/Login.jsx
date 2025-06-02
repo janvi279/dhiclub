@@ -70,7 +70,7 @@ const Login = () => {
                     <button className="bg-[#6246EA] text-white px-10 py-2 rounded-full hover:bg-purple-700">
                         Login
                     </button>
-                    <button className="border border-purple-600 text-[#6246EA] px-10 py-2 rounded-full hover:bg-purple-50 font-bold">
+                    <button className="border border-[#6246EA] text-[#6246EA] px-10 py-2 rounded-full hover:bg-purple-50 font-bold">
                         Sign Up
                     </button>
                 </div>
