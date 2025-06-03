@@ -1,22 +1,53 @@
+import { useState } from "react";
+
 const Sidebar = () => {
-  const navItems = ["Dhiclub", "CRM", "Inventory", "Billing"];
+  const [openItems, setOpenItems] = useState({});
+
+  const navItems = [
+     { name: "Controller", children: ["Overview", "Team", "Settings"] },
+    { name: "Dhiclub", children: ["Overview", "Team", "Settings"] },
+    { name: "CRM", children: ["Clients", "Leads", "Reports"] },
+    { name: "Inventory", children: ["Products", "Stock", "Suppliers"] },
+    { name: "Billing", children: ["Invoices", "Payments", "History"] },
+  ];
+
+  const toggleItem = (itemName) => {
+    setOpenItems((prev) => ({
+      ...prev,
+      [itemName]: !prev[itemName],
+    }));
+  };
+
   return (
-    <div className="bg-[#F9F8FF] h-screen my-10 mx-5 w-sm rounded-[20px]">
-      <ul className="space-y-2 py-5 px-5 text-gray-600">
+    <div className="bg-[#F9F8FF] h-screen my-10 mx-5 w-[250px] max-sm:w-auto rounded-[20px]">
+      <ul className="space-y-2 py-5 px-5 text-gray-600 ">
         {navItems.map((item, index) => (
-          <div className="flex items-center justify-between hover:bg-[#E4E7FF] cursor-pointer rounded-[10px] p-2 ">
-            <li
-              key={index}
-              className=" "
+          <li key={index} className="list-none ">
+            <div
+              className={`flex hover:text-[#061237]  font-semibold items-center justify-between hover:bg-[#E4E7FF] cursor-pointer rounded-[10px] p-2 ${openItems[item.name] ? "text-[#061237]" : "text-[#AAA9BC]"}`}
+              onClick={() => toggleItem(item.name)}
             >
-              {item}
-            </li>
-            <img src="icon-plus.png" />
-            {/* <img src="icon-minus.png" /> */}
-          </div>
+              <span className="">{item.name}</span>
+              <img
+                src={openItems[item.name] ? "icon-minus.png" : "icon-plus.png"}
+                alt="toggle"
+                className="w-4 h-4"
+              />
+            </div>
+
+            {openItems[item.name] && (
+              <ul className="ml-5 mt-1 pl-2 space-y-1 text-gray-600 font-semibold  ">
+                {item.children.map((subItem, subIndex) => (
+                <li key={subIndex} className="text-gray-500 hover:bg-[#E4E7FF] hover:text-[#061237] rounded-[10px] px-2 py-1 cursor-pointer">{subItem}</li>
+
+                ))}
+              </ul>
+            )}
+          </li>
         ))}
       </ul>
     </div>
   );
 };
+
 export default Sidebar;
