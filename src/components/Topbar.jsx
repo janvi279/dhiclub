@@ -6,12 +6,12 @@ const Topbar = () => {
           <img src="/D Logo.png" alt="Dhiclub Logo" />
           <p className="text-3xl font-bold font-size-30 ">Dhiclub</p>
         </div>
-        <div className="max-sm:flex flex ">
-          <div className="xl:mx-100 2xl:mx-160  lg:mx-50 md:mx-20 max-sm:mx-0 relative flex items-center  max-sm:mt-3 max-sm:mb-2  ">
+        <div className="flex">
+          <div className=" xl:mx-100  lg:mx-50 md:mx-20 max-sm:mx-0 relative flex items-center  max-sm:mt-3 max-sm:mb-2  ">
             <img
               src="/Search-icon.png"
-              className="absolute pl-5 max-sm:pl-2 "
-            />
+              className="absolute pl-5 max-sm:pl-2"
+            />    
             <input
               type="text"
               placeholder="Search or type a command"

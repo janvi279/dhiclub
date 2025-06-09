@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form"
+import { LoginUser } from "../api/Auth";
+import { toast, ToastContainer } from "react-toastify"
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -23,16 +25,41 @@ const Login = () => {
     const togglePasswordVisibility = () => {
         setShowPassword((prev) => !prev);
     };
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
 
-        console.log('email', data.email)
-        console.log('password', data.password)
-        navigate("/dashboard")
+        try {
+            const body = {
+                email: data.email,
+                password: data.password
+            };
+            const response = await LoginUser(body);
+
+            if (response.data) {
+                const token = response.data.data.token;
+                console.log(token);
+
+                toast.success("Login successful", {
+                    autoClose: 2000,
+                    position: "top-center"
+                });
+                setTimeout(() => {
+                    navigate("/dashboard");
+
+                }, 4000);
+
+            }
+         
+        } catch (error) {
+            toast.error("Login Fail")
+            console.log("error", error);
+
+        }
 
     }
 
     return (
         <div className="font-poppins flex justify-center items-center h-screen max-sm:mx-8 ">
+            <ToastContainer />
             <div className="bg-[#F9F8FF] p-15 max-sm:p-5 rounded-[20px] shadow-md w-[455px]">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="text-center flex gap-2 text-left items-center mb-6 ">
