@@ -112,9 +112,6 @@ const Login = () => {
                         <button className="max-sm:p-1   max-sm:px-7  mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700">
                             Login
                         </button>
-                        {/* <button className=" max-sm:px-0 border border-[#6246EA] text-[#6246EA] px-10 py-2 rounded-full hover:bg-purple-50 font-bold">
-                        Sign Up
-                    </button> */}
                         <button className="max-sm:p-1 max-sm:px-5 mb-5 text-[#6246EA] border border-[#6246EA] rounded-full px-10 py-2 rounded-full hover:bg-purple-50 font-bold">
                             Sign Up
                         </button>
