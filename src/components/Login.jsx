@@ -26,7 +26,7 @@ const Login = () => {
         setShowPassword((prev) => !prev);
     };
     const onSubmit = async (data) => {
-
+    navigate("/dashboard")
         try {
             const body = {
                 email: data.email,
