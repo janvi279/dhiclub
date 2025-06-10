@@ -4,7 +4,7 @@ import { BASE_URL } from "../constants";
 
 console.log("BASE_URL", BASE_URL);
 
- class AxiosWrapper {
+class AxiosWrapper {
     static token = null;
 
     constructor() {
@@ -75,7 +75,23 @@ console.log("BASE_URL", BASE_URL);
         });
     };
 
+    static Forgetpwdpost = async ({ endpoint, data }) => {
+        return axios.post(`${BASE_URL}${endpoint}`, data, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+    };
 
+    static Resetpwdpost = async ({ endpoint, data }) => {
+        console.log("🚀 ~ AxiosWrapper ~ Resetpwdpost= ~ token:", data);
+        return axios.post(`${BASE_URL}${endpoint}`, data, {
+            headers: {
+                "Content-Type": "application/json",
+
+            },
+        });
+    };
     static put = async ({ endpoint, id, body }) => {
         await AxiosWrapper.retrieveToken();
         let url = `${BASE_URL}${endpoint}`;

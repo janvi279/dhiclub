@@ -38,3 +38,27 @@ export const LoginUser = async (body) => {
         throw error 
     });
 };
+
+export const ForgetPassword = async (email) => {
+  return AxiosWrapper.Forgetpwdpost({
+    endpoint: "user/forgetPassword",
+   data:{email},
+  });
+};
+
+export const resetPassword = async (token, newPassword) => {
+  console.log("token, newPassword", token, newPassword);
+  return AxiosWrapper.Resetpwdpost({
+    endpoint: "user/resetPassword",
+    data: { token, newPassword }, 
+  })
+    .then((response) => {
+      return {
+        status: response.status,
+        data: response.data,
+      };
+    })
+    .catch((error) => {
+      throw error;
+    });
+};

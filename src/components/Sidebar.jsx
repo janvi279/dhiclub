@@ -22,18 +22,22 @@ const Sidebar = ({ onSelect, isSidebarOpen, setIsSidebarOpen }) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  const toggleItem = (itemName) => {
+  const toggleItem = async (itemName) => {
     setOpenItems((prev) => ({
 
       [itemName]: !prev[itemName],
+
     }));
+    setIsSidebarOpen(true);
+
   };
+
   const toggleSideBar = () => {
     setIsSidebarOpen((prev) => !prev);
     setOpenItems(false)
   };
   return (
-    <div className="flex  h-screen w-20 max-sm:w-10">
+    <div className="flex h-screen w-20 max-sm:w-10">
       {/* Toggle Button (visible on small screens) */}
       {/* Sidebar */}
       <div
@@ -52,7 +56,7 @@ const Sidebar = ({ onSelect, isSidebarOpen, setIsSidebarOpen }) => {
         >
 
           {isSidebarOpen ? (
-            <svg commentMore actions
+            <svg 
               xmlns="http://www.w3.org/2000/svg"
               className="w-6 h-6"
               fill="currentColor"
@@ -79,6 +83,7 @@ const Sidebar = ({ onSelect, isSidebarOpen, setIsSidebarOpen }) => {
         </button>
         <div className="h-full overflow-y-auto">
           <ul className={`space-y-2 py-5  ${isSidebarOpen ? "px-5" : "px-2"} text-gray-600`}>
+
             {navItems.map((item, index) => (
               <li key={index}>
                 <div
@@ -103,7 +108,8 @@ const Sidebar = ({ onSelect, isSidebarOpen, setIsSidebarOpen }) => {
                         onClick={() => {
                           onSelect(`${item.name} - ${subItem}`);
                           if (window.innerWidth <= 768) {
-                            setIsSidebarOpen(false); // Auto-close on mobile
+                            setIsSidebarOpen(false)
+                            setOpenItems(false); // Auto-close on mobile
                           }
                         }}
                         className="text-gray-500 hover:bg-[#E4E7FF] hover:text-[#061237] rounded-[10px] px-2 py-1 cursor-pointer"
