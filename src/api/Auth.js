@@ -62,3 +62,18 @@ export const resetPassword = async (token, newPassword) => {
       throw error;
     });
 };
+
+export const LogoutUser=async()=>{
+    return AxiosWrapper.post({
+      endpoint:"user/logout",
+      body:{},
+    }).then((response)=>{
+      return {
+        status:response.status,
+        data:response.data
+      }
+    })
+   .catch((error) => {
+      throw error;
+    });
+}

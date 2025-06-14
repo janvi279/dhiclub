@@ -1,4 +1,17 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 const Topbar = () => {
+  const [showMenu, setShowMenu] = useState(false)
+  const handleUserIconClick = () => {
+    setShowMenu(!showMenu);
+    
+  }
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    // Perform any logout-related tasks here (e.g., clearing session)
+    navigate("/"); // Redirect to login page
+  };
   return (
     <>
       <div className=" justify-between flex flex-1 bg-[#F9F8FF] items-center p-7 max-sm:p-5 max-sm:flex-wrap">
@@ -9,7 +22,7 @@ const Topbar = () => {
         </div>
 
         {/* Search */}
-        <div className="  relative  flex items-center ">
+        <div className="flex items-center ">
           <img
             src="/Search-icon.png"
             className="absolute pl-5 max-sm:pl-2"
@@ -20,15 +33,29 @@ const Topbar = () => {
             className="px-12 max-sm:px-7 py-2 w-75 max-sm:p-2 max-sm:w-50 max-sm:text-xs border-[1.5px] border-[#AAA9BC] rounded-lg focus:outline-none"
           />
         </div>
-        <div className="flex  items-center gap-5 justify-end max-sm:[justify-normal] max-sm:gap-2 ">
+        <div className="flex relative items-center gap-5 justify-end max-sm:[justify-normal] max-sm:gap-2 ">
           <img
             src="/bell-svgrepo-com.svg"
             className="bg-[#E4E7FF] p-4 h-[57px]  rounded-full max-sm:p-2 max-sm:h-[30px] max-sm:p-[0px]"
+
           />
           <img
             src="/User.png"
             className="bg-[#E4E7FF] p-4 max-sm:p-2 rounded-full max-sm:h-[30px] max-sm:p-[5px]"
+            onClick={handleUserIconClick}
+
           />
+        {showMenu && (
+  <ul className="absolute top-15 right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-10">
+    <li
+      className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+      onClick={handleLogout}
+    >
+      Logout
+    </li>
+  </ul>
+)}
+
         </div>
       </div>
     </>
