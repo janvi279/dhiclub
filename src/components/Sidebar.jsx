@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 const Sidebar = ({ onSelect, isSidebarOpen, setIsSidebarOpen }) => {
   const [openItems, setOpenItems] = useState({});
   const navItems = [
-    { name: "Controller", children: ["Overview", "Team", "Settings"] },
+    { name: "Controller", children: ["Overview", "country","Team", "Settings"] },
     { name: "Dhiclub", children: ["Overview", "Team", "Settings"] },
     { name: "CRM", children: ["Clients", "Leads", "Reports"] },
     { name: "Inventory", children: ["Products", "Stock", "Suppliers"] },

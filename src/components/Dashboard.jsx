@@ -1,16 +1,29 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+
+import Country from "../pages/Dashboard/country";
+
 const Dashboard = () => {
     const [selectedItem, setSelectedItem] = useState("welcome to dashboard");
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const handleSelect = (item) => {
         setSelectedItem(item);
     };
+    const renderPage = () => {
+        switch (selectedItem) {
+
+            case "Controller - country":
+                return <Country />;
+
+            default:
+                return <p className="text-lg text-gray-600">{selectedItem}</p>;
+        }
+    };
     return (
         <>
             <Topbar />
-            <div className="flex fixed w-full">
+            <div className="flex  fixed w-full">
                 <Sidebar
                     onSelect={handleSelect}
                     isSidebarOpen={isSidebarOpen}
@@ -22,8 +35,8 @@ const Dashboard = () => {
                         }`}
                 >
                     <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-                    <p className="mt-4 text-lg text-gray-600">{selectedItem}</p>
-                   
+                    <div className="mt-4">{renderPage()}</div>
+
 
                     {/* Add dashboard content here */}
                 </div>
@@ -31,4 +44,4 @@ const Dashboard = () => {
         </>
     );
 };
-export default Dashboard;
+export default Dashboard; 
