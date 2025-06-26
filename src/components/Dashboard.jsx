@@ -1,8 +1,11 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
-
-import Country from "../pages/Dashboard/country";
+import CountryList from "./CountryList";
+import CityList from "./City";
+import StateList from "./StateList";
+import Teams from "./Teams";
+import Members from "./Members";
 
 const Dashboard = () => {
     const [selectedItem, setSelectedItem] = useState("welcome to dashboard");
@@ -14,7 +17,16 @@ const Dashboard = () => {
         switch (selectedItem) {
 
             case "Controller - country":
-                return <Country />;
+                return <CountryList />;
+            case "Controller - state":
+                return <StateList />;
+            case "Controller - city":
+                return <CityList />;
+            case "Dhiclub - Chapters / Team":
+                return <Teams />;
+            case "Dhiclub - Members":
+                return <Members />;
+
 
             default:
                 return <p className="text-lg text-gray-600">{selectedItem}</p>;

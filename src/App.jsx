@@ -1,20 +1,21 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
-import UserList from "./components/UserList";
 import Dashboard from "./components/Dashboard";
 import SignUp from "./components/SignUp";
+import AddMember from "./components/AddMember";
 
 
 
 const App = () => {
-  return (  
+  return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />}> </Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
-        <Route path="/userList" element={<UserList />}></Route>
-         <Route path="/signUp" element={<SignUp />}></Route>
+        <Route path="/signUp" element={<SignUp />}></Route>
+             <Route path="/addMember" element={<AddMember />}></Route>
+             <Route path="/verification" element={<AddMember />}></Route>
       </Routes>
     </BrowserRouter>
   );
