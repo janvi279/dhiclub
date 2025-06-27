@@ -28,20 +28,7 @@ const schema = yup.object().shape({
         .required("Confirm your password"),
     education: yup.string().required("Education is required"),
     maritalStatus: yup.string().required("Marital status is required"),
-    companyDetails: yup.object().shape({
-        businessCategory: yup.string().required("businessCategory is required"),
-        companyName: yup.string().required("companyName is required"),
-        companyRegistration: yup.string().required("companyRegistration is required"),
-        establishedYear: yup
-            .number()
-            .min(1900)
-            .max(new Date().getFullYear())
-            .required("establishedYear required"),
-        numberOfStaff: yup.string().required("numberOfStaff is required"),
-        gstNumber: yup.string().required("gstNumber is required"),
-        officeNumber: yup.string().required("officeNumber is required"),
-        officeEmail: yup.string().email().required("officeEmail is required"),
-    }),
+   
     address: yup.object().shape({
         city: yup.string().required("city is required"),
         state: yup.string().required("state is required"),
@@ -68,6 +55,7 @@ const SignUp = () => {
 
     const onSubmit = async (data) => {
         console.log("Submitting", data);
+        navigate("/BusinessDetail")
         try {
             const response = await RegisterUser(data);
             if (response.data) {
@@ -86,7 +74,10 @@ const SignUp = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="bg-white rounded-lg shadow-md w-full max-w-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-4"
             >
-                <h2 className="text-xl font-bold col-span-full">Register Account</h2>
+                <h1 className="text-xl text-center font-bold col-span-full w-50 mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700">Step-3</h1>
+                <h3 className="text-2xl col-span-full  font-semibold text-gray-800 mt-2">
+              Personal Detail
+            </h3>
                 <div className=" mb-4 flex items-center relative">
 
                     <User className="absolute left-3 top-3 text-purple-300" />
@@ -197,64 +188,6 @@ const SignUp = () => {
                     {showPassword ? "Hide Passwords" : "Show Passwords"}
                 </span>
 
-                <h3 className="font-semibold col-span-full">Company Details</h3>
-                <div className=" mb-4 flex items-center relative">
-                    <Tag className="absolute left-3 top-3 text-purple-300" />
-
-                    <input {...register("companyDetails.businessCategory")} placeholder="Business Category" className="w-full max-sm:text-sm py-3 pl-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-                    {(errors.companyDetails?.businessCategory &&
-                        <p className="text-red-500 text-xs mt-1 pl-2">{errors.companyDetails?.businessCategory.message}</p>
-                    )}
-                </div>
-                <div className=" mb-4 flex items-center relative">
-                    <Building className="absolute left-3 top-3 text-purple-300" />
-                    <input {...register("companyDetails.companyName")} placeholder="Company Name" className="w-full max-sm:text-sm py-3 pl-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-                    {(errors.companyDetails?.companyName &&
-                        <p className="text-red-500 text-xs mt-1 pl-2">{errors.companyDetails?.companyName.message}</p>
-                    )}
-                </div>
-                <div className=" mb-4 flex items-center relative">
-                    <ClipboardList className="absolute left-3 top-3 text-purple-300" />
-                    <input {...register("companyDetails.companyRegistration")} placeholder="Company Registration" className="w-full max-sm:text-sm py-3 pl-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-                    {(errors.companyDetails?.companyRegistration &&
-                        <p className="text-red-500 text-xs mt-1 pl-2">{errors.companyDetails?.companyRegistration.message}</p>
-                    )}
-                </div>
-                <div className=" mb-4 flex items-center relative">
-                    <Calendar className="absolute left-3 top-3 text-purple-300" />
-                    <input type="number" {...register("companyDetails.establishedYear")} placeholder="Established Year" className="w-full max-sm:text-sm py-3 pl-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-                    {(errors.companyDetails?.establishedYear &&
-                        <p className="text-red-500 text-xs mt-1 pl-2">{errors.companyDetails?.establishedYear.message}</p>
-                    )}
-                </div>
-                <div className=" mb-4 flex items-center relative">
-                    <Users className="absolute left-3 top-3 text-purple-300" />
-                    <input {...register("companyDetails.numberOfStaff")} placeholder="Staff Count" className="w-full max-sm:text-sm py-3 pl-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-                    {(errors.companyDetails?.numberOfStaff &&
-                        <p className="text-red-500 text-xs mt-1 pl-2">{errors.companyDetails?.numberOfStaff.message}</p>
-                    )}
-                </div>
-                <div className=" mb-4 flex items-center relative">
-                    <Receipt className="absolute left-3 top-3 text-purple-300" />
-                    <input {...register("companyDetails.gstNumber")} placeholder="GST Number" className="w-full max-sm:text-sm py-3 pl-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-                    {(errors.companyDetails?.gstNumber &&
-                        <p className="text-red-500 text-xs mt-1 pl-2">{errors.companyDetails?.gstNumber.message}</p>
-                    )}
-                </div>
-                <div className=" mb-4 flex items-center relative">
-                    <Phone className="absolute left-3 top-3 text-purple-300" />
-                    <input {...register("companyDetails.officeNumber")} placeholder="Office Number" className="w-full max-sm:text-sm py-3 pl-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-                    {(errors.companyDetails?.officeNumber &&
-                        <p className="text-red-500 text-xs mt-1 pl-2">{errors.companyDetails?.officeNumber.message}</p>
-                    )}
-                </div>
-                <div className=" mb-4 flex items-center relative">
-                    <Mail className="absolute left-3 top-3 text-purple-300" />
-                    <input {...register("companyDetails.officeEmail")} placeholder="Office Email" className="w-full max-sm:text-sm py-3 pl-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-                    {(errors.companyDetails?.officeEmail &&
-                        <p className="text-red-500 text-xs mt-1 pl-2">{errors.companyDetails?.officeEmail.message}</p>
-                    )}
-                </div>
 
                 <h3 className="font-semibold col-span-full">Address</h3>
                 <div className=" mb-4 flex items-center relative">
@@ -284,7 +217,7 @@ const SignUp = () => {
                     type="submit"
                     className="col-span-full max-sm:p-1 w-50 mx-auto   max-sm:px-7  mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700"
                 >
-                    Register
+                    Next
                 </button>
             </form>
         </div>

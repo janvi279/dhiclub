@@ -5,11 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const Members = () => {
     const [teams, setTeams] = useState([]);
-    const [newTeam, setNewTeam] = useState({ teamName: "", country: "", state: "", city: "" });
+    const [newTeam, setNewTeam] = useState({ teamName: "", country: "" });
 
     const countries = ["India", "USA", "Canada"];
-    const states = ["Gujarat", "Maharashtra", "California"];
-    const cities = ["Rajkot", "Mumbai", "Los Angeles"];
+
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
 
@@ -19,9 +18,17 @@ const Members = () => {
     };
 
     const addTeam = () => {
-        if (newTeam.teamName && newTeam.country && newTeam.state && newTeam.city) {
-            setTeams([...teams, { ...newTeam, joiningDate: new Date().toLocaleDateString() }]);
-            setNewTeam({ teamName: "", country: "", state: "", city: "" });
+        if (newTeam.teamName && newTeam.country) {
+            const newEntry = {
+                ...newTeam,
+                state: "-",
+                city: "-",
+                joiningDate: new Date().toLocaleDateString(),
+            };
+            const updatedTeams = [...teams, newEntry];
+            setTeams(updatedTeams);
+            localStorage.setItem("teams", JSON.stringify(updatedTeams));
+            setNewTeam({ teamName: "", country: "" });
             setShowModal(false);
         }
     };
@@ -37,10 +44,6 @@ const Members = () => {
         }
     }, []);
 
-    useEffect(() => {
-        localStorage.setItem("teams", JSON.stringify(teams));
-    }, [teams]);
-
     return (
         <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
             <div className="flex justify-between bg-gray-200 p-5 text-black font-semibold text-2xl border-4 border-gray-200 rounded-t-3xl">
@@ -53,9 +56,7 @@ const Members = () => {
                     onClick={() => setShowModal(true)}
                 >
                     <div className="flex">
-
                         <span className="leading-tight">Assign <br />Role</span>
-
                     </div>
                 </button>
                 <button
@@ -63,64 +64,40 @@ const Members = () => {
                     onClick={() => navigate("/addMember")}
                 >
                     <div className="flex">
-
                         <span className="leading-tight">Add New <br />Member</span>
-
                     </div>
                 </button>
-
             </div>
 
             {showModal && (
                 <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-4 relative">
-                        <h2 className="text-2xl font-semibold mb-4 text-center">Create Team</h2>
+                        <h2 className="text-2xl font-semibold mb-4 text-center">Assign Role</h2>
                         <button
                             className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold"
                             onClick={() => setShowModal(false)}
                         >×</button>
 
-                        <input
-                            type="text"
-                            name="teamName"
-                            value={newTeam.teamName}
-                            onChange={handleChange}
-                            className="text-gray-700 border border-gray-300 rounded px-3 py-1 w-full mb-3"
-                            placeholder="Enter Team Name"
-                        />
+                        <div className="relative mb-3">
+                            <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">🔍</span>
+                            <input
+                                type="text"
+                                name="teamName"
+                                value={newTeam.teamName}
+                                onChange={handleChange}
+                                placeholder="Search a member"
+                                className="w-full border border-gray-300 rounded pl-10 pr-3 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
 
                         <select
                             name="country"
-                            className="text-gray-700 border border-gray-300 rounded px-3 py-1 w-full mb-3"
+                            className="text-gray-700 border border-gray-300 rounded px-3 py-3 w-full mb-3"
                             onChange={handleChange}
                             value={newTeam.country}
                         >
-                            <option value="">Select Country</option>
+                            <option value="">Select Role</option>
                             {countries.map((c) => (
-                                <option key={c} value={c}>{c}</option>
-                            ))}
-                        </select>
-
-                        <select
-                            name="state"
-                            className="text-gray-700 border border-gray-300 rounded px-3 py-1 w-full mb-3"
-                            onChange={handleChange}
-                            value={newTeam.state}
-                        >
-                            <option value="">Select State</option>
-                            {states.map((s) => (
-                                <option key={s} value={s}>{s}</option>
-                            ))}
-                        </select>
-
-                        <select
-                            name="city"
-                            className="text-gray-700 border border-gray-300 rounded px-3 py-1 w-full mb-3"
-                            onChange={handleChange}
-                            value={newTeam.city}
-                        >
-                            <option value="">Select City</option>
-                            {cities.map((c) => (
                                 <option key={c} value={c}>{c}</option>
                             ))}
                         </select>
@@ -129,7 +106,9 @@ const Members = () => {
                             type="submit"
                             className="bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600"
                             onClick={addTeam}
-                        >Submit</button>
+                        >
+                            Approve
+                        </button>
                     </div>
                 </div>
             )}
@@ -150,12 +129,11 @@ const Members = () => {
                         <tr key={index} className="border-b hover:bg-gray-100">
                             <td className="p-3">{team.teamName}</td>
                             <td className="p-3">{team.country}</td>
-                            <td className="p-3">{team.state}</td>
-                            <td className="p-3">{team.city}</td>
+                            <td className="p-3">{team.state || "-"}</td>
+                            <td className="p-3">{team.city || "-"}</td>
                             <td className="p-3">{team.joiningDate}</td>
                             <td className="p-3 flex gap-2">
                                 <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">VIEW</button>
-
                                 <button className="bg-emerald-500 text-white px-3 py-1 rounded hover:bg-emerald-600">ACTIVE</button>
                                 <button className="bg-amber-600 text-white px-3 py-1 rounded hover:bg-amber-700">DEACTIVE</button>
                             </td>
