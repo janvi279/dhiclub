@@ -1,55 +1,33 @@
 import { useState, useEffect } from "react";
-import { FaEdit, FaTrash, FaPlus, FaMinus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 
 const CityList = () => {
-    const [employees, setEmployees] = useState([]);
-    const [newEmployee, setNewEmployee] = useState({ city: "" });
-   
-         const cities = ["Rajkot", "Mumbai", "Los Angeles"];
+    const [citiList, setCityList] = useState([]);
+    const [City, setNewCity] = useState({ city: "", status: "Active" });
+
+    const cities = ["Rajkot", "Mumbai", "Los Angeles"];
 
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
-    const [editingEmployee, setEditingEmployee] = useState(null);
+    const [editingCity, setEditingCity] = useState(null);
 
     const handleChange = (e) => {
-        const { name, value, type, checked, files } = e.target;
-        const stateUpdater = editingEmployee ? setEditingEmployee : setNewEmployee;
-        const currentState = editingEmployee || newEmployee;
-
-        if (type === "checkbox") {
-            const updatedInterests = new Set(currentState.interests || []);
-            checked ? updatedInterests.add(value) : updatedInterests.delete(value);
-            stateUpdater({ ...currentState, interests: Array.from(updatedInterests) });
-        } else if (type === "file") {
-            stateUpdater({ ...currentState, [name]: files[0] });
-        } else {
-            stateUpdater({ ...currentState, [name]: value });
-        }
+        const { name, value } = e.target;
+        const stateUpdater = editingCity ? setEditingCity : setNewCity;
+        const currentState = editingCity || newCity;
+        stateUpdater({ ...currentState, [name]: value });
     };
 
-    const addEmployee = () => {
-        if (newEmployee.city) {
-            setEmployees([...employees, newEmployee]);
-            setNewEmployee({
-                city: "",
-                name: "",
-                email: "",
-                address: "",
-                phone: "",
-                password: "",
-                age: "",
-                gender: "",
-                interests: [],
-                dob: "",
-                file: null,
-                message: ""
-            });
+    const addCity = () => {
+        if (newCity.city) {
+            setCityList([...citiList, { ...newCity, status: "Active" }]);
+            setNewCity({ city: "", status: "Active" });
             setShowModal(false);
         }
     };
 
     const handleEdit = (index) => {
-        setEditingEmployee({ ...employees[index], index });
+        setEditingCity({ ...citiList[index], index });
         setShowEditModal(true);
     };
 
@@ -66,6 +44,12 @@ const CityList = () => {
 
     const deleteEmployee = (index) => {
         setEmployees(employees.filter((_, i) => i !== index));
+    };
+
+    const updateStatus = (index, status) => {
+        const updated = [...employees];
+        updated[index].status = status;
+        setEmployees(updated);
     };
 
     const deleteAllUsers = () => {
@@ -107,6 +91,7 @@ const CityList = () => {
                 </button>
             </div>
 
+            {/* Add Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-4 relative">
@@ -117,7 +102,7 @@ const CityList = () => {
                         >×</button>
                         <select
                             name="city"
-                            className="text-gray-500 focus-within:text-black border border-gray-300 rounded px-3 py-1 w-full mb-3"
+                            className="text-gray-500 focus:outline-none focus-within:text-black border border-gray-300 rounded px-3 py-1 w-full mb-3"
                             onChange={handleChange}
                             value={newEmployee.city}
                         >
@@ -128,33 +113,97 @@ const CityList = () => {
                         </select>
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white px-4 py-1 rounded w-50 hover:bg-blue-600 block mx-auto"
+                            className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-[#6246EA] block mx-auto"
                             onClick={addEmployee}
                         >Submit</button>
                     </div>
                 </div>
             )}
 
-            <table className="w-full border-collapse mt-5">
-                <thead className="bg-gray-200">
-                    <tr className="font-semibold">
+            {/* Edit Modal */}
+            {showEditModal && editingEmployee && (
+                <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-4 relative">
+                        <h2 className="text-2xl font-semibold mb-4 text-center">Edit City</h2>
+                        <button
+                            className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold"
+                            onClick={() => setShowEditModal(false)}
+                        >
+                            ×
+                        </button>
+                        <select
+                            name="city"
+                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-4"
+                            onChange={handleChange}
+                            value={editingEmployee.city}
+                        >
+                            <option value="">Select City</option>
+                            {cities.map((c) => (
+                                <option key={c} value={c}>
+                                    {c}
+                                </option>
+                            ))}
+                        </select>
+                        <button
+                            className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
+                            onClick={saveEmployee}
+                        >
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Table */}
+            <table className="w-full mt-5 border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                <thead className="bg-[#F3F4F6] text-sm text-gray-700 uppercase tracking-wider">
+                    <tr>
                         <th className="p-3 text-left">No</th>
                         <th className="p-3 text-left">City Name</th>
                         <th className="p-3 text-left">Status</th>
                         <th className="p-3 text-left">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="bg-white text-sm text-gray-800">
                     {employees.map((employee, index) => (
-                        <tr key={index} className="border-b hover:bg-gray-100">
+                        <tr key={index} className="border-t border-gray-200 hover:bg-gray-50 transition duration-200">
                             <td className="p-3">{index + 1}</td>
                             <td className="p-3">{employee.city}</td>
-                            <td className="p-3">{employee.status || "Active"}</td>
-                            <td className="p-3 flex gap-2">
-                                <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Edit</button>
-                                <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" onClick={() => deleteEmployee(index)}>Delete</button>
-                                <button className="bg-emerald-500 text-white px-3 py-1 rounded hover:bg-emerald-600">Active</button>
-                                <button className="bg-amber-600 text-white px-3 py-1 rounded hover:bg-amber-700">Deactive</button>
+                            <td className="px-4 py-2">
+                                <span
+                                    className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${employee.status === "Active"
+                                        ? "bg-green-100 text-green-800"
+                                        : "bg-red-100 text-red-800"
+                                        }`}
+                                >
+                                    {employee.status}
+                                </span>
+                            </td>
+                            <td className="p-3 flex gap-2 flex-wrap">
+                                <button
+                                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                                    onClick={() => handleEdit(index)}
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                                    onClick={() => deleteEmployee(index)}
+                                >
+                                    Delete
+                                </button>
+                                <button
+                                    className="bg-emerald-500 text-white px-3 py-1 rounded hover:bg-emerald-600"
+                                    onClick={() => updateStatus(index, "Active")}
+                                >
+                                    Active
+                                </button>
+                                <button
+                                    className="bg-amber-600 text-white px-3 py-1 rounded hover:bg-amber-700"
+                                    onClick={() => updateStatus(index, "Deactive")}
+                                >
+                                    Deactive
+                                </button>
                             </td>
                         </tr>
                     ))}

@@ -85,7 +85,7 @@ const MobileVerify = () => {
 
           <button
             type="submit"
-            className="mt-4 bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700"
+            className="mt-4 bg-[#6246EA] text-white px-6 py-2 rounded hover:bg-[#6246EA]"
           >
             Submit
           </button>

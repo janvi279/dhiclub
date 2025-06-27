@@ -131,7 +131,7 @@ const References = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="mt-4 bg-purple-700 text-white px-10 py-2 rounded-full hover:bg-purple-800"
+              className="mt-4 bg-[#6246EA] text-white px-10 py-2 rounded-full hover:bg-purple-800"
             >
               NEXT
             </button>

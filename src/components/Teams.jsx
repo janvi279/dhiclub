@@ -122,7 +122,7 @@ const Teams = () => {
 
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600"
+                            className="bg-[#6246EA] text-white px-4 py-2 rounded w-full hover:bg-purple-700"
                             onClick={addTeam}
                         >Submit</button>
                     </div>
