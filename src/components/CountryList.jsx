@@ -2,68 +2,69 @@ import { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 
 const CountryList = () => {
-  const [employees, setEmployees] = useState([]);
-  const [newEmployee, setNewEmployee] = useState({ country: "", status: "Active" });
-  const countries = ["India", "USA", "Canada"];
+  const [countryList, setCountryList] = useState([]);
+  const [newCountry, setNewCountry] = useState({ country: "", status: "Active" });
+  const [editingCountry, setEditingCountry] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editingEmployee, setEditingEmployee] = useState(null);
+
+  const countries = ["India", "USA", "Canada"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (editingEmployee) {
-      setEditingEmployee({ ...editingEmployee, [name]: value });
+    if (editingCountry) {
+      setEditingCountry({ ...editingCountry, [name]: value });
     } else {
-      setNewEmployee({ ...newEmployee, [name]: value });
+      setNewCountry({ ...newCountry, [name]: value });
     }
   };
 
-  const addEmployee = () => {
-    if (newEmployee.country) {
-      setEmployees([...employees, { ...newEmployee, status: "Active" }]);
-      setNewEmployee({ country: "", status: "Active" });
+  const addCountry = () => {
+    if (newCountry.country) {
+      setCountryList([...countryList, { ...newCountry, status: "Active" }]);
+      setNewCountry({ country: "", status: "Active" });
       setShowModal(false);
     }
   };
 
   const handleEdit = (index) => {
-    setEditingEmployee({ ...employees[index], index });
+    setEditingCountry({ ...countryList[index], index });
     setShowEditModal(true);
   };
 
-  const saveEmployee = () => {
-    const updatedEmployees = [...employees];
-    updatedEmployees[editingEmployee.index] = { ...editingEmployee };
-    setEmployees(updatedEmployees);
+  const saveCountry = () => {
+    const updated = [...countryList];
+    updated[editingCountry.index] = { ...editingCountry };
+    setCountryList(updated);
     setShowEditModal(false);
-    setEditingEmployee(null);
+    setEditingCountry(null);
   };
 
   const updateStatus = (index, status) => {
-    const updated = [...employees];
+    const updated = [...countryList];
     updated[index].status = status;
-    setEmployees(updated);
+    setCountryList(updated);
   };
 
-  const deleteEmployee = (index) => {
-    setEmployees(employees.filter((_, i) => i !== index));
+  const deleteCountry = (index) => {
+    setCountryList(countryList.filter((_, i) => i !== index));
   };
 
   useEffect(() => {
-    const stored = localStorage.getItem("employees");
+    const stored = localStorage.getItem("countries");
     if (stored) {
       try {
-        setEmployees(JSON.parse(stored));
+        setCountryList(JSON.parse(stored));
       } catch (err) {
-        console.error("Error parsing employees", err);
-        setEmployees([]);
+        console.error("Error parsing countries", err);
+        setCountryList([]);
       }
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("employees", JSON.stringify(employees));
-  }, [employees]);
+    localStorage.setItem("countries", JSON.stringify(countryList));
+  }, [countryList]);
 
   return (
     <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
@@ -79,7 +80,7 @@ const CountryList = () => {
 
       {/* Add Modal */}
       {showModal && (
-        <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-4 relative">
             <h2 className="text-2xl font-semibold mb-4 text-center">Add Country</h2>
             <button
@@ -92,7 +93,7 @@ const CountryList = () => {
               name="country"
               className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-4"
               onChange={handleChange}
-              value={newEmployee.country}
+              value={newCountry.country}
             >
               <option value="">Select Country</option>
               {countries.map((c) => (
@@ -104,7 +105,7 @@ const CountryList = () => {
             <button
               type="submit"
               className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
-              onClick={addEmployee}
+              onClick={addCountry}
             >
               Submit
             </button>
@@ -113,8 +114,8 @@ const CountryList = () => {
       )}
 
       {/* Edit Modal */}
-      {showEditModal && editingEmployee && (
-        <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
+      {showEditModal && editingCountry && (
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-4 relative">
             <h2 className="text-2xl font-semibold mb-4 text-center">Edit Country</h2>
             <button
@@ -127,7 +128,7 @@ const CountryList = () => {
               name="country"
               className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-4"
               onChange={handleChange}
-              value={editingEmployee.country}
+              value={editingCountry.country}
             >
               <option value="">Select Country</option>
               {countries.map((c) => (
@@ -138,7 +139,7 @@ const CountryList = () => {
             </select>
             <button
               className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
-              onClick={saveEmployee}
+              onClick={saveCountry}
             >
               Save Changes
             </button>
@@ -157,21 +158,22 @@ const CountryList = () => {
           </tr>
         </thead>
         <tbody className="bg-white text-sm text-gray-800">
-          {employees.map((employee, index) => (
+          {countryList.map((item, index) => (
             <tr
               key={index}
               className="border-t border-gray-200 hover:bg-gray-50 transition duration-200"
             >
               <td className="px-4 py-2">{index + 1}</td>
-              <td className="px-4 py-2">{employee.country}</td>
+              <td className="px-4 py-2">{item.country}</td>
               <td className="px-4 py-2">
                 <span
-                  className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${employee.status === "Active"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-800"
-                    }`}
+                  className={`inline-block px-3 py-1 text-xs rounded-full font-medium ${
+                    item.status === "Active"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
                 >
-                  {employee.status}
+                  {item.status}
                 </span>
               </td>
               <td className="px-4 py-2 space-x-2">
@@ -182,19 +184,19 @@ const CountryList = () => {
                   Edit
                 </button>
                 <button
-                  className="px-3 py-1 text-xs rounded-lg bg-red-500 hover:bg-red-600 text-white"
-                  onClick={() => deleteEmployee(index)}
+                  className="px-3 py-1 rounded-lg bg-red-500 hover:bg-red-600 text-white"
+                  onClick={() => deleteCountry(index)}
                 >
                   Delete
                 </button>
                 <button
-                  className="px-3 py-1 text-xs rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white"
+                  className="px-3 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white"
                   onClick={() => updateStatus(index, "Active")}
                 >
                   Active
                 </button>
                 <button
-                  className="px-3 py-1 text-xs rounded-lg bg-amber-500 hover:bg-amber-600 text-white"
+                  className="px-3 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-white"
                   onClick={() => updateStatus(index, "Deactive")}
                 >
                   Deactive

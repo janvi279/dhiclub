@@ -5,7 +5,7 @@ const Sidebar = ({ onSelect, isSidebarOpen, setIsSidebarOpen }) => {
   const [openItems, setOpenItems] = useState({});
   const navItems = [
     { name: "Controller", children: ["country","state", "city"," Business Type"," Business Domain "] },
-    { name: "Dhiclub", children: ["Chapters / Team","Members"] },
+    { name: "Dhiclub", children: ["Chapters / Team","Members","Leads","Registration"] },
     { name: "CRM", children: ["Clients", "Leads", "Reports"] },
     { name: "Inventory", children: ["Products", "Stock", "Suppliers"] },
     { name: "Billing", children: ["Invoices", "Payments", "History"] }, 

@@ -7,6 +7,7 @@ import AddMember from "./components/AddMember";
 import MobileVerify from "./components/mobileVerify";
 import BusinessDetail from "./components/BusinessDetail";
 import References from "./components/Refrences";
+import Registration from "./components/Registration";
 
 
 
@@ -17,10 +18,11 @@ const App = () => {
         <Route path="/" element={<Login />}> </Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/signUp" element={<SignUp />}></Route>
-             <Route path="/addMember" element={<AddMember />}></Route>
-             <Route path="/verification" element={<MobileVerify />}></Route>
-             <Route path="BusinessDetail" element={<BusinessDetail/>}></Route>
-             <Route path="/refrences" element={<References/>}></Route>
+        <Route path="/addMember" element={<AddMember />}></Route>
+        <Route path="/verification" element={<MobileVerify />}></Route>
+        <Route path="/BusinessDetail" element={<BusinessDetail />}></Route>
+         <Route path="/registration" element={<Registration />}></Route>
+        <Route path="/refrences" element={<References />}></Route>
       </Routes>
     </BrowserRouter>
   );

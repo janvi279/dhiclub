@@ -42,29 +42,31 @@ const Teams = () => {
 
     return (
         <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-            <div className="flex justify-between bg-gray-200 p-5 text-black font-semibold text-2xl border-4 border-gray-200 rounded-t-3xl">
-                <h1>All Teams</h1>
+            <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
+                <h1 className="text-xl font-semibold">All Teams</h1>
                 <div className="flex gap-10">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-xl">
                         <ArrowDownUp /> <span>Sort</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-xl">
                         <Funnel /> <span>Filter</span>
                     </div>
+                    <div className="flex justify-end gap-3">
+                        <button
+                            className="mt-5 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 flex flex-col items-center justify-center text-sm w-28"
+                            onClick={() => setShowModal(true)}
+                        >
+                            <div className="flex">
+                                <FaPlus className="mb-1" />
+                                <span className="leading-tight">Create Team</span>
+                            </div>
+                        </button>
+                    </div>
                 </div>
+
             </div>
 
-            <div className="flex justify-end gap-3">
-                <button
-                    className="mt-5 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 flex flex-col items-center justify-center text-sm w-28"
-                    onClick={() => setShowModal(true)}
-                >
-                    <div className="flex">
-                        <FaPlus className="mb-1" />
-                        <span className="leading-tight">Create Team</span>
-                    </div>
-                </button>
-            </div>
+
 
             {showModal && (
                 <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
@@ -80,13 +82,13 @@ const Teams = () => {
                             name="teamName"
                             value={newTeam.teamName}
                             onChange={handleChange}
-                            className="text-gray-700 border border-gray-300 rounded px-3 py-1 w-full mb-3"
+                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
                             placeholder="Enter Team Name"
                         />
 
                         <select
                             name="country"
-                            className="text-gray-700 border border-gray-300 rounded px-3 py-1 w-full mb-3"
+                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
                             onChange={handleChange}
                             value={newTeam.country}
                         >
@@ -98,7 +100,7 @@ const Teams = () => {
 
                         <select
                             name="state"
-                            className="text-gray-700 border border-gray-300 rounded px-3 py-1 w-full mb-3"
+                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
                             onChange={handleChange}
                             value={newTeam.state}
                         >
@@ -110,7 +112,7 @@ const Teams = () => {
 
                         <select
                             name="city"
-                            className="text-gray-700 border border-gray-300 rounded px-3 py-1 w-full mb-3"
+                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
                             onChange={handleChange}
                             value={newTeam.city}
                         >
@@ -129,9 +131,9 @@ const Teams = () => {
                 </div>
             )}
 
-            <table className="w-full border-collapse mt-5">
-                <thead className="bg-gray-200">
-                    <tr className="font-semibold">
+            <table className="w-full mt-5 border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                <thead className="bg-[#F3F4F6] text-sm text-gray-700 uppercase tracking-wider">
+                    <tr>
                         <th className="p-3 text-left">Team Name</th>
                         <th className="p-3 text-left">Country</th>
                         <th className="p-3 text-left">State</th>
@@ -140,9 +142,9 @@ const Teams = () => {
                         <th className="p-3 text-left">Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="bg-white text-sm text-gray-800">
                     {teams.map((team, index) => (
-                        <tr key={index} className="border-b hover:bg-gray-100">
+                        <tr key={index} className="border-t border-gray-200 hover:bg-gray-50 transition duration-200">
                             <td className="p-3">{team.teamName}</td>
                             <td className="p-3">{team.country}</td>
                             <td className="p-3">{team.state}</td>

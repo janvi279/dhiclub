@@ -2,77 +2,75 @@ import { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 
 const StateList = () => {
-    const [employees, setEmployees] = useState([]);
-    const [newEmployee, setNewEmployee] = useState({ state: "", status: "Active" });
-    const states = ["Gujarat", "Maharashtra", "California"];
-
+    const [stateList, setStateList] = useState([]);
+    const [newState, setNewState] = useState({ state: "", status: "Active" });
+    const [editingState, setEditingState] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
-    const [editingEmployee, setEditingEmployee] = useState(null);
+
+    const states = ["Gujarat", "Maharashtra", "California"];
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (editingEmployee) {
-            setEditingEmployee({ ...editingEmployee, [name]: value });
+        if (editingState) {
+            setEditingState({ ...editingState, [name]: value });
         } else {
-            setNewEmployee({ ...newEmployee, [name]: value });
+            setNewState({ ...newState, [name]: value });
         }
     };
 
-    const addEmployee = () => {
-        if (newEmployee.state) {
-            setEmployees([...employees, { ...newEmployee, status: "Active" }]);
-            setNewEmployee({ state: "", status: "Active" });
+    const addState = () => {
+        if (newState.state) {
+            setStateList([...stateList, { ...newState, status: "Active" }]);
+            setNewState({ state: "", status: "Active" });
             setShowModal(false);
         }
     };
 
     const handleEdit = (index) => {
-        setEditingEmployee({ ...employees[index], index });
+        setEditingState({ ...stateList[index], index });
         setShowEditModal(true);
     };
 
-    const saveEmployee = () => {
-        const updatedEmployees = [...employees];
-        updatedEmployees[editingEmployee.index] = { ...editingEmployee };
-        setEmployees(updatedEmployees);
+    const saveState = () => {
+        const updated = [...stateList];
+        updated[editingState.index] = { ...editingState };
+        setStateList(updated);
         setShowEditModal(false);
-        setEditingEmployee(null);
+        setEditingState(null);
     };
 
     const updateStatus = (index, status) => {
-        const updated = [...employees];
+        const updated = [...stateList];
         updated[index].status = status;
-        setEmployees(updated);
+        setStateList(updated);
     };
 
-    const deleteEmployee = (index) => {
-        setEmployees(employees.filter((_, i) => i !== index));
+    const deleteState = (index) => {
+        setStateList(stateList.filter((_, i) => i !== index));
     };
 
     useEffect(() => {
-        const stored = localStorage.getItem("employees");
+        const stored = localStorage.getItem("states");
         if (stored) {
             try {
-                setEmployees(JSON.parse(stored));
+                setStateList(JSON.parse(stored));
             } catch (err) {
-                console.error("Error parsing employees", err);
-                setEmployees([]);
+                console.error("Error parsing states", err);
+                setStateList([]);
             }
         }
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("employees", JSON.stringify(employees));
-    }, [employees]);
+        localStorage.setItem("states", JSON.stringify(stateList));
+    }, [stateList]);
 
     return (
-        <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-            <div className="bg-gray-200 p-5 text-black font-semibold text-2xl border-4 border-gray-200 rounded-t-3xl">
-                <h1>State List</h1>
-            </div>
-
-            <div className="flex justify-end gap-3">
+       <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+      <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
+                <h1 className="text-xl font-semibold">State List</h1>
+                  <div className="flex justify-end gap-3">
                 <button
                     className="mt-5 bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 flex items-center gap-2"
                     onClick={() => setShowModal(true)}
@@ -80,10 +78,13 @@ const StateList = () => {
                     <FaPlus /> Add
                 </button>
             </div>
+            </div>
+
+          
 
             {/* Add Modal */}
             {showModal && (
-                <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-4 relative">
                         <h2 className="text-2xl font-semibold mb-4 text-center">Add State</h2>
                         <button
@@ -96,7 +97,7 @@ const StateList = () => {
                             name="state"
                             className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-4"
                             onChange={handleChange}
-                            value={newEmployee.state}
+                            value={newState.state}
                         >
                             <option value="">Select State</option>
                             {states.map((c) => (
@@ -106,17 +107,18 @@ const StateList = () => {
                             ))}
                         </select>
                         <button
-                            type="submit"
                             className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
-                            onClick={addEmployee}
+                            onClick={addState}
                         >
                             Submit
                         </button>
                     </div>
                 </div>
             )}
-            {showEditModal && editingEmployee && (
-                <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
+
+            {/* Edit Modal */}
+            {showEditModal && editingState && (
+                <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-4 relative">
                         <h2 className="text-2xl font-semibold mb-4 text-center">Edit State</h2>
                         <button
@@ -129,9 +131,9 @@ const StateList = () => {
                             name="state"
                             className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-4"
                             onChange={handleChange}
-                            value={editingEmployee.state}
+                            value={editingState.state}
                         >
-                            <option value="">Select Country</option>
+                            <option value="">Select State</option>
                             {states.map((c) => (
                                 <option key={c} value={c}>
                                     {c}
@@ -139,15 +141,15 @@ const StateList = () => {
                             ))}
                         </select>
                         <button
-                            type="submit"
                             className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
-                            onClick={saveEmployee}
+                            onClick={saveState}
                         >
                             Save Changes
                         </button>
                     </div>
                 </div>
             )}
+
             {/* Table */}
             <table className="w-full mt-5 border border-gray-200 rounded-xl overflow-hidden shadow-sm">
                 <thead className="bg-[#F3F4F6] text-sm text-gray-700 uppercase tracking-wider">
@@ -159,18 +161,18 @@ const StateList = () => {
                     </tr>
                 </thead>
                 <tbody className="bg-white text-sm text-gray-800">
-                    {employees.map((employee, index) => (
+                    {stateList.map((item, index) => (
                         <tr key={index} className="border-t border-gray-200 hover:bg-gray-50 transition duration-200">
                             <td className="p-3">{index + 1}</td>
-                            <td className="p-3">{employee.state}</td>
+                            <td className="p-3">{item.state}</td>
                             <td className="p-3">
                                 <span
-                                    className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${employee.status === "Active"
+                                    className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${item.status === "Active"
                                         ? "bg-green-100 text-green-800"
                                         : "bg-red-100 text-red-800"
                                         }`}
                                 >
-                                    {employee.status}
+                                    {item.status}
                                 </span>
                             </td>
                             <td className="p-3 flex gap-2 flex-wrap">
@@ -182,7 +184,7 @@ const StateList = () => {
                                 </button>
                                 <button
                                     className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                                    onClick={() => deleteEmployee(index)}
+                                    onClick={() => deleteState(index)}
                                 >
                                     Delete
                                 </button>

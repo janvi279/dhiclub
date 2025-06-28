@@ -6,6 +6,9 @@ import * as yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
+
+
 // Validation schema
 const schema = yup.object().shape({
   country: yup.string().required("Country is required"),
@@ -47,6 +50,7 @@ const AddMember = () => {
 
   const onSubmit = async (data) => {
     console.log("Submitting", data);
+
     toast.success("Submitted successfully!");
     setTimeout(() => navigate("/verification"), 1000);
   };
