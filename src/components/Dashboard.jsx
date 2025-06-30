@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
-import CountryList from "./CountryList";
-import CityList from "./City";
-import StateList from "./StateList";
+import CountryList from "../components/controllers/CountryList"
+import CityList from "../components/controllers/City"
+import StateList from "../components/controllers/StateList";
 import Teams from "./Teams";
 import Members from "./Members";
 import Leads from "./Leads";
@@ -13,7 +13,7 @@ import Registration from "./Registration";
 const Dashboard = () => {
     const [selectedItem, setSelectedItem] = useState("welcome to dashboard");
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const handleSelect = (item) => {
         setSelectedItem(item);
     };
@@ -30,7 +30,7 @@ const Dashboard = () => {
                 return <Teams />;
             case "Dhiclub - Members":
                 return <Members />;
-                  case "Dhiclub - Registration":
+            case "Dhiclub - Registration":
                 return <Registration />;
             case "Dhiclub - Leads":
                 return <Leads />;

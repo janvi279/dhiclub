@@ -9,8 +9,6 @@ import BusinessDetail from "./components/BusinessDetail";
 import References from "./components/Refrences";
 import Registration from "./components/Registration";
 
-
-
 const App = () => {
   return (
     <BrowserRouter>
@@ -21,7 +19,7 @@ const App = () => {
         <Route path="/addMember" element={<AddMember />}></Route>
         <Route path="/verification" element={<MobileVerify />}></Route>
         <Route path="/BusinessDetail" element={<BusinessDetail />}></Route>
-         <Route path="/registration" element={<Registration />}></Route>
+        <Route path="/registration" element={<Registration />}></Route>
         <Route path="/refrences" element={<References />}></Route>
       </Routes>
     </BrowserRouter>

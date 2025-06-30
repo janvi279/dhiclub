@@ -42,7 +42,7 @@ const Login = () => {
                     position: "top-center"
                 });
                 setTimeout(() => {
-                    navigate("/dashboard");
+                    navigate("/addMember");
 
                 }, 4000);
 
