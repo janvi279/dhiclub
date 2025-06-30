@@ -1,3 +1,4 @@
+import { useMemberList } from "../context/MemberListContext";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -6,88 +7,92 @@ import * as yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RegisterUser } from "../api/Auth";
-import { User, Globe, IdCard, GraduationCap, Heart, Lock, CheckCircle, Tag, Building, ClipboardList, Calendar, Users, Receipt, Phone, Mail, MapPin, Hash,Map } from 'lucide-react';
+import {
+  User, Globe, IdCard, GraduationCap, Heart, Lock, CheckCircle,
+  Tag, Building, ClipboardList, Calendar, Users, Receipt, Phone,
+  Mail, MapPin, Hash, Map
+} from 'lucide-react';
 
-
-// Yup Validation Schema
+// ✅ Yup Validation Schema
 const schema = yup.object().shape({
-    firstName: yup.string().required("First name is required"),
-    lastName: yup.string().required("Last name is required"),
-    email: yup.string().email().required("Email is required"),
-    dob: yup.string().required("Date of Birth is required"),
-    countryCode: yup.string().required("Country code is required"),
-    mobileNo: yup.string().required("Mobile number is required"),
-    uploadDocumentId: yup
-        .string()
-        .uuid("Must be a valid UUID")
-        .required("Document ID is required"),
-    password: yup.string().min(6).required("Password is required"),
-    confirmPassword: yup
-        .string()
-        .oneOf([yup.ref("password")], "Passwords must match")
-        .required("Confirm your password"),
-    education: yup.string().required("Education is required"),
-    maritalStatus: yup.string().required("Marital status is required"),
-    companyDetails: yup.object().shape({
-        businessCategory: yup.string().required("businessCategory is required"),
-        companyName: yup.string().required("companyName is required"),
-        companyRegistration: yup.string().required("companyRegistration is required"),
-        establishedYear: yup
-            .number()
-            .min(1900)
-            .max(new Date().getFullYear())
-            .required("establishedYear required"),
-        numberOfStaff: yup.string().required("numberOfStaff is required"),
-        gstNumber: yup.string().required("gstNumber is required"),
-        officeNumber: yup.string().required("officeNumber is required"),
-        officeEmail: yup.string().email().required("officeEmail is required"),
-    }),
-    address: yup.object().shape({
-        city: yup.string().required("city is required"),
-        state: yup.string().required("state is required"),
-        pinCode: yup.string().required("pinCode is required"),
-    }),
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
+  email: yup.string().email().required("Email is required"),
+  dob: yup.string().required("Date of Birth is required"),
+  countryCode: yup.string().required("Country code is required"),
+  mobileNo: yup.string().required("Mobile number is required"),
+  uploadDocumentId: yup.string().uuid("Must be a valid UUID").required("Document ID is required"),
+  password: yup.string().min(6).required("Password is required"),
+  confirmPassword: yup.string().oneOf([yup.ref("password")], "Passwords must match").required("Confirm your password"),
+  education: yup.string().required("Education is required"),
+  maritalStatus: yup.string().required("Marital status is required"),
+  companyDetails: yup.object().shape({
+    businessCategory: yup.string().required("Business Category is required"),
+    companyName: yup.string().required("Company Name is required"),
+    companyRegistration: yup.string().required("Company Registration is required"),
+    establishedYear: yup.number().min(1900).max(new Date().getFullYear()).required("Established Year is required"),
+    numberOfStaff: yup.string().required("Number of Staff is required"),
+    gstNumber: yup.string().required("GST Number is required"),
+    officeNumber: yup.string().required("Office Number is required"),
+    officeEmail: yup.string().email().required("Office Email is required"),
+  }),
+  address: yup.object().shape({
+    city: yup.string().required("City is required"),
+    state: yup.string().required("State is required"),
+    pinCode: yup.string().required("Pin Code is required"),
+  }),
 });
 
 const SignUp = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const { addMember } = useMemberList();
+  const navigate = useNavigate();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(schema),
-        mode: "onBlur",
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    mode: "onBlur",
+  });
 
-    useEffect(() => {
-        console.log("Validation Errors", errors);
-    }, [errors]);
+  useEffect(() => {
+    console.log("Validation Errors", errors);
+  }, [errors]);
 
-    const onSubmit = async (data) => {
-        console.log("Submitting", data);
-        try {
-            const response = await RegisterUser(data);
-            if (response.data) {
-                toast.success("Registration Successful!");
-                setTimeout(() => navigate("/dashboard"), 2000);
-            }
-        } catch (err) {
-            toast.error("Something went wrong.");
-        }
-    };
+  // ✅ Single working onSubmit function
+  const onSubmit = async (data) => {
+    try {
+      const response = await RegisterUser(data);
+      if (response.data) {
+        // ✅ Add to context
+        addMember({
+          teamName: data.firstName + " " + data.lastName,
+          country: data.countryCode,
+          state: data.address.state,
+          city: data.address.city,
+          joiningDate: new Date().toLocaleDateString(),
+        });
 
-    return (
-        <div className="font-sans flex justify-center items-center min-h-screen bg-gray-100 p-4">
-            <ToastContainer />
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="bg-white rounded-lg shadow-md w-full max-w-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-4"
-            >
-                <h2 className="text-xl font-bold col-span-full">Register Account</h2>
-                <div className=" mb-4 flex items-center relative">
+        toast.success("Registration Successful!");
+        setTimeout(() => navigate("/refrences"), 2000);
+      }
+    } catch (err) {
+      toast.error("Something went wrong.");
+    }
+  };
+
+  return (
+    <div className="font-sans flex justify-center items-center min-h-screen bg-gray-100 p-4">
+      <ToastContainer />
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white rounded-lg shadow-md w-full max-w-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-4"
+      >
+        <h2 className="text-xl font-bold col-span-full">Register Account</h2>
+
+                      <div className=" mb-4 flex items-center relative">
 
                     <User className="absolute left-3 top-3 text-purple-300" />
                     <input {...register("firstName")} placeholder="First Name" className="w-full max-sm:text-sm py-3 pl-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
@@ -280,15 +285,16 @@ const SignUp = () => {
                     )}
                 </div>
 
-                <button
-                    type="submit"
-                    className="col-span-full max-sm:p-1 w-50 mx-auto   max-sm:px-7  mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700"
-                >
-                    Register
-                </button>
-            </form>
-        </div>
-    );
+        {/* Submit button */}
+        <button
+          type="submit"
+          className="col-span-full max-sm:p-1 w-50 mx-auto max-sm:px-7 mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700"
+        >
+          Register
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default SignUp;
