@@ -57,7 +57,8 @@ useEffect(() => {
         <h1 className="text-xl font-semibold">All Members</h1>
         <div className="flex justify-end gap-3">
           <button
-            className="mt-5 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 text-sm w-28"
+            className="to-blue-500  w-28 from-teal-500 bg-gradient-to-r text-white px-4 py-2 rounded hover:bg-[#4338CA]"
+
             onClick={() => setShowModal(true)}
           >
             Assign <br /> Role

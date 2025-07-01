@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
-import CountryList from "../components/controllers/CountryList"
-import CityList from "../components/controllers/City"
-import StateList from "../components/controllers/StateList";
 import Teams from "./Teams";
 import Members from "./Members";
+import State from "../components/controllers/state";
+import City from "./controllers/city";
+import Country from "./controllers/country";
 import Leads from "./Leads";
 import { useNavigate } from "react-router-dom";
 import Registration from "./Registration";
@@ -21,11 +21,11 @@ const Dashboard = () => {
         switch (selectedItem) {
 
             case "Controller - country":
-                return <CountryList />;
+                return <Country />;
             case "Controller - state":
-                return <StateList />;
+                return <State />;
             case "Controller - city":
-                return <CityList />;
+                return <City />;
             case "Dhiclub - Chapters / Team":
                 return <Teams />;
             case "Dhiclub - Members":

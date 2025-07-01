@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 
-const CityList = () => {
+const City = () => {
     const [citiList, setCityList] = useState([]);
     const [newCity, setNewCity] = useState({ city: "", status: "Active" });
     const [editingCity, setEditingCity] = useState(null);
@@ -52,7 +52,7 @@ const CityList = () => {
         setCityList(updated);
     };
 
-    
+
 
     useEffect(() => {
         const stored = localStorage.getItem("cities");
@@ -71,21 +71,21 @@ const CityList = () => {
     }, [citiList]);
 
     return (
-     <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-      <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
+        <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+            <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
                 <h1 className="text-xl font-semibold">City List</h1>
-                  <div className="flex justify-end gap-3">
-                <button
-                    className="mt-5 bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 flex items-center gap-2"
-                    onClick={() => setShowModal(true)}
-                >
-                    <FaPlus /> Add
-                </button>
-              
-            </div>
+                <div className="flex justify-end gap-3">
+                    <button
+                        className="mt-5 bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 flex items-center gap-2"
+                        onClick={() => setShowModal(true)}
+                    >
+                        <FaPlus /> Add
+                    </button>
+
+                </div>
             </div>
 
-          
+
 
             {/* Add Modal */}
             {showModal && (
@@ -209,4 +209,4 @@ const CityList = () => {
     );
 };
 
-export default CityList;
+export default City;
