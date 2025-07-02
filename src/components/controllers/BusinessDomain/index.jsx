@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Pincode = () => {
+const BusinessDomain = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const Pincode = () => {
   )
 }
 
-export default Pincode
+export default BusinessDomain
