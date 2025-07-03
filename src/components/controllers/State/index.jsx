@@ -8,8 +8,10 @@ const State = () => {
     state: "",
     stateCode: "",
     status: "Active",
+    country: "",
     createdAt: new Date().toISOString()
   });
+  const countries = ["INDIA", "USA", "UK"];
   const [editingState, setEditingState] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -30,7 +32,7 @@ const State = () => {
   const addState = () => {
     if (newState.state && newState.stateCode) {
       setStateList([...stateList, { ...newState, createdAt: new Date().toISOString() }]);
-      setNewState({ state: "", stateCode: "", status: "Active" });
+      setNewState({ state: "", stateCode: "", status: "Active", country: "" });
       setShowModal(false);
     }
   };
@@ -102,7 +104,7 @@ const State = () => {
 
   const columns = [
     {
-      name: "#",
+      name: "No.",
       selector: (_, index) => index + 1,
       width: "60px"
     },
@@ -196,12 +198,25 @@ const State = () => {
 
       {/* Add State Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md relative">
             <h2 className="text-xl font-semibold mb-3 text-center">Add State</h2>
             <button className="absolute top-3 right-3 text-xl" onClick={() => setShowModal(false)}>×</button>
-            <input name="state" placeholder="State Name" value={newState.state} onChange={handleChange} className="w-full border px-3 py-2 mb-3 rounded" />
-            <input name="stateCode" placeholder="State Code" value={newState.stateCode} onChange={handleChange} className="w-full border px-3 py-2 mb-3 rounded" />
+            <select
+              name="country"
+              value={newState.country}
+              onChange={handleChange}
+              className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+            >
+              <option value="">Select Country</option>
+              {countries.map((country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
+            <input name="state" placeholder="State Name" value={newState.state} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5" />
+            <input name="stateCode" placeholder="State Code" value={newState.stateCode} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5" />
             <button className="w-full bg-indigo-600 text-white py-2 rounded" onClick={addState}>Submit</button>
           </div>
         </div>
@@ -209,12 +224,25 @@ const State = () => {
 
       {/* Edit State Modal */}
       {showEditModal && editingState && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md relative">
             <h2 className="text-xl font-semibold mb-3 text-center">Edit State</h2>
             <button className="absolute top-3 right-3 text-xl" onClick={() => setShowEditModal(false)}>×</button>
-            <input name="state" placeholder="State Name" value={editingState.state} onChange={handleChange} className="w-full border px-3 py-2 mb-3 rounded" />
-            <input name="stateCode" placeholder="State Code" value={editingState.stateCode} onChange={handleChange} className="w-full border px-3 py-2 mb-3 rounded" />
+            <select
+              name="country"
+              value={newState.country}
+              onChange={handleChange}
+              className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+            >
+              <option value="">Select Country</option>
+              {countries.map((cur) => (
+                <option key={cur} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
+            <input name="state" placeholder="State Name" value={editingState.state} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5" />
+            <input name="stateCode" placeholder="State Code" value={editingState.stateCode} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5" />
             <button className="w-full bg-indigo-600 text-white py-2 rounded" onClick={saveState}>Save Changes</button>
           </div>
         </div>

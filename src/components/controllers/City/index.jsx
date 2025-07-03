@@ -1,58 +1,60 @@
 import { useState, useEffect } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaSearch, FaSortAmountDownAlt, FaFilter } from "react-icons/fa";
+import DataTable from "react-data-table-component";
 
 const City = () => {
-    const [citiList, setCityList] = useState([]);
-    const [newCity, setNewCity] = useState({ city: "", status: "Active" });
+    const [cityList, setCityList] = useState([]);
+    const [newCity, setNewCity] = useState({
+        city: "",
+        cityCode: "",
+        country: "",
+        state: "",
+        status: "Active",
+        createdAt: new Date().toISOString(),
+    });
     const [editingCity, setEditingCity] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
 
-    const cities = ["Rajkot", "Mumbai", "Los Angeles"];
+    // Filters and sorting
+    const [searchQuery, setSearchQuery] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
+    const [countryFilter, setCountryFilter] = useState("all");
+    const [stateFilter, setStateFilter] = useState("all");
+    const [sortOrder, setSortOrder] = useState("newest");
+
+    // Dropdown options
+    const [sortCountry] = useState(["India", "USA", "Canada"].sort());
+    const [sortState] = useState(["California", "Gujarat", "Maharashtra", "Texas"].sort());
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        const stateUpdater = editingCity ? setEditingCity : setNewCity;
-        const currentState = editingCity || newCity;
-        stateUpdater({ ...currentState, [name]: value });
+        if (editingCity) {
+            setEditingCity({ ...editingCity, [name]: value });
+        } else {
+            setNewCity({ ...newCity, [name]: value });
+        }
     };
 
     const addCity = () => {
-        if (newCity.city) {
-            const updated = [...citiList, { ...newCity, status: "Active" }];
-            setCityList(updated);
-            setNewCity({ city: "", status: "Active" });
+        if (newCity.city && newCity.cityCode && newCity.country && newCity.state) {
+            setCityList([...cityList, { ...newCity, createdAt: new Date().toISOString() }]);
+            setNewCity({ city: "", cityCode: "", country: "", state: "", status: "Active" });
             setShowModal(false);
         }
     };
 
-    const editCity = (index) => {
-        setEditingCity({ ...citiList[index], index });
-        setShowEditModal(true);
-    };
-
     const saveCity = () => {
-        if (editingCity) {
-            const updated = citiList.map((c, i) =>
-                i === editingCity.index ? { city: editingCity.city, status: editingCity.status } : c
-            );
-            setCityList(updated);
-            setEditingCity(null);
-            setShowEditModal(false);
-        }
+        const updated = [...cityList];
+        updated[editingCity.index] = { ...editingCity };
+        setCityList(updated);
+        setShowEditModal(false);
+        setEditingCity(null);
     };
 
     const deleteCity = (index) => {
-        setCityList(citiList.filter((_, i) => i !== index));
+        setCityList(cityList.filter((_, i) => i !== index));
     };
-
-    const updateStatus = (index, status) => {
-        const updated = [...citiList];
-        updated[index].status = status;
-        setCityList(updated);
-    };
-
-
 
     useEffect(() => {
         const stored = localStorage.getItem("cities");
@@ -67,51 +69,173 @@ const City = () => {
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("cities", JSON.stringify(citiList));
-    }, [citiList]);
+        localStorage.setItem("cities", JSON.stringify(cityList));
+    }, [cityList]);
+
+    const filteredList = cityList
+        .filter(
+            (item) =>
+                item.city.toLowerCase().includes(searchQuery.toLowerCase()) &&
+                (statusFilter === "all" || item.status === statusFilter) &&
+                (countryFilter === "all" || item.country === countryFilter) &&
+                (stateFilter === "all" || item.state === stateFilter)
+        )
+        .sort((a, b) =>
+            sortOrder === "newest"
+                ? new Date(b.createdAt) - new Date(a.createdAt)
+                : new Date(a.createdAt) - new Date(b.createdAt)
+        );
+
+    const columns = [
+        { name: "No.", selector: (_, index) => index + 1, width: "60px" },
+        { name: "City Name", selector: (row) => row.city },
+        { name: "City Code", selector: (row) => row.cityCode },
+        {
+            name: "Status",
+            selector: (row) => row.status,
+            cell: (row) => (
+                <span
+                    className={`px-2 py-1 text-xs rounded-full font-medium ${row.status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                        }`}
+                >
+                    {row.status}
+                </span>
+            ),
+        },
+        {
+            name: "Actions",
+            cell: (row, index) => (
+                <div className="flex gap-2">
+                    <button onClick={() => setEditingCity({ ...row, index }) & setShowEditModal(true)} className="bg-blue-500 text-white px-2 py-1 rounded">
+                        Edit
+                    </button>
+                    <button onClick={() => deleteCity(index)} className="bg-red-500 text-white px-2 py-1 rounded">
+                        Delete
+                    </button>
+                </div>
+            ),
+        },
+    ];
+
+    const customStyles = {
+        headCells: { style: { fontSize: "1rem", fontWeight: 600 } },
+        cells: { style: { fontSize: "1rem" } },
+        pagination: { style: { fontSize: "1rem" } },
+    };
 
     return (
         <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
+            <div className="flex  gap-5 items-center justify-between pb-4 border-b border-gray-200 mb-4">
                 <h1 className="text-xl font-semibold">City List</h1>
-                <div className="flex justify-end gap-3">
-                    <button
-                        className="mt-5 bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 flex items-center gap-2"
-                        onClick={() => setShowModal(true)}
-                    >
+
+                <div className="relative w-64">
+                    <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        type="text"
+                        placeholder="Search City..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none"
+                    />
+                </div>
+
+                <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
+                        <FaSortAmountDownAlt className="text-gray-600" />
+                        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none">
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                        </select>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <FaFilter className="text-gray-600" />
+                        <select value={countryFilter} onChange={(e) => setCountryFilter(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none">
+                            <option value="all">All Countries</option>
+                            {sortCountry.map((c) => (
+                                <option key={c} value={c}>
+                                    {c}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <FaFilter className="text-gray-600" />
+                        <select value={stateFilter} onChange={(e) => setStateFilter(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none">
+                            <option value="all">All States</option>
+                            {sortState.map((s) => (
+                                <option key={s} value={s}>
+                                    {s}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <FaFilter className="text-gray-600" />
+                        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none">
+                            <option value="all">All Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Deactive">Deactive</option>
+                        </select>
+                    </div>
+
+                    <button onClick={() => setShowModal(true)} className="bg-green-500 text-white px-4 py-2 rounded flex items-center gap-2">
                         <FaPlus /> Add
                     </button>
-
                 </div>
             </div>
 
-
+            <DataTable columns={columns} data={filteredList} pagination highlightOnHover striped customStyles={customStyles} />
 
             {/* Add Modal */}
             {showModal && (
-                <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-4 relative">
-                        <h2 className="text-2xl font-semibold mb-4 text-center">Add City</h2>
-                        <button
-                            className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold"
-                            onClick={() => setShowModal(false)}
-                        >×</button>
-                        <select
-                            name="city"
-                            className="text-gray-500 focus:outline-none border border-gray-300 rounded px-3 py-1 w-full mb-3"
-                            onChange={handleChange}
-                            value={newCity.city}
-                        >
-                            <option value="">Select City</option>
-                            {cities.map((c) => (
-                                <option key={c} value={c}>{c}</option>
+                <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-5 rounded w-full max-w-md relative">
+                        <h2 className="text-xl font-semibold mb-4 text-center">Add City</h2>
+                        <button className="absolute top-3 right-3 text-xl font-bold" onClick={() => setShowModal(false)}>
+                            ×
+                        </button>
+
+                        <select name="country" value={newCity.country} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5">
+                            <option value="">Select Country</option>
+                            {sortCountry.map((c) => (
+                                <option key={c} value={c}>
+                                    {c}
+                                </option>
                             ))}
                         </select>
-                        <button
-                            type="submit"
-                            className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-[#6246EA] block mx-auto"
-                            onClick={addCity}
-                        >Submit</button>
+
+                        <select name="state" value={newCity.state} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5">
+                            <option value="">Select State</option>
+                            {sortState.map((s) => (
+                                <option key={s} value={s}>
+                                    {s}
+                                </option>
+                            ))}
+                        </select>
+
+                        <input
+                            type="text"
+                            name="city"
+                            placeholder="City Name"
+                            value={newCity.city}
+                            onChange={handleChange}
+                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+                        />
+                        <input
+                            type="text"
+                            name="cityCode"
+                            placeholder="City Code"
+                            value={newCity.cityCode}
+                            onChange={handleChange}
+                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+                        />
+
+                        <button onClick={addCity} className="w-full bg-indigo-600 text-white py-2 rounded">
+                            Submit
+                        </button>
                     </div>
                 </div>
             )}
@@ -119,92 +243,53 @@ const City = () => {
             {/* Edit Modal */}
             {showEditModal && editingCity && (
                 <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-4 relative">
-                        <h2 className="text-2xl font-semibold mb-4 text-center">Edit City</h2>
-                        <button
-                            className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold"
-                            onClick={() => setShowEditModal(false)}
-                        >
+                    <div className="bg-white p-5 rounded w-full max-w-md relative">
+                        <h2 className="text-xl font-semibold mb-4 text-center">Edit City</h2>
+                        <button className="absolute top-3 right-3 text-xl font-bold" onClick={() => setShowEditModal(false)}>
                             ×
                         </button>
-                        <select
-                            name="city"
-                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-4"
-                            onChange={handleChange}
-                            value={editingCity.city}
-                        >
-                            <option value="">Select City</option>
-                            {cities.map((c) => (
+
+                        <select name="country" value={editingCity.country} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5">
+                            <option value="">Select Country</option>
+                            {sortCountry.map((c) => (
                                 <option key={c} value={c}>
                                     {c}
                                 </option>
                             ))}
                         </select>
-                        <button
-                            className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
-                            onClick={saveCity}
-                        >
+
+                        <select name="state" value={editingCity.state} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5">
+                            <option value="">Select State</option>
+                            {sortState.map((s) => (
+                                <option key={s} value={s}>
+                                    {s}
+                                </option>
+                            ))}
+                        </select>
+
+                        <input
+                            type="text"
+                            name="city"
+                            value={editingCity.city}
+                            onChange={handleChange}
+                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+                            placeholder="City Name"
+                        />
+                        <input
+                            type="text"
+                            name="cityCode"
+                            value={editingCity.cityCode}
+                            onChange={handleChange}
+                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+                            placeholder="City Code"
+                        />
+
+                        <button onClick={saveCity} className="w-full bg-indigo-600 text-white py-2 rounded">
                             Save Changes
                         </button>
                     </div>
                 </div>
             )}
-
-            {/* Table */}
-            <table className="w-full mt-5 border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-                <thead className="bg-[#F3F4F6] text-sm text-gray-700 uppercase tracking-wider">
-                    <tr>
-                        <th className="p-3 text-left">No</th>
-                        <th className="p-3 text-left">City Name</th>
-                        <th className="p-3 text-left">Status</th>
-                        <th className="p-3 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody className="bg-white text-sm text-gray-800">
-                    {citiList.map((city, index) => (
-                        <tr key={index} className="border-t border-gray-200 hover:bg-gray-50 transition duration-200">
-                            <td className="p-3">{index + 1}</td>
-                            <td className="p-3">{city.city}</td>
-                            <td className="px-4 py-2">
-                                <span
-                                    className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${city.status === "Active"
-                                        ? "bg-green-100 text-green-800"
-                                        : "bg-red-100 text-red-800"
-                                        }`}
-                                >
-                                    {city.status}
-                                </span>
-                            </td>
-                            <td className="p-3 flex gap-2 flex-wrap">
-                                <button
-                                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                                    onClick={() => editCity(index)}
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                                    onClick={() => deleteCity(index)}
-                                >
-                                    Delete
-                                </button>
-                                <button
-                                    className="bg-emerald-500 text-white px-3 py-1 rounded hover:bg-emerald-600"
-                                    onClick={() => updateStatus(index, "Active")}
-                                >
-                                    Active
-                                </button>
-                                <button
-                                    className="bg-amber-600 text-white px-3 py-1 rounded hover:bg-amber-700"
-                                    onClick={() => updateStatus(index, "Deactive")}
-                                >
-                                    Deactive
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
         </div>
     );
 };

@@ -8,7 +8,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const navigate = useNavigate();
 
   const navItems = [
-    { name: "Controller", children: ["country", "state", "city", "Business Type", "Business Domain"] },
+    { name: "Controller", children: ["country", "state", "city", "Business Type", "Business Category", "Business Domain", "Bulk Upload"] },
     { name: "Dhiclub", children: ["Chapters / Team", "Members", "Leads", "Registration"] },
     { name: "CRM", children: ["Clients", "Leads", "Reports"] },
     { name: "Inventory", children: ["Products", "Stock", "Suppliers"] },
@@ -106,14 +106,15 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             {navItems.map((item, index) => (
               <li key={index}>
                 <div
-                  className={`flex hover:text-[#061237] font-semibold items-center justify-between hover:bg-[#E4E7FF] cursor-pointer rounded-[10px] p-2 ${openItems[item.name] ? "text-[#061237]" : "text-[#AAA9BC]"}`}
+                  className={`flex hover:text-[#061237] font-semibold items-center justify-between hover:bg-[#E4E7FF] cursor-pointer rounded-[10px] p-2  "text-[#061237]"`}
                   onClick={() => toggleItem(item.name)}
                 >
                   <span>{item.name}</span>
                   <img
-                    src={openItems[item.name] ? "icon-minus.png" : "icon-plus.png"}
+                    src={openItems[item.name] ? "/icon-minus.png" : "/icon-plus.png"}
                     alt="toggle"
                     className="w-4 h-4"
+                    style={{ color: "red" }}
                   />
                 </div>
                 {openItems[item.name] && (
