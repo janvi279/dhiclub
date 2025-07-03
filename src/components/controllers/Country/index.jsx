@@ -1,212 +1,331 @@
 import { useState, useEffect } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaSearch, FaSortAmountDownAlt, FaFilter } from "react-icons/fa";
+import DataTable from "react-data-table-component";
 
 const Country = () => {
-    const [countryList, setCountryList] = useState([]);
-    const [newCountry, setNewCountry] = useState({ country: "", status: "Active" });
-    const [editingCountry, setEditingCountry] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false);
+  const [countryList, setCountryList] = useState([]);
+  const [newCountry, setNewCountry] = useState({
+    country: "",
+    countryCode: "",
+    countryCurrency: "",
+    status: "Active",
+    createdAt: new Date().toISOString()
+  });
+  const [editingCountry, setEditingCountry] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
-    const countries = ["India", "USA", "Canada"];
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [currencyFilter, setCurrencyFilter] = useState("all");
+  const [sortOrder, setSortOrder] = useState("newest");
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (editingCountry) {
-            setEditingCountry({ ...editingCountry, [name]: value });
-        } else {
-            setNewCountry({ ...newCountry, [name]: value });
-        }
-    };
+  const currencyOptions = ["INR", "USD", "CAD", "EUR", "GBP", "AUD"];
 
-    const addCountry = () => {
-        if (newCountry.country) {
-            setCountryList([...countryList, { ...newCountry, status: "Active" }]);
-            setNewCountry({ country: "", status: "Active" });
-            setShowModal(false);
-        }
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (editingCountry) {
+      setEditingCountry({ ...editingCountry, [name]: value });
+    } else {
+      setNewCountry({ ...newCountry, [name]: value });
+    }
+  };
 
-    const handleEdit = (index) => {
-        setEditingCountry({ ...countryList[index], index });
-        setShowEditModal(true);
-    };
+  const addCountry = () => {
+    if (newCountry.country && newCountry.countryCode && newCountry.countryCurrency) {
+      setCountryList([...countryList, { ...newCountry, createdAt: new Date().toISOString() }]);
+      setNewCountry({ country: "", countryCode: "", countryCurrency: "", status: "Active" });
+      setShowModal(false);
+    }
+  };
 
-    const saveCountry = () => {
-        const updated = [...countryList];
-        updated[editingCountry.index] = { ...editingCountry };
-        setCountryList(updated);
-        setShowEditModal(false);
-        setEditingCountry(null);
-    };
+  const handleEdit = (row, index) => {
+    setEditingCountry({ ...row, index });
+    setShowEditModal(true);
+  };
 
-    const updateStatus = (index, status) => {
-        const updated = [...countryList];
-        updated[index].status = status;
-        setCountryList(updated);
-    };
+  const saveCountry = () => {
+    const updated = [...countryList];
+    updated[editingCountry.index] = { ...editingCountry };
+    setCountryList(updated);
+    setShowEditModal(false);
+    setEditingCountry(null);
+  };
 
-    const deleteCountry = (index) => {
-        setCountryList(countryList.filter((_, i) => i !== index));
-    };
+  const deleteCountry = (index) => {
+    setCountryList(countryList.filter((_, i) => i !== index));
+  };
 
-    useEffect(() => {
-        const stored = localStorage.getItem("countries");
-        if (stored) {
-            try {
-                setCountryList(JSON.parse(stored));
-            } catch (err) {
-                console.error("Error parsing countries", err);
-                setCountryList([]);
-            }
-        }
-    }, []);
+  useEffect(() => {
+    const stored = localStorage.getItem("countries");
+    if (stored) {
+      try {
+        setCountryList(JSON.parse(stored));
+      } catch (err) {
+        console.error("Error parsing countries", err);
+        setCountryList([]);
+      }
+    }
+  }, []);
 
-    useEffect(() => {
-        localStorage.setItem("countries", JSON.stringify(countryList));
-    }, [countryList]);
+  useEffect(() => {
+    localStorage.setItem("countries", JSON.stringify(countryList));
+  }, [countryList]);
 
-    return (
-        <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
-                <h1 className="text-xl font-semibold">Country List</h1>
-                <button
-                    className="mt-5 bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 flex items-center gap-2"
-                    onClick={() => setShowModal(true)}
-                >
-                    <FaPlus /> Add
-                </button>
-            </div>
+  const filteredList = countryList
+    .filter((item) =>
+      item.country.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (statusFilter === "all" || item.status === statusFilter) &&
+      (currencyFilter === "all" || item.countryCurrency === currencyFilter)
+    )
+    .sort((a, b) => {
+      if (sortOrder === "newest") {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      } else {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      }
+    });
+    const customStyles = {
+  headCells: {
+    style: {
+      fontSize: '1rem', // Tailwind's `text-md` ~ 16px
+      fontWeight: 600,
+    },
+  },
+  cells: {
+    style: {
+      fontSize: '1rem',
+    },
+  },
+  pagination: {
+    style: {
+      fontSize: '1rem',
+    },
+  },
+};
 
-            {/* Add Modal */}
-            {showModal && (
-                <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-4 relative">
-                        <h2 className="text-2xl font-semibold mb-4 text-center">Add Country</h2>
-                        <button
-                            className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold"
-                            onClick={() => setShowModal(false)}
-                        >
-                            ×
-                        </button>
-                        <select
-                            name="country"
-                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-4"
-                            onChange={handleChange}
-                            value={newCountry.country}
-                        >
-                            <option value="">Select Country</option>
-                            {countries.map((c) => (
-                                <option key={c} value={c}>
-                                    {c}
-                                </option>
-                            ))}
-                        </select>
-                        <button
-                            type="submit"
-                            className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
-                            onClick={addCountry}
-                        >
-                            Submit
-                        </button>
-                    </div>
-                </div>
-            )}
 
-            {/* Edit Modal */}
-            {showEditModal && editingCountry && (
-                <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-4 relative">
-                        <h2 className="text-2xl font-semibold mb-4 text-center">Edit Country</h2>
-                        <button
-                            className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold"
-                            onClick={() => setShowEditModal(false)}
-                        >
-                            ×
-                        </button>
-                        <select
-                            name="country"
-                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-4"
-                            onChange={handleChange}
-                            value={editingCountry.country}
-                        >
-                            <option value="">Select Country</option>
-                            {countries.map((c) => (
-                                <option key={c} value={c}>
-                                    {c}
-                                </option>
-                            ))}
-                        </select>
-                        <button
-                            className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
-                            onClick={saveCountry}
-                        >
-                            Save Changes
-                        </button>
-                    </div>
-                </div>
-            )}
-
-            {/* Table */}
-            <table className="w-full mt-5 border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-                <thead className="bg-[#F3F4F6] text-sm text-gray-700 uppercase tracking-wider">
-                    <tr>
-                        <th className="px-4 py-3 text-left">No.</th>
-                        <th className="px-4 py-3 text-left">Country Name</th>
-                        <th className="px-4 py-3 text-left">Status</th>
-                        <th className="px-4 py-3 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody className="bg-white text-sm text-gray-800">
-                    {countryList.map((item, index) => (
-                        <tr
-                            key={index}
-                            className="border-t border-gray-200 hover:bg-gray-50 transition duration-200"
-                        >
-                            <td className="px-4 py-2">{index + 1}</td>
-                            <td className="px-4 py-2">{item.country}</td>
-                            <td className="px-4 py-2">
-                                <span
-                                    className={`inline-block px-3 py-1 text-xs rounded-full font-medium ${item.status === "Active"
-                                            ? "bg-green-100 text-green-800"
-                                            : "bg-red-100 text-red-800"
-                                        }`}
-                                >
-                                    {item.status}
-                                </span>
-                            </td>
-                            <td className="px-4 py-2 space-x-2">
-                                <button
-                                    className="px-3 py-1 text-xs rounded-lg bg-blue-500 hover:bg-blue-600 text-white"
-                                    onClick={() => handleEdit(index)}
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    className="px-3 py-1 rounded-lg bg-red-500 hover:bg-red-600 text-white"
-                                    onClick={() => deleteCountry(index)}
-                                >
-                                    Delete
-                                </button>
-                                <button
-                                    className="px-3 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white"
-                                    onClick={() => updateStatus(index, "Active")}
-                                >
-                                    Active
-                                </button>
-                                <button
-                                    className="px-3 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-white"
-                                    onClick={() => updateStatus(index, "Deactive")}
-                                >
-                                    Deactive
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+  const columns = [
+    {
+      name: "#",
+      selector: (_, index) => index + 1,
+      sortable: false,
+      width: "60px"
+    },
+    {
+      name: "Country Name",
+      selector: (row) => row.country,
+      sortable: true,
+    },
+    {
+      name: "Country Code",
+      selector: (row) => row.countryCode,
+    },
+    {
+      name: "Currency",
+      selector: (row) => row.countryCurrency,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      cell: (row) => (
+        <span className={`px-2 py-1 text-xs rounded-full font-medium ${row.status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+          {row.status}
+        </span>
+      ),
+    },
+    {
+      name: "Actions",
+      cell: (row, index) => (
+        <div className="flex gap-2">
+          <button className="bg-blue-500 text-white px-2 py-1 rounded" onClick={() => handleEdit(row, index)}>Edit</button>
+          <button className="bg-red-500 text-white px-2 py-1 rounded" onClick={() => deleteCountry(index)}>Delete</button>
         </div>
-    );
+      ),
+    },
+  ];
+
+  return (
+    <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+      <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
+        <h1 className="text-xl font-semibold">Country List</h1>
+
+        <div className="relative w-64">
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search Country..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none"
+          />
+        </div>
+
+     {/* Sort Icon + Dropdown */}
+  <div className="relative flex items-center gap-2">
+    <FaSortAmountDownAlt className="text-gray-600" />
+    <select
+      value={sortOrder}
+      onChange={(e) => setSortOrder(e.target.value)}
+      className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none"
+    >
+      <option value="newest">Newest</option>
+      <option value="oldest">Oldest</option>
+    </select>
+  </div>
+
+  {/* Status Filter Icon + Dropdown */}
+  <div className="relative flex items-center gap-2">
+    <FaFilter className="text-gray-600" />
+    <select
+      value={statusFilter}
+      onChange={(e) => setStatusFilter(e.target.value)}
+      className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none"
+    >
+      <option value="all">All Status</option>
+      <option value="Active">Active</option>
+      <option value="Deactive">Deactive</option>
+    </select>
+  </div>
+
+  {/* Currency Filter Icon + Dropdown */}
+  <div className="relative flex items-center gap-2">
+    <FaFilter className="text-gray-600" />
+    <select
+      value={currencyFilter}
+      onChange={(e) => setCurrencyFilter(e.target.value)}
+      className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none"
+    >
+      <option value="all">All Currency</option>
+      {currencyOptions.map((currency) => (
+        <option key={currency} value={currency}>
+          {currency}
+        </option>
+      ))}
+    </select>
+  </div>
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 flex items-center gap-2"
+          onClick={() => setShowModal(true)}
+        >
+          <FaPlus /> Add
+        </button>
+      </div>
+
+      <DataTable
+        columns={columns}
+        data={filteredList}
+        pagination
+        highlightOnHover
+        striped
+        responsive
+          customStyles={customStyles}
+      />
+
+      {/* Modals remain unchanged */}
+      {showModal && (
+  <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md relative">
+      <h2 className="text-xl font-semibold mb-3 text-center">Add Country</h2>
+      <button
+        className="absolute top-3 right-3 text-xl font-bold text-gray-600 hover:text-black"
+        onClick={() => setShowModal(false)}
+      >
+        ×
+      </button>
+
+      <input
+        name="country"
+        placeholder="Country Name"
+        value={newCountry.country}
+        onChange={handleChange}
+       className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+      />
+      <input
+        name="countryCode"
+        placeholder="Country Code"
+        value={newCountry.countryCode}
+        onChange={handleChange}
+      className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+      />
+      <select
+        name="countryCurrency"
+        value={newCountry.countryCurrency}
+        onChange={handleChange}
+       className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+      >
+        <option value="">Select Currency</option>
+        {currencyOptions.map((cur) => (
+          <option key={cur} value={cur}>
+            {cur}
+          </option>
+        ))}
+      </select>
+     
+
+      <button
+        className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
+        onClick={addCountry}
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+)}
+
+      {/* Add and Edit Modal Code Here */}
+      {showEditModal && editingCountry && (
+  <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md relative">
+      <h2 className="text-xl font-semibold mb-3 text-center">Edit Country</h2>
+      <button
+        className="absolute top-3 right-3 text-xl font-bold text-gray-600 hover:text-black"
+        onClick={() => setShowEditModal(false)}
+      >
+        ×
+      </button>
+
+      <input
+        name="country"
+        placeholder="Country Name"
+        value={editingCountry.country}
+        onChange={handleChange}
+        className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+      />
+      <input
+        name="countryCode"
+        placeholder="Country Code"
+        value={editingCountry.countryCode}
+        onChange={handleChange}
+   className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+      />
+      <select
+        name="countryCurrency"
+        value={editingCountry.countryCurrency}
+        onChange={handleChange}
+        className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+      >
+        <option value="">Select Currency</option>
+        {currencyOptions.map((cur) => (
+          <option key={cur} value={cur}>
+            {cur}
+          </option>
+        ))}
+      </select>
+     
+
+      <button
+        className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
+        onClick={saveCountry}
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+)}
+
+    </div>
+  );
 };
 
 export default Country;

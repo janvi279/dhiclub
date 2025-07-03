@@ -3,7 +3,7 @@ import React from 'react'
 const BusinessCategory = () => {
   return (
     <div>
-      
+      BusinessCategory
     </div>
   )
 }
