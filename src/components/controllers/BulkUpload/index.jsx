@@ -1,306 +1,321 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { FaPlus, FaSearch, FaSortAmountDownAlt } from "react-icons/fa";
 import DataTable from "react-data-table-component";
-import {
-    FaPlus,
-    FaEdit,
-    FaTrash,
-    FaSearch,
-    FaSortAmountDownAlt,
-    FaFilter,
-} from "react-icons/fa";
+
+const countries = ["India", "USA", "Canada"];
+const states = {
+  India: ["Gujarat", "Maharashtra", "Delhi"],
+  USA: ["California", "Texas", "Florida"],
+  Canada: ["Ontario", "Quebec", "British Columbia"],
+};
+const currencies = {
+  India: "INR",
+  USA: "USD",
+  Canada: "CAD",
+};
 
 const BulkUpload = () => {
-    const [categories, setCategories] = useState([]);
-    const [searchQuery, setSearchQuery] = useState("");
-    const [sortOrder, setSortOrder] = useState("newest");
-    const [statusFilter, setStatusFilter] = useState("all");
+  const [cityList, setCityList] = useState([]);
+  const [formData, setFormData] = useState({
+    country: "",
+    countryCode: "",
+    countryCurrency: "",
+    state: "",
+    stateCode: "",
+    city: "",
+    cityCode: "",
+    pinCode: "",
+    status: "Active",
+  });
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("newest");
 
-    const [modalOpen, setModalOpen] = useState(false);
-    const [editMode, setEditMode] = useState(false);
-    const [current, setCurrent] = useState({
-        businessType: "",
-        businessDomain: "",
-        businessCategory: "",
-        stateName: "",
-        stateCode: "",
-        cityName: "",
-        cityCode: "",
-        pincode: "",
-        status: "Active",
-        createdAt: new Date().toISOString(),
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "country"
+        ? {
+            state: "",
+            countryCurrency: currencies[value] || "",
+          }
+        : {}),
+    }));
+  };
+
+  const addOrEditCity = () => {
+    if (
+      !formData.city ||
+      !formData.cityCode ||
+      !formData.state ||
+      !formData.country
+    )
+      return;
+
+    const updatedCity = { ...formData, createdAt: new Date().toISOString() };
+    if (editingIndex !== null) {
+      const updatedList = [...cityList];
+      updatedList[editingIndex] = updatedCity;
+      setCityList(updatedList);
+    } else {
+      setCityList((prev) => [...prev, updatedCity]);
+    }
+
+    resetForm();
+    setShowModal(false);
+  };
+
+  const resetForm = () => {
+    setFormData({
+      country: "",
+      countryCode: "",
+      countryCurrency: "",
+      state: "",
+      stateCode: "",
+      city: "",
+      cityCode: "",
+      pinCode: "",
+      status: "Active",
     });
+    setEditingIndex(null);
+  };
 
-    useEffect(() => {
-        const stored = localStorage.getItem("bulkUploadData");
-        if (stored) setCategories(JSON.parse(stored));
-    }, []);
+  const deleteCity = (index) => {
+    setCityList(cityList.filter((_, i) => i !== index));
+  };
 
-    useEffect(() => {
-        localStorage.setItem("bulkUploadData", JSON.stringify(categories));
-    }, [categories]);
+  const editCity = (index) => {
+    const city = cityList[index];
+    setFormData({ ...city });
+    setEditingIndex(index);
+    setShowModal(true);
+  };
 
-    const handleSubmit = () => {
-        if (!current.businessType || !current.businessDomain || !current.businessCategory) return;
+  useEffect(() => {
+    const stored = localStorage.getItem("cities");
+    if (stored) {
+      try {
+        setCityList(JSON.parse(stored));
+      } catch (err) {
+        console.error("Error parsing cities", err);
+        setCityList([]);
+      }
+    }
+  }, []);
 
-        if (editMode) {
-            const updated = [...categories];
-            updated[current.index] = { ...current };
-            setCategories(updated);
-        } else {
-            setCategories([...categories, { ...current, createdAt: new Date().toISOString() }]);
-        }
+  useEffect(() => {
+    localStorage.setItem("cities", JSON.stringify(cityList));
+  }, [cityList]);
 
-        setCurrent({
-            businessType: "",
-            businessDomain: "",
-            businessCategory: "",
-            stateName: "",
-            stateCode: "",
-            cityName: "",
-            cityCode: "",
-            pincode: "",
-            status: "Active",
-        });
-        setModalOpen(false);
-        setEditMode(false);
-    };
+  const filteredCities = cityList
+    .filter((c) => c.city.toLowerCase().includes(searchQuery.toLowerCase()))
+    .sort((a, b) =>
+      sortOrder === "newest"
+        ? new Date(b.createdAt) - new Date(a.createdAt)
+        : new Date(a.createdAt) - new Date(b.createdAt)
+    );
 
-    const handleEdit = (row, index) => {
-        setCurrent({ ...row, index });
-        setEditMode(true);
-        setModalOpen(true);
-    };
+  const columns = [
+    { name: "No.", selector: (_, index) => index + 1, width: "60px" },
+    { name: "Country", selector: (row) => row.country },
+    { name: "Country Code", selector: (row) => row.countryCode },
+    { name: "Currency", selector: (row) => row.countryCurrency },
+    { name: "State", selector: (row) => row.state },
+    { name: "State Code", selector: (row) => row.stateCode },
+    { name: "City", selector: (row) => row.city },
+    { name: "City Code", selector: (row) => row.cityCode },
+    { name: "Pin Code", selector: (row) => row.pinCode },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      cell: (row) => (
+        <span
+          className={`px-2 py-1 text-xs rounded-full font-medium ${
+            row.status === "Active"
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800"
+          }`}
+        >
+          {row.status}
+        </span>
+      ),
+    },
+    {
+      name: "Actions",
+      cell: (_, index) => (
+        <div className="flex gap-2">
+          <button
+            onClick={() => editCity(index)}
+            className="bg-blue-500 text-white px-2 py-1 rounded"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => deleteCity(index)}
+            className="bg-red-500 text-white px-2 py-1 rounded"
+          >
+            Delete
+          </button>
+        </div>
+      ),
+    },
+  ];
 
-    const handleDelete = (index) => {
-        setCategories(categories.filter((_, i) => i !== index));
-    };
+  return (
+    <div className="max-w-7xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+      <div className="flex gap-4 items-center justify-between mb-6">
+        <h1 className="text-xl font-semibold">BulkUpload Country</h1>
+        <div className="flex gap-4 items-center">
+          <div className="relative w-64">
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search City..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <FaSortAmountDownAlt className="text-gray-600" />
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+            >
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+          <button
+            onClick={() => {
+              resetForm();
+              setShowModal(true);
+            }}
+            className="bg-green-500 text-white px-4 py-2 rounded flex items-center gap-2"
+          >
+            <FaPlus /> Add
+          </button>
+        </div>
+      </div>
 
-    const filtered = categories
-        .filter((item) => {
-            const query = searchQuery.toLowerCase();
-            return (
-                item.businessType.toLowerCase().includes(query) ||
-                item.businessDomain.toLowerCase().includes(query) ||
-                item.businessCategory.toLowerCase().includes(query) ||
-                item.stateName.toLowerCase().includes(query) ||
-                item.stateCode.toLowerCase().includes(query) ||
-                item.cityName.toLowerCase().includes(query) ||
-                item.cityCode.toLowerCase().includes(query) ||
-                item.pincode.toLowerCase().includes(query) ||
-                item.status.toLowerCase().includes(query)
-            );
-        })
-        .sort((a, b) =>
-            sortOrder === "newest"
-                ? new Date(b.createdAt) - new Date(a.createdAt)
-                : new Date(a.createdAt) - new Date(b.createdAt)
-        );
+      <DataTable
+        columns={columns}
+        data={filteredCities}
+        pagination
+        highlightOnHover
+        striped
+      />
 
-    const customStyles = {
-        headCells: {
-            style: {
-                fontSize: "1rem",
-                fontWeight: 600,
-            },
-        },
-        cells: {
-            style: {
-                fontSize: "1rem",
-            },
-        },
-        pagination: {
-            style: {
-                fontSize: "1rem",
-            },
-        },
-    };
+      {showModal && (
+        <div className="fixed inset-0  bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-xl relative">
+            <h2 className="text-xl font-semibold mb-4 text-center">
+              {editingIndex !== null ? "Edit" : "Add"}
+            </h2>
+            <button
+              className="absolute top-3 right-3 text-xl font-bold"
+              onClick={() => setShowModal(false)}
+            >
+              ×
+            </button>
 
-    const columns = [
-        { name: "No.", selector: (_, index) => index + 1, width: "60px" },
-        {
-            name: (
-                <div className="text-center">
-                    Country <br /> Name
-                </div>
-            ), selector: (row) => row.businessType,
-            sortable: true
-        },
-        {
-            name: (
-                <div className="text-center">
-                    Country <br /> Code
-                </div>
-            ), selector: (row) => row.businessDomain,
-            sortable: true
-        },
-        {
-            name: (
-                <div className="text-center">
-                    Country <br /> Currency
-                </div>
-            ), selector: (row) => row.businessCategory,
-            sortable: true
-        },
-        {
-            name: (
-                <div className="text-center">
-                    State <br /> Name
-                </div>
-            ), selector: (row) => row.stateName,
-            sortable: true
-        },
-        {
-            name: (
-                <div className="text-center">
-                    State <br /> Code
-                </div>
-            ), selector: (row) => row.stateCode,
-            sortable: true
-        },
-        {
-            name: (
-                <div className="text-center">
-                    City <br /> Name
-                </div>
-            ), selector: (row) => row.cityName,
-            sortable: true
-        },
-        {
-            name: (
-                <div className="text-center">
-                    City <br /> Code
-                </div>
-            ), selector: (row) => row.cityCode,
-            sortable: true
-        },
-        {
-            name: (
-                <div className="text-center">
-                    Pin <br /> Code
-                </div>
-            ), selector: (row) => row.pincode,
-            sortable: true
-        },
-        {
-            name: "Status",
-            cell: (row) => (
-                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${row.status === "Active" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-                    {row.status}
-                </span>
-            ),
-        },
-        {
-            name: "Actions",
-            cell: (row, index) => (
-                <div className="flex gap-2">
-                    <button className="bg-blue-500 text-white px-2 py-1 rounded" onClick={() => handleEdit(row, index)}>
-                        Edit
-                    </button>
-                    <button className="bg-red-500 text-white px-2 py-1 rounded" onClick={() => handleDelete(index)}>
-                        Delete
-                    </button>
-                </div>
-            ),
-        },
-    ];
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <select
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+                className="border px-3 py-2 rounded"
+              >
+                <option value="">Select Country</option>
+                {countries.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
 
-    return (
-        <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-            <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
-                <h1 className="text-xl font-semibold">Bulk Upload</h1>
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="border border-gray-300 px-3 py-2 rounded w-64"
-                />
-                <select
-                    value={sortOrder}
-                    onChange={(e) => setSortOrder(e.target.value)}
-                    className="border border-gray-300 px-3 py-2 rounded"
-                >
-                    <option value="newest">Newest</option>
-                    <option value="oldest">Oldest</option>
-                </select>
-                <button
-                    className="bg-green-600 text-white px-4 py-2 rounded flex items-center gap-2 ml-auto"
-                    onClick={() => setModalOpen(true)}
-                >
-                    <FaPlus /> Add
-                </button>
+              <input
+                type="text"
+                name="countryCode"
+                placeholder="Country Code"
+                value={formData.countryCode}
+                onChange={handleChange}
+                className="border px-3 py-2 rounded"
+              />
+
+              <input
+                type="text"
+                name="countryCurrency"
+                placeholder="Country Currency"
+                value={formData.countryCurrency}
+                onChange={handleChange}
+                className="border px-3 py-2 rounded"
+              />
+
+              <select
+                name="state"
+                value={formData.state}
+                onChange={handleChange}
+                className="border px-3 py-2 rounded"
+              >
+                <option value="">Select State</option>
+                {(states[formData.country] || []).map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type="text"
+                name="stateCode"
+                placeholder="State Code"
+                value={formData.stateCode}
+                onChange={handleChange}
+                className="border px-3 py-2 rounded"
+              />
+
+              <input
+                type="text"
+                name="city"
+                placeholder="City Name"
+                value={formData.city}
+                onChange={handleChange}
+                className="border px-3 py-2 rounded"
+              />
+              <input
+                type="text"
+                name="cityCode"
+                placeholder="City Code"
+                value={formData.cityCode}
+                onChange={handleChange}
+                className="border px-3 py-2 rounded"
+              />
+              <input
+                type="text"
+                name="pinCode"
+                placeholder="Pin Code"
+                value={formData.pinCode}
+                onChange={handleChange}
+                className="border px-3 py-2 rounded"
+              />
             </div>
 
-            <DataTable
-                columns={columns}
-                data={filtered}
-                pagination
-                highlightOnHover
-                striped
-                responsive
-                customStyles={customStyles}
-            />
-
-            {modalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
-                    <div className="bg-white p-6 rounded-xl w-full max-w-xl relative">
-                        <h2 className="text-xl font-bold mb-4 text-center">
-                            {editMode ? "Edit Record" : "Add Record"}
-                        </h2>
-                        <button
-                            className="absolute top-3 right-3 text-xl font-bold text-gray-600 hover:text-black"
-                            onClick={() => {
-                                setModalOpen(false);
-                                setEditMode(false);
-                                setCurrent({
-                                    businessType: "",
-                                    businessDomain: "",
-                                    businessCategory: "",
-                                    stateName: "",
-                                    stateCode: "",
-                                    cityName: "",
-                                    cityCode: "",
-                                    pincode: "",
-                                    status: "Active",
-                                });
-                            }}
-                        >
-                            ×
-                        </button>
-
-                        {["businessType", "businessDomain", "businessCategory", "stateName", "stateCode", "cityName", "cityCode", "pincode"].map((field) => (
-                            <input
-                                key={field}
-                                type="text"
-                                placeholder={field.replace(/([A-Z])/g, ' $1').trim()}
-                                value={current[field] || ""}
-                                onChange={(e) => setCurrent({ ...current, [field]: e.target.value })}
-                                className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-3"
-                            />
-                        ))}
-
-                        <div className="flex justify-center gap-4 mt-4">
-                            <button
-                                className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-                                onClick={handleSubmit}
-                            >
-                                Submit
-                            </button>
-                            <button
-                                className="bg-gray-400 text-white px-4 py-2 rounded"
-                                onClick={() => {
-                                    setModalOpen(false);
-                                    setEditMode(false);
-                                }}
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <button
+              onClick={addOrEditCity}
+              className="mt-4 w-full bg-indigo-600 text-white py-2 rounded"
+            >
+              {editingIndex !== null ? "Save Changes" : "Submit"}
+            </button>
+          </div>
         </div>
-    );
+      )}
+    </div>  
+  );
 };
 
 export default BulkUpload;
