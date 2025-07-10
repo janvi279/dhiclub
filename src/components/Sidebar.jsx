@@ -8,8 +8,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const navigate = useNavigate();
 
   const navItems = [
-    { name: "Controller", children: ["country", "state", "city", "Business Type", "Business Category", "Business Domain", "BulkUpload Country","BulkUpload BusinessCategory"] },
-    { name: "Dhiclub", children: ["Chapters / Team", "Members", "Leads", "Registration"] },
+    { name: "Controller", children: ["country", "state", "city", "Business Type", "Business Category", "Business Domain", "BulkUpload Country", "BulkUpload BusinessCategory"] },
+    { name: "Dhiclub", children: ["Teams", "Members", "Leaders", "Registration"] },
     { name: "CRM", children: ["Clients", "Leads", "Reports"] },
     { name: "Inventory", children: ["Products", "Stock", "Suppliers"] },
     { name: "Billing", children: ["Invoices", "Payments", "History"] },

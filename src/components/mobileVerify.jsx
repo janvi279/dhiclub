@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Yup Schema
 const schema = yup.object().shape({
-  
+
   mobile: yup
     .string()
     .matches(/^[6-9]\d{9}$/, "Enter a valid 10-digit mobile number")
@@ -33,13 +33,13 @@ const MobileVerify = () => {
   const onSubmit = async (data) => {
     console.log("Submitting", data);
     toast.success("Submitted successfully!");
-    setTimeout(() => navigate("/signUp"), 1000);
+    setTimeout(() => navigate("/addMember"), 1000);
   };
 
   return (
     <>
       <ToastContainer />
-      <div className="font-sans flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="font-sans flex justify-center items-center min-h-screen">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="bg-white rounded-lg shadow-md w-full max-w-3xl p-8"
@@ -48,7 +48,7 @@ const MobileVerify = () => {
             type="button"
             className="mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700"
           >
-            Step-2
+            Step-1
           </button>
 
           {/* Mobile Number */}

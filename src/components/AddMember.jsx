@@ -49,11 +49,11 @@ const AddMember = () => {
     console.log("Submitting", data);
 
     toast.success("Submitted successfully!");
-    setTimeout(() => navigate("/verification"), 1000);
+    setTimeout(() => navigate("/personal-detail"), 1000);
   };
 
   return (
-    <div className="font-sans flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="font-sans flex justify-center items-center min-h-screen">
       <ToastContainer />
 
       <form
@@ -67,7 +67,7 @@ const AddMember = () => {
           type="button"
           className="mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700"
         >
-          Step-1
+          Step-2
         </button>
 
         {/* Country */}
