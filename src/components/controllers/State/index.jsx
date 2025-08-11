@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
-import { FaPlus, FaSearch, FaSortAmountDownAlt, FaFilter } from "react-icons/fa";
+import {
+  FaPlus,
+  FaSearch,
+  FaSortAmountDownAlt,
+  FaFilter,
+} from "react-icons/fa";
 import DataTable from "react-data-table-component";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 
 const State = () => {
   const [stateList, setStateList] = useState([]);
@@ -9,7 +16,7 @@ const State = () => {
     stateCode: "",
     status: "Active",
     country: "",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   });
   const countries = ["INDIA", "USA", "UK"];
   const [editingState, setEditingState] = useState(null);
@@ -21,17 +28,21 @@ const State = () => {
   const [sortOrder, setSortOrder] = useState("newest");
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (editingState) {
-      setEditingState({ ...editingState, [name]: value });
-    } else {
-      setNewState({ ...newState, [name]: value });
-    }
-  };
+  const { name, value } = e.target;
+  if (showEditModal) {
+    setEditingState((prev) => ({ ...prev, [name]: value }));
+  } else {
+    setNewState((prev) => ({ ...prev, [name]: value }));
+  }
+};
+
 
   const addState = () => {
     if (newState.state && newState.stateCode) {
-      setStateList([...stateList, { ...newState, createdAt: new Date().toISOString() }]);
+      setStateList([
+        ...stateList,
+        { ...newState, createdAt: new Date().toISOString() },
+      ]);
       setNewState({ state: "", stateCode: "", status: "Active", country: "" });
       setShowModal(false);
     }
@@ -71,9 +82,10 @@ const State = () => {
   }, [stateList]);
 
   const filteredList = stateList
-    .filter((item) =>
-      item.state.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (statusFilter === "all" || item.status === statusFilter)
+    .filter(
+      (item) =>
+        item.state.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        (statusFilter === "all" || item.status === statusFilter)
     )
     .sort((a, b) => {
       if (sortOrder === "newest") {
@@ -86,18 +98,22 @@ const State = () => {
   const customStyles = {
     headCells: {
       style: {
-        fontSize: '1rem',
+        fontSize: "12px",
         fontWeight: 600,
+        color: "#061237",
       },
     },
     cells: {
       style: {
-        fontSize: '1rem',
+        fontSize: "12px",
+        color: "#061237",
+        fontWeight:500,
       },
     },
     pagination: {
       style: {
-        fontSize: '1rem',
+        borderTop: "none", // bottom line remove
+        boxShadow: "none", // koi shadow hoy to remove
       },
     },
   };
@@ -106,7 +122,7 @@ const State = () => {
     {
       name: "No.",
       selector: (_, index) => index + 1,
-      width: "60px"
+     
     },
     {
       name: "State Name",
@@ -121,7 +137,13 @@ const State = () => {
       name: "Status",
       selector: (row) => row.status,
       cell: (row) => (
-        <span className={`px-2 py-1 text-xs rounded-full font-medium ${row.status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+        <span
+          className={`px-[20px] py-[6px] text-xs rounded-[40px] font-semibold ${
+            row.status === "Active"
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800"
+          }`}
+        >
           {row.status}
         </span>
       ),
@@ -129,9 +151,32 @@ const State = () => {
     {
       name: "Actions",
       cell: (row, index) => (
-        <div className="flex gap-2">
-          <button className="bg-blue-500 text-white px-2 py-1 rounded" onClick={() => handleEdit(row, index)}>Edit</button>
-          <button className="bg-red-500 text-white px-2 py-1 rounded" onClick={() => deleteState(index)}>Delete</button>
+        <div className="flex gap-5  ">
+          <button
+            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap" key={index}
+            onClick={() => handleEdit(row, index)}
+          >
+            <FaRegEdit />
+          </button>
+          <button
+            className="text-[#6246EA]  text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
+            onClick={() => deleteState(index)}
+          >
+            <MdDeleteOutline />
+          </button>
+
+          <button
+            className="text-[#429667] px-2 py-1 border-[#429667] border  font-semibold rounded-[40px] whitespace-nowrap"
+            onClick={() => deleteState(index)}
+          >
+            Active
+          </button>
+          <button
+            className="text-[#A00C19] px-2 py-1 border border-[#A00C19] font-semibold rounded-[40px] whitespace-nowrap"
+            onClick={() => deleteState(index)}
+          >
+            Deactive
+          </button>
         </div>
       ),
     },
@@ -140,7 +185,7 @@ const State = () => {
   return (
     <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
-        <h1 className="text-xl font-semibold">State List</h1>
+        <h1 className="text-xl font-semibold text-[#061237]">State List</h1>
 
         <div className="relative w-64">
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -154,11 +199,11 @@ const State = () => {
         </div>
 
         <div className="relative flex items-center gap-2">
-          <FaSortAmountDownAlt className="text-gray-600" />
+          <FaSortAmountDownAlt className="text-[#6246EA]" />
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none"
+            className="font-semibold	text-[#061237] py-2 text-base focus:outline-none"
           >
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
@@ -166,11 +211,11 @@ const State = () => {
         </div>
 
         <div className="relative flex items-center gap-2">
-          <FaFilter className="text-gray-600" />
+          <FaFilter className="text-[#6246EA]" />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none"
+            className="font-semibold	text-[#061237] py-2 text-base focus:outline-none"
           >
             <option value="all">All Status</option>
             <option value="Active">Active</option>
@@ -179,7 +224,7 @@ const State = () => {
         </div>
 
         <button
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 flex items-center gap-2"
+          className="bg-[#6246EA] text-white px-4 py-2 rounded-[40px] cursor-pointer flex items-center gap-2"
           onClick={() => setShowModal(true)}
         >
           <FaPlus /> Add
@@ -199,54 +244,108 @@ const State = () => {
       {/* Add State Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md relative">
-            <h2 className="text-xl font-semibold mb-3 text-center">Add State</h2>
-            <button className="absolute top-3 right-3 text-xl" onClick={() => setShowModal(false)}>×</button>
-            <select
-              name="country"
-              value={newState.country}
-              onChange={handleChange}
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+          <div className="bg-white p-5 rounded-[20px] shadow-lg w-full max-w-md relative">
+            <h2 className="text-xl font-semibold mb-3 text-center text-[#061237]">
+              Add State
+            </h2>
+            <button
+              className="absolute top-3 right-3 text-xl"
+              onClick={() => setShowModal(false)}
             >
+              ×
+            </button>
+            <select
+  name="country"
+  value={editingState.country}
+  onChange={handleChange}
+>
+
               <option value="">Select Country</option>
-              {countries.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
+              {countries.map((cur) => (
+  <option key={cur} value={cur}>
+    {cur}
+  </option>
+))}
+
             </select>
-            <input name="state" placeholder="State Name" value={newState.state} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5" />
-            <input name="stateCode" placeholder="State Code" value={newState.stateCode} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5" />
-            <button className="w-full bg-indigo-600 text-white py-2 rounded" onClick={addState}>Submit</button>
+            <input
+              name="state"
+              placeholder="State Name"
+              value={newState.state}
+              onChange={handleChange}
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+            />
+            <input
+              name="stateCode"
+              placeholder="State Code"
+              value={newState.stateCode}
+              onChange={handleChange}
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+            />
+            <button
+              className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]"
+              onClick={addState}
+            >
+              Submit
+            </button>
           </div>
         </div>
       )}
 
       {/* Edit State Modal */}
-      {showEditModal && editingState && (
-        <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md relative">
-            <h2 className="text-xl font-semibold mb-3 text-center">Edit State</h2>
-            <button className="absolute top-3 right-3 text-xl" onClick={() => setShowEditModal(false)}>×</button>
-            <select
-              name="country"
-              value={newState.country}
-              onChange={handleChange}
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
-            >
-              <option value="">Select Country</option>
-              {countries.map((cur) => (
-                <option key={cur} value={country}>
-                  {country}
-                </option>
-              ))}
-            </select>
-            <input name="state" placeholder="State Name" value={editingState.state} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5" />
-            <input name="stateCode" placeholder="State Code" value={editingState.stateCode} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5" />
-            <button className="w-full bg-indigo-600 text-white py-2 rounded" onClick={saveState}>Save Changes</button>
-          </div>
-        </div>
-      )}
+     {showEditModal && editingState && (
+  <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md relative">
+      <h2 className="text-xl font-semibold mb-3 text-center">
+        Edit State
+      </h2>
+      <button
+        className="absolute top-3 right-3 text-xl"
+        onClick={() => setShowEditModal(false)}
+      >
+        ×
+      </button>
+
+      <select
+        name="country"
+        value={editingState.country}
+        onChange={handleChange}
+        className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+      >
+        <option value="">Select Country</option>
+        {countries.map((cur) => (
+          <option key={cur} value={cur}>
+            {cur}
+          </option>
+        ))}
+      </select>
+
+      <input
+        name="state"
+        placeholder="State Name"
+        value={editingState.state}
+        onChange={handleChange}
+        className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+      />
+
+      <input
+        name="stateCode"
+        placeholder="State Code"
+        value={editingState.stateCode}
+        onChange={handleChange}
+        className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+      />
+
+      <button
+        className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]"
+        onClick={saveState}
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

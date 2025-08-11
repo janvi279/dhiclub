@@ -314,7 +314,7 @@ const BulkUpload = () => {
           </div>
         </div>
       )}
-    </div>  
+    </div>
   );
 };
 

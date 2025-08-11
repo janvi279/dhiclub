@@ -87,7 +87,7 @@ const City = () => {
         );
 
     const columns = [
-        { name: "No.", selector: (_, index) => index + 1, width: "60px" },
+        { name: "No.", selector: (_, index) => index + 1,},
         { name: "City Name", selector: (row) => row.city },
         { name: "City Code", selector: (row) => row.cityCode },
         {
@@ -102,19 +102,38 @@ const City = () => {
                 </span>
             ),
         },
-        {
-            name: "Actions",
-            cell: (row, index) => (
-                <div className="flex gap-2">
-                    <button onClick={() => setEditingCity({ ...row, index }) & setShowEditModal(true)} className="bg-blue-500 text-white px-2 py-1 rounded">
-                        Edit
-                    </button>
-                    <button onClick={() => deleteCity(index)} className="bg-red-500 text-white px-2 py-1 rounded">
-                        Delete
-                    </button>
+         {
+              name: "Actions",
+              cell: (row, index) => (
+                <div className="flex gap-5  ">
+                  <button
+                    className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap" key={index}
+                    onClick={() => handleEdit(row, index)}
+                  >
+                    <FaRegEdit />
+                  </button>
+                  <button
+                    className="text-[#6246EA]  text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
+                    onClick={() => deleteState(index)}
+                  >
+                    <MdDeleteOutline />
+                  </button>
+        
+                  <button
+                    className="text-[#429667] px-2 py-1 border-[#429667] border  font-semibold rounded-[40px] whitespace-nowrap"
+                    onClick={() => deleteState(index)}
+                  >
+                    Active
+                  </button>
+                  <button
+                    className="text-[#A00C19] px-2 py-1 border border-[#A00C19] font-semibold rounded-[40px] whitespace-nowrap"
+                    onClick={() => deleteState(index)}
+                  >
+                    Deactive
+                  </button>
                 </div>
-            ),
-        },
+              ),
+            },
     ];
 
     const customStyles = {
@@ -141,16 +160,16 @@ const City = () => {
 
                 <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2">
-                        <FaSortAmountDownAlt className="text-gray-600" />
-                        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none">
+                        <FaSortAmountDownAlt className="text-[#6246EA]" />
+                        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} className="font-semibold	text-[#061237] py-2 text-base focus:outline-none">
                             <option value="newest">Newest</option>
                             <option value="oldest">Oldest</option>
                         </select>
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <FaFilter className="text-gray-600" />
-                        <select value={countryFilter} onChange={(e) => setCountryFilter(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none">
+                        <FaFilter className="text-[#6246EA]" />
+                        <select value={countryFilter} onChange={(e) => setCountryFilter(e.target.value)} className="font-semibold	text-[#061237] py-2 text-base focus:outline-none">
                             <option value="all">All Countries</option>
                             {sortCountry.map((c) => (
                                 <option key={c} value={c}>
@@ -161,8 +180,8 @@ const City = () => {
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <FaFilter className="text-gray-600" />
-                        <select value={stateFilter} onChange={(e) => setStateFilter(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none">
+                        <FaFilter className="text-[#6246EA]" />
+                        <select value={stateFilter} onChange={(e) => setStateFilter(e.target.value)} className="font-semibold	text-[#061237] py-2 text-base focus:outline-none">
                             <option value="all">All States</option>
                             {sortState.map((s) => (
                                 <option key={s} value={s}>
@@ -173,15 +192,16 @@ const City = () => {
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <FaFilter className="text-gray-600" />
-                        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none">
+                        <FaFilter className="text-[#6246EA]" />
+                        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="font-semibold	text-[#061237] py-2 text-base focus:outline-none">
                             <option value="all">All Status</option>
                             <option value="Active">Active</option>
                             <option value="Deactive">Deactive</option>
                         </select>
                     </div>
 
-                    <button onClick={() => setShowModal(true)} className="bg-green-500 text-white px-4 py-2 rounded flex items-center gap-2">
+                      
+                    <button onClick={() => setShowModal(true)} className="bg-[#6246EA] text-white px-4 py-2 rounded-[40px] flex items-center gap-2">
                         <FaPlus /> Add
                     </button>
                 </div>
@@ -192,13 +212,13 @@ const City = () => {
             {/* Add Modal */}
             {showModal && (
                 <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-5 rounded w-full max-w-md relative">
+                    <div className="bg-white p-5 rounded-[20px] w-full max-w-md relative">
                         <h2 className="text-xl font-semibold mb-4 text-center">Add City</h2>
                         <button className="absolute top-3 right-3 text-xl font-bold" onClick={() => setShowModal(false)}>
                             ×
                         </button>
 
-                        <select name="country" value={newCity.country} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5">
+                        <select name="country" value={newCity.country} onChange={handleChange} className=" focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5">
                             <option value="">Select Country</option>
                             {sortCountry.map((c) => (
                                 <option key={c} value={c}>
@@ -207,7 +227,7 @@ const City = () => {
                             ))}
                         </select>
 
-                        <select name="state" value={newCity.state} onChange={handleChange} className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5">
+                        <select name="state" value={newCity.state} onChange={handleChange} className=" focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5">
                             <option value="">Select State</option>
                             {sortState.map((s) => (
                                 <option key={s} value={s}>
@@ -222,7 +242,7 @@ const City = () => {
                             placeholder="City Name"
                             value={newCity.city}
                             onChange={handleChange}
-                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+                            className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
                         />
                         <input
                             type="text"
@@ -230,10 +250,10 @@ const City = () => {
                             placeholder="City Code"
                             value={newCity.cityCode}
                             onChange={handleChange}
-                            className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+                            className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
                         />
 
-                        <button onClick={addCity} className="w-full bg-indigo-600 text-white py-2 rounded">
+                        <button onClick={addCity} className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]">
                             Submit
                         </button>
                     </div>
