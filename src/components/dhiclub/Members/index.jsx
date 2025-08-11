@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import { ArrowDownUp, Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useMemberList } from "../context/MemberListContext"; // ✅ use your context
+import { useMemberList } from "../../../context/MemberListContext";
 
 const Members = () => {
     const { members, addMember } = useMemberList(); // ⬅️ use context instead of localStorage
@@ -56,10 +56,10 @@ const Members = () => {
             <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
                 <h1 className="text-xl font-semibold">All Members</h1>
                 <div className="flex justify-end gap-3">
-                
+
                     <button
                         className="mt-5 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 text-sm w-28"
-                        onClick={() => navigate("/addMember")}
+                        onClick={() => navigate("/verification")}
                     >
                         Add New <br /> Member
                     </button>

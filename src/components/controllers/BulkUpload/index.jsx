@@ -39,9 +39,9 @@ const BulkUpload = () => {
       [name]: value,
       ...(name === "country"
         ? {
-            state: "",
-            countryCurrency: currencies[value] || "",
-          }
+          state: "",
+          countryCurrency: currencies[value] || "",
+        }
         : {}),
     }));
   };
@@ -133,11 +133,10 @@ const BulkUpload = () => {
       selector: (row) => row.status,
       cell: (row) => (
         <span
-          className={`px-2 py-1 text-xs rounded-full font-medium ${
-            row.status === "Active"
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
-          }`}
+          className={`px-2 py-1 text-xs rounded-full font-medium ${row.status === "Active"
+            ? "bg-green-100 text-green-800"
+            : "bg-red-100 text-red-800"
+            }`}
         >
           {row.status}
         </span>

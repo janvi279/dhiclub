@@ -16,6 +16,10 @@ import BusinessCategory from "../components/controllers/BusinessCategory";
 import BusinessType from "../components/controllers/BusinessType";
 import BulkUpload from "../components/controllers/BulkUpload";
 import BulkUploadBusinessCategory from "../components/controllers/BulkUploadBusinessCategory";
+import Teams from "../components/dhiclub/Teams";
+import Dhiclub from "../components/dhiclub"
+import Members from "../components/dhiclub/Members";
+import SignUp from "../components/SignUp"
 
 const AllRoute = [
   { path: "/", element: <Login />, permission: { read: true } },
@@ -26,11 +30,16 @@ const AllRoute = [
     permission: { read: true },
   },
   {
+    path: "/personal-detail",
+    element: <SignUp />,
+    permission: { read: true },
+  },
+  {
     path: "/BusinessDetail",
     element: <BusinessDetail />,
     permission: { read: true },
   },
-  { path: "/References", element: <References />, permission: { read: true } },
+  { path: "/references", element: <References />, permission: { read: true } },
   {
     path: "/memberSignUp",
     element: <Registration />,
@@ -78,6 +87,27 @@ const AllRoute = [
   {
     path: "/Controller/bulkUpload-businessCategory",
     element: <BulkUploadBusinessCategory />,
+    permission: { read: true },
+  },
+  { path: "/Dhiclub", element: <Dhiclub />, permission: { read: true } },
+  {
+    path: "/Dhiclub/teams",
+    element: <Teams />,
+    permission: { read: true },
+  },
+  {
+    path: "/Dhiclub/leaders",
+    element: <Teams />,
+    permission: { read: true },
+  },
+  {
+    path: "/Dhiclub/members",
+    element: <Members />,
+    permission: { read: true },
+  },
+  {
+    path: "/Dhiclub/registration",
+    element: <Teams />,
     permission: { read: true },
   },
 ];

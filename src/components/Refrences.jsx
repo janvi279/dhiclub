@@ -49,7 +49,7 @@ const References = () => {
   return (
     <>
       <ToastContainer />
-      <div className="font-sans flex justify-center items-center min-h-screen bg-gray-100 p-4">
+      <div className="font-sans flex justify-center items-center min-h-screen p-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="bg-white rounded-lg shadow-md w-full max-w-2xl p-8 space-y-6"
