@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Teams from "./Teams";
 import Members from "./Members";
-import State from "../components/controllers/state";
-import City from "./controllers/city";
-import Country from "./controllers/country";
+import State from "../components/controllers/State";
+import City from "../components/controllers/City";
+import Country from "../components/controllers/Country";
 import Leads from "./Leads";
 import Registration from "./Registration";
 import Account from "./Account";
