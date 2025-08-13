@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { RegisterUser } from "../api/Auth";
+
 import {
   User, Globe, IdCard, GraduationCap, Heart, Lock, CheckCircle,
   Tag, Building, ClipboardList, Calendar, Users, Receipt, Phone,
@@ -64,8 +64,7 @@ const SignUp = () => {
   // ✅ Single working onSubmit function
   const onSubmit = async (data) => {
     try {
-      const response = await RegisterUser(data);
-      if (response.data) {
+  
         // ✅ Add to context
         addMember({
           teamName: data.firstName + " " + data.lastName,
@@ -76,8 +75,8 @@ const SignUp = () => {
         });
 
         toast.success("Registration Successful!");
-        setTimeout(() => navigate("/refrences"), 2000);
-      }
+        setTimeout(() => navigate("/references"), 2000);
+      
     } catch (err) {
       toast.error("Something went wrong.");
     }
@@ -90,7 +89,7 @@ const SignUp = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white rounded-lg shadow-md w-full max-w-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-4"
       >
-        <h2 className="text-xl font-bold col-span-full">Register Account</h2>
+        <h2 className="text-xl font-bold col-span-full">Personal Details</h2>
 
                       <div className=" mb-4 flex items-center relative">
 

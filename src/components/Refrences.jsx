@@ -17,7 +17,7 @@ const schema = yup.object().shape({
   referenceContact: yup
     .string()
     .trim()
-  .matches(/^\d{10}$/, "Mobile number must be exactly 10 digits")
+    .matches(/^\d{10}$/, "Mobile number must be exactly 10 digits")
     .required("Reference contact is required"),
 });
 
@@ -43,26 +43,26 @@ const References = () => {
 
     console.log("Submitting", cleanData);
     toast.success("Proceeding to payment...");
-    setTimeout(() => navigate("/payment"), 1500);
+    setTimeout(() => navigate("/"), 1500);
   };
 
   return (
     <>
       <ToastContainer />
-      <div className="font-sans flex justify-center items-center min-h-screen bg-gray-100 p-4">
+      <div className="font-sans flex justify-center items-center min-h-screen p-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="bg-white rounded-lg shadow-md w-full max-w-2xl p-8 space-y-6"
         >
           {/* Header */}
-         
-            <h1 className="mb-5 w-fit bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700">
-              Step-5
-            </h1>
-            <h3 className="text-2xl font-semibold text-gray-800 mt-2">
-              References
-            </h3>
-          
+
+          <h1 className="mb-5 w-fit bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700">
+            Step-5
+          </h1>
+          <h3 className="text-2xl font-semibold text-gray-800 mt-2">
+            References
+          </h3>
+
 
           {/* Source Checkboxes */}
           <div>

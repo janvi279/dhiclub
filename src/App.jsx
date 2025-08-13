@@ -1,29 +1,36 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
-import SignUp from "./components/SignUp";
-import AddMember from "./components/AddMember";
-import MobileVerify from "./components/mobileVerify";
-import BusinessDetail from "./components/BusinessDetail";
-import References from "./components/Refrences";
-import Registration from "./components/Registration";
-
-
+import Login from "./pages/Auth/Login"
+import PageNotFound from "./pages/PagenotFound";
+import DefaultLayout from "./layout/DefaultLayout";
+import { Toaster } from 'react-hot-toast';
+import AllRoutes from "./navigation";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />}> </Route>
-        <Route path="/dashboard" element={<Dashboard />}></Route>
-        <Route path="/signUp" element={<SignUp />}></Route>
-        <Route path="/addMember" element={<AddMember />}></Route>
-        <Route path="/verification" element={<MobileVerify />}></Route>
-        <Route path="/BusinessDetail" element={<BusinessDetail />}></Route>
-         <Route path="/registration" element={<Registration />}></Route>
-        <Route path="/refrences" element={<References />}></Route>
-      </Routes>
+      <Toaster />
+      {/* <AuthProvider> */}
+        <Routes>
+          <Route path='/*' element={<PageNotFound />} />
+          <Route>
+            <Route path='/login' element={<Login />} />
+                   <Route path='/' element={<Login />} />
+            {/* <Route path='/register' element={<Register />} />
+            <Route path='/forgot-password' element={<ForgotPassword />} />
+            <Route path='/reset-password' element={<ResetPassword />} /> */}
+          </Route>
+          <Route>
+            <Route element={<DefaultLayout />}>
+              {AllRoutes.map((route, index) => {
+                return (
+                  <Route key={index} path={route.path} element={route.element} />
+                )
+              })}
+            </Route>
+          </Route>
+        </Routes>
+      {/* </AuthProvider> */}
     </BrowserRouter>
   );
 };

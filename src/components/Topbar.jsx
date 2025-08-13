@@ -14,7 +14,8 @@ const Topbar = () => {
   };
   return (
     <>
-      <div className=" justify-between flex flex-1 bg-[#F9F8FF] items-center p-7 max-sm:p-5 max-sm:flex-wrap">
+     <div className="fixed top-0 left-0 w-full z-50 bg-[#F9F8FF] flex justify-between items-center p-7 max-sm:p-5 max-sm:flex-wrap shadow-md">
+
 
         <div className="max-sm:w-full max-sm:mb-5 flex gap-2 items-center">
           <img src="/D Logo.png" alt="Dhiclub Logo" />

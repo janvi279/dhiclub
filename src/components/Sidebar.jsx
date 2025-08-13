@@ -1,15 +1,23 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { LuCirclePlus, LuCircleMinus } from "react-icons/lu"; // ⬅ plus & minus icons
 
-
-const Sidebar = ({ onSelect, isSidebarOpen, setIsSidebarOpen }) => {
+const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const [openItems, setOpenItems] = useState({});
+  const [selectedItem, setSelectedItem] = useState("welcome to dashboard");
+
+  const navigate = useNavigate();
+
   const navItems = [
-    { name: "Controller", children: ["country","state", "city"," Business Type"," Business Domain "] },
-    { name: "Dhiclub", children: ["Chapters / Team","Members","Leads","Registration"] },
+    { name: "Controller", children: ["country", "state", "city", "Business Type", "Business Category", "Business Domain", "BulkUpload Country", "BulkUpload BusinessCategory"] },
+    { name: "Dhiclub", children: ["Teams", "Members", "Leaders", "Registration"] },
     { name: "CRM", children: ["Clients", "Leads", "Reports"] },
+    { name: "Account" },
     { name: "Inventory", children: ["Products", "Stock", "Suppliers"] },
-    { name: "Billing", children: ["Invoices", "Payments", "History"] }, 
+    { name: "Billing", children: ["Invoices", "Payments", "History"] },
   ];
+
+  // Adjust sidebar on resize
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
@@ -18,45 +26,57 @@ const Sidebar = ({ onSelect, isSidebarOpen, setIsSidebarOpen }) => {
         setIsSidebarOpen(true);
       }
     };
-    handleResize(); // Run once on mount
+
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-  const toggleItem = async (itemName) => {
+  }, [setIsSidebarOpen]);
+
+  // Toggle sidebar item
+  const toggleItem = (itemName) => {
     setOpenItems((prev) => ({
-
+      ...prev,
       [itemName]: !prev[itemName],
-
     }));
-    setIsSidebarOpen(true);
-
+    navigate(`/${itemName}`);
   };
 
-  const toggleSideBar = () => {
+  // Handle sidebar navigation
+  const handleNavigation = (itemName, subItem) => {
+    const fullItemName = `${itemName} - ${subItem}`;
+    setSelectedItem(fullItemName);
+
+    if (window.innerWidth <= 768) {
+      setIsSidebarOpen(false);
+      setOpenItems({});
+    }
+
+    const route = subItem.toLowerCase().replace(/\s+/g, "-");
+    navigate(`/${itemName}/${route}`);
+  };
+
+  const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
-    setOpenItems(false)
+    setOpenItems({});
   };
+
   return (
-    <div className="flex h-screen w-20 max-sm:w-10">
-      {/* Toggle Button (visible on small screens) */}
+    <div className="flex h-screen w-20 max-sm:w-10 pt-[100px]">
       {/* Sidebar */}
       <div
-        className={`
-          fixed z-40 top-0 left-0 h-full w-[250px] bg-[#F9F8FF] rounded-[20px]
+        className={`fixed z-40 top-0 left-0 h-full w-[250px] bg-[#F9F8FF] rounded-[20px]
           transition-transform duration-300 ease-in-out
-          ${isSidebarOpen ? "translate-x-0 " : "-translate-x-53"}
-          relative  my-10 mx-5
-        `}
+          ${isSidebarOpen ? "translate-x-0" : "-translate-x-53"}
+          relative my-10 mx-5`}
         id="default-sidebar"
       >
         <button
-          onClick={toggleSideBar}
+          onClick={toggleSidebar}
           type="button"
-          className="p-2 mt-2 ms-50 text-sm text-gray-500 flex"
+          className="p-2 mt-2 ms-50 text-sm text-[#061237] flex"
         >
-
           {isSidebarOpen ? (
-            <svg 
+            <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-6 h-6"
               fill="currentColor"
@@ -70,7 +90,6 @@ const Sidebar = ({ onSelect, isSidebarOpen, setIsSidebarOpen }) => {
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-
           ) : (
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
               <path
@@ -81,38 +100,29 @@ const Sidebar = ({ onSelect, isSidebarOpen, setIsSidebarOpen }) => {
             </svg>
           )}
         </button>
-        <div className="h-full overflow-y-auto">
-          <ul className={`space-y-2 py-5  ${isSidebarOpen ? "px-5" : "px-2"} text-gray-600`}>
 
+        <div className="h-full overflow-y-auto">
+          <ul className={`space-y-2 py-5 ${isSidebarOpen ? "px-5" : "px-2"} text-[#061237]`}>
             {navItems.map((item, index) => (
               <li key={index}>
                 <div
-                  className={`flex hover:text-[#061237] font-semibold items-center justify-between hover:bg-[#E4E7FF] cursor-pointer rounded-[10px] p-2 ${openItems[item.name] ? "text-[#061237]" : "text-[#AAA9BC]"
-                    }`}
+                  className={`flex hover:text-[#6246EA] font-semibold items-center justify-between hover:bg-[#E4E7FF] cursor-pointer rounded-[10px] p-2`}
                   onClick={() => toggleItem(item.name)}
                 >
                   <span>{item.name}</span>
-                  <img
-                    src={
-                      openItems[item.name] ? "icon-minus.png" : "icon-plus.png"
-                    }
-                    alt="toggle"
-                    className="w-4 h-4"
-                  />
+                  {openItems[item.name] ? (
+                    <LuCircleMinus className="w-4 h-4  " />
+                  ) : (
+                    <LuCirclePlus className="w-4 h-4 " />
+                  )}
                 </div>
-                {openItems[item.name] && (
-                  <ul className="ml-5 mt-1 pl-2 space-y-1 text-gray-600 font-semibold">
+                {openItems[item.name] && item.children && (
+                  <ul className="ml-5 mt-1 pl-2 space-y-1 text-[#061237] font-semibold">
                     {item.children.map((subItem, subIndex) => (
                       <li
                         key={subIndex}
-                        onClick={() => {
-                          onSelect(`${item.name} - ${subItem}`);
-                          if (window.innerWidth <= 768) {
-                            setIsSidebarOpen(false)
-                            setOpenItems(false); // Auto-close on mobile
-                          }
-                        }}
-                        className="text-gray-500 hover:bg-[#E4E7FF] hover:text-[#061237] rounded-[10px] px-2 py-1 cursor-pointer"
+                        onClick={() => handleNavigation(item.name, subItem)}
+                        className="text-[#061237] hover:bg-[#E4E7FF] hover:text-[#6246EA] rounded-[10px] px-2 py-1 cursor-pointer"
                       >
                         {subItem}
                       </li>
@@ -127,11 +137,12 @@ const Sidebar = ({ onSelect, isSidebarOpen, setIsSidebarOpen }) => {
 
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 z-30  bg-opacity-50"
-          onClick={toggleSideBar}
+          className="fixed inset-0 z-30 bg-opacity-50"
+          onClick={toggleSidebar}
         />
       )}
     </div>
   );
 };
+
 export default Sidebar;

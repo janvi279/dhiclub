@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form"
-import { LoginUser } from "../api/Auth";
 import { toast, ToastContainer } from "react-toastify"
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -42,7 +41,7 @@ const Login = () => {
                     position: "top-center"
                 });
                 setTimeout(() => {
-                    navigate("/dashboard");
+                    navigate("/addMember");
 
                 }, 4000);
 

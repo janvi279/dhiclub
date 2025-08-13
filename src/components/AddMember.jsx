@@ -6,9 +6,6 @@ import * as yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-
-
 // Validation schema
 const schema = yup.object().shape({
   country: yup.string().required("Country is required"),
@@ -52,11 +49,11 @@ const AddMember = () => {
     console.log("Submitting", data);
 
     toast.success("Submitted successfully!");
-    setTimeout(() => navigate("/verification"), 1000);
+    setTimeout(() => navigate("/personal-detail"), 1000);
   };
 
   return (
-    <div className="font-sans flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="font-sans flex justify-center items-center min-h-screen">
       <ToastContainer />
 
       <form
@@ -70,7 +67,7 @@ const AddMember = () => {
           type="button"
           className="mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700"
         >
-          Step-1
+          Step-2
         </button>
 
         {/* Country */}
@@ -82,11 +79,15 @@ const AddMember = () => {
           >
             <option value="">Select Country</option>
             {countries.map((c) => (
-              <option key={c} value={c}>{c}</option>
+              <option key={c} value={c}>
+                {c}
+              </option>
             ))}
           </select>
           {errors.country && (
-            <p className="text-red-500 text-xs mt-1">{errors.country.message}</p>
+            <p className="text-red-500 text-xs mt-1">
+              {errors.country.message}
+            </p>
           )}
         </div>
 
@@ -99,7 +100,9 @@ const AddMember = () => {
           >
             <option value="">Select State</option>
             {states.map((s) => (
-              <option key={s} value={s}>{s}</option>
+              <option key={s} value={s}>
+                {s}
+              </option>
             ))}
           </select>
           {errors.state && (
@@ -116,7 +119,9 @@ const AddMember = () => {
           >
             <option value="">Select City</option>
             {cities.map((c) => (
-              <option key={c} value={c}>{c}</option>
+              <option key={c} value={c}>
+                {c}
+              </option>
             ))}
           </select>
           {errors.city && (
@@ -133,11 +138,15 @@ const AddMember = () => {
           >
             <option value="">Select Business Domain</option>
             {businessDomains.map((b) => (
-              <option key={b} value={b}>{b}</option>
+              <option key={b} value={b}>
+                {b}
+              </option>
             ))}
           </select>
           {errors.businessDomain && (
-            <p className="text-red-500 text-xs mt-1">{errors.businessDomain.message}</p>
+            <p className="text-red-500 text-xs mt-1">
+              {errors.businessDomain.message}
+            </p>
           )}
         </div>
 

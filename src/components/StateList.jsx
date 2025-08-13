@@ -69,7 +69,7 @@ const StateList = () => {
     return (
        <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
-                <h1 className="text-xl font-semibold">State List</h1>
+                <h1 className="text-xl text-[#061237] font-semibold">State List</h1>
                   <div className="flex justify-end gap-3">
                 <button
                     className="mt-5 bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 flex items-center gap-2"

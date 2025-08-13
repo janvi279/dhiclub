@@ -1,0 +1,358 @@
+
+import { useState, useEffect } from "react";
+import {
+  FaPlus,
+  FaSearch,
+  FaSortAmountDownAlt,
+
+} from "react-icons/fa";
+import { FiFilter } from "react-icons/fi";
+import DataTable from "react-data-table-component";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
+
+const State = () => {
+  const [stateList, setStateList] = useState([]);
+  const [newState, setNewState] = useState({
+    state: "",
+    stateCode: "",
+    status: "Active",
+    country: "",
+    createdAt: new Date().toISOString(),
+  });
+  const countries = ["INDIA", "USA", "UK"];
+  const [editingState, setEditingState] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortOrder, setSortOrder] = useState("newest");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (showEditModal) {
+      setEditingState((prev) => ({ ...prev, [name]: value }));
+    } else {
+      setNewState((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+
+  const addState = () => {
+    if (newState.state && newState.stateCode) {
+      setStateList([
+        ...stateList,
+        { ...newState, createdAt: new Date().toISOString() },
+      ]);
+      setNewState({ state: "", stateCode: "", status: "Active", country: "" });
+      setShowModal(false);
+    }
+  };
+
+  const handleEdit = (row, index) => {
+    setEditingState({ ...row, index });
+    setShowEditModal(true);
+  };
+
+  const saveState = () => {
+    const updated = [...stateList];
+    updated[editingState.index] = { ...editingState };
+    setStateList(updated);
+    setShowEditModal(false);
+    setEditingState(null);
+  };
+
+  const deleteState = (index) => {
+    setStateList(stateList.filter((_, i) => i !== index));
+  };
+
+  useEffect(() => {
+    const stored = localStorage.getItem("states");
+    if (stored) {
+      try {
+        setStateList(JSON.parse(stored));
+      } catch (err) {
+        console.error("Error parsing states", err);
+        setStateList([]);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("states", JSON.stringify(stateList));
+  }, [stateList]);
+
+  const filteredList = stateList
+    .filter(
+      (item) =>
+        item.state.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        (statusFilter === "all" || item.status === statusFilter)
+    )
+    .sort((a, b) => {
+      if (sortOrder === "newest") {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      } else {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      }
+    });
+
+  const customStyles = {
+    headCells: {
+      style: {
+        fontSize: "12px",
+        fontWeight: 600,
+        color: "#061237",
+        backgroundColor: "#F5F8FD",
+      },
+    },
+    cells: {
+      style: {
+        fontSize: "12px",
+        color: "#061237",
+        fontWeight: 500,
+      },
+    },
+    pagination: {
+      style: {
+        borderTop: "none", // bottom line remove
+        boxShadow: "none", // koi shadow hoy to remove
+      },
+    },
+  };
+
+  const columns = [
+    {
+      name: "No.",
+      selector: (_, index) => index + 1,
+
+    },
+    {
+      name: "State Name",
+      selector: (row) => row.state,
+      sortable: true,
+    },
+    {
+      name: "State Code",
+      selector: (row) => row.stateCode,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      cell: (row) => (
+        <span
+          className={`px-[20px] py-[6px] text-xs rounded-[40px] font-semibold ${row.status === "Active"
+            ? "bg-green-100 text-green-800"
+            : "bg-red-100 text-red-800"
+            }`}
+        >
+          {row.status}
+        </span>
+      ),
+    },
+    {
+      name: "Actions",
+      cell: (row, index) => (
+        <div className="flex gap-5  ">
+          <button
+            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap" key={index}
+            onClick={() => handleEdit(row, index)}
+          >
+            <FaRegEdit />
+          </button>
+          <button
+            className="text-[#6246EA]  text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
+            onClick={() => deleteState(index)}
+          >
+            <MdDeleteOutline />
+          </button>
+
+          <button
+            className="text-[#429667] px-2 py-1 border-[#429667] border  font-semibold rounded-[40px] whitespace-nowrap"
+            onClick={() => deleteState(index)}
+          >
+            Active
+          </button>
+          <button
+            className="text-[#A00C19] px-2 py-1 border border-[#A00C19] font-semibold rounded-[40px] whitespace-nowrap"
+            onClick={() => deleteState(index)}
+          >
+            Deactive
+          </button>
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+      <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
+        <h1 className="text-xl font-semibold text-[#061237]">State List</h1>
+
+        <div className="relative w-64">
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search State..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none"
+          />
+        </div>
+
+        <div className="relative flex items-center">
+          <FaSortAmountDownAlt className="text-[#6246EA]" />
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="px-1 font-semibold	text-[#061237] py-2 text-base focus:outline-none"
+          >
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+          </select>
+        </div>
+
+        <div className="relative flex items-center">
+          <FiFilter className="text-[#6246EA] text-xl" />
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="px-1 font-semibold	text-[#061237] py-2 text-base focus:outline-none"
+          >
+            <option value="all">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Deactive">Deactive</option>
+          </select>
+        </div>
+
+        <button
+          className="bg-[#6246EA] text-white px-4 py-2 rounded-[40px] cursor-pointer flex items-center gap-2"
+          onClick={() => setShowModal(true)}
+        >
+          <FaPlus /> Add
+        </button>
+      </div>
+
+      <DataTable
+        columns={columns}
+        data={filteredList}
+        pagination
+        highlightOnHover
+        striped
+        responsive
+        customStyles={customStyles}
+      />
+
+      {/* Add State Modal */}
+      {/* Add State Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-5 rounded-[20px] shadow-lg w-full max-w-md relative">
+            <h2 className="text-xl font-semibold mb-3 text-center text-[#061237]">
+              Add State
+            </h2>
+            <button
+              className="absolute top-3 right-3 text-xl"
+              onClick={() => setShowModal(false)}
+            >
+              ×
+            </button>
+
+            <select
+              name="country"
+              value={newState.country} // ✅ Correct state reference
+              onChange={handleChange}
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+            >
+              <option value="">Select Country</option>
+              {countries.map((cur) => (
+                <option key={cur} value={cur}>
+                  {cur}
+                </option>
+              ))}
+            </select>
+
+            <input
+              name="state"
+              placeholder="State Name"
+              value={newState.state}
+              onChange={handleChange}
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+            />
+            <input
+              name="stateCode"
+              placeholder="State Code"
+              value={newState.stateCode}
+              onChange={handleChange}
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+            />
+            <button
+              className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]"
+              onClick={addState}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      )}
+
+
+      {/* Edit State Modal */}
+      {showEditModal && editingState && (
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md relative">
+            <h2 className="text-xl font-semibold mb-3 text-center">
+              Edit State
+            </h2>
+            <button
+              className="absolute top-3 right-3 text-xl"
+              onClick={() => setShowEditModal(false)}
+            >
+              ×
+            </button>
+
+            <select
+              name="country"
+              value={editingState.country}
+              onChange={handleChange}
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+            >
+              <option value="">Select Country</option>
+              {countries.map((cur) => (
+                <option key={cur} value={cur}>
+                  {cur}
+                </option>
+              ))}
+            </select>
+
+            <input
+              name="state"
+              placeholder="State Name"
+              value={editingState.state}
+              onChange={handleChange}
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+            />
+
+            <input
+              name="stateCode"
+              placeholder="State Code"
+              value={editingState.stateCode}
+              onChange={handleChange}
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+            />
+
+            <button
+              className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]"
+              onClick={saveState}
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+};
+
+export default State;
