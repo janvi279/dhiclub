@@ -1,4 +1,3 @@
-import AddMember from "../components/AddMember";
 import MobileVerify from "../components/mobileVerify";
 import BusinessDetail from "../components/BusinessDetail";
 import References from "../components/Refrences";
@@ -19,11 +18,13 @@ import BulkUploadBusinessCategory from "../components/controllers/BulkUploadBusi
 import Teams from "../components/dhiclub/Teams";
 import Dhiclub from "../components/dhiclub"
 import Members from "../components/dhiclub/Members";
+import AddMember from "../components/dhiclub/Members/AddMember";
+import PersonalDetail from "../components/dhiclub/Members/PersonalDetail";
 import SignUp from "../components/SignUp"
 
 const AllRoute = [
   { path: "/", element: <Login />, permission: { read: true } },
-  { path: "/AddMember", element: <AddMember />, permission: { read: true } },
+  
   {
     path: "/verification",
     element: <MobileVerify />,
@@ -103,6 +104,16 @@ const AllRoute = [
   {
     path: "/Dhiclub/members",
     element: <Members />,
+    permission: { read: true },
+  },
+   {
+    path: "/Dhiclub/members/AddMember",
+    element: <AddMember />,
+    permission: { read: true },
+  },
+   {
+    path: "/Dhiclub/members/AddMember/personalDetail",
+    element: <PersonalDetail />,
     permission: { read: true },
   },
   {

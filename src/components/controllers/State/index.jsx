@@ -28,14 +28,13 @@ const State = () => {
   const [sortOrder, setSortOrder] = useState("newest");
 
   const handleChange = (e) => {
-  const { name, value } = e.target;
-  if (showEditModal) {
-    setEditingState((prev) => ({ ...prev, [name]: value }));
-  } else {
-    setNewState((prev) => ({ ...prev, [name]: value }));
-  }
-};
-
+    const { name, value } = e.target;
+    if (showEditModal) {
+      setEditingState((prev) => ({ ...prev, [name]: value }));
+    } else {
+      setNewState((prev) => ({ ...prev, [name]: value }));
+    }
+  };
 
   const addState = () => {
     if (newState.state && newState.stateCode) {
@@ -107,7 +106,7 @@ const State = () => {
       style: {
         fontSize: "12px",
         color: "#061237",
-        fontWeight:500,
+        fontWeight: 500,
       },
     },
     pagination: {
@@ -122,7 +121,6 @@ const State = () => {
     {
       name: "No.",
       selector: (_, index) => index + 1,
-     
     },
     {
       name: "State Name",
@@ -153,7 +151,8 @@ const State = () => {
       cell: (row, index) => (
         <div className="flex gap-5  ">
           <button
-            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap" key={index}
+            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
+            key={index}
             onClick={() => handleEdit(row, index)}
           >
             <FaRegEdit />
@@ -255,18 +254,16 @@ const State = () => {
               ×
             </button>
             <select
-  name="country"
-  value={editingState.country}
-  onChange={handleChange}
->
-
+              name="country"
+              value={editingState.country}
+              onChange={handleChange}
+            >
               <option value="">Select Country</option>
               {countries.map((cur) => (
-  <option key={cur} value={cur}>
-    {cur}
-  </option>
-))}
-
+                <option key={cur} value={cur}>
+                  {cur}
+                </option>
+              ))}
             </select>
             <input
               name="state"
@@ -293,59 +290,58 @@ const State = () => {
       )}
 
       {/* Edit State Modal */}
-     {showEditModal && editingState && (
-  <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md relative">
-      <h2 className="text-xl font-semibold mb-3 text-center">
-        Edit State
-      </h2>
-      <button
-        className="absolute top-3 right-3 text-xl"
-        onClick={() => setShowEditModal(false)}
-      >
-        ×
-      </button>
+      {showEditModal && editingState && (
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md relative">
+            <h2 className="text-xl font-semibold mb-3 text-center">
+              Edit State
+            </h2>
+            <button
+              className="absolute top-3 right-3 text-xl"
+              onClick={() => setShowEditModal(false)}
+            >
+              ×
+            </button>
 
-      <select
-        name="country"
-        value={editingState.country}
-        onChange={handleChange}
-        className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
-      >
-        <option value="">Select Country</option>
-        {countries.map((cur) => (
-          <option key={cur} value={cur}>
-            {cur}
-          </option>
-        ))}
-      </select>
+            <select
+              name="country"
+              value={editingState.country}
+              onChange={handleChange}
+              className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+            >
+              <option value="">Select Country</option>
+              {countries.map((cur) => (
+                <option key={cur} value={cur}>
+                  {cur}
+                </option>
+              ))}
+            </select>
 
-      <input
-        name="state"
-        placeholder="State Name"
-        value={editingState.state}
-        onChange={handleChange}
-        className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
-      />
+            <input
+              name="state"
+              placeholder="State Name"
+              value={editingState.state}
+              onChange={handleChange}
+              className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+            />
 
-      <input
-        name="stateCode"
-        placeholder="State Code"
-        value={editingState.stateCode}
-        onChange={handleChange}
-        className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
-      />
+            <input
+              name="stateCode"
+              placeholder="State Code"
+              value={editingState.stateCode}
+              onChange={handleChange}
+              className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+            />
 
-      <button
-        className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]"
-        onClick={saveState}
-      >
-        Save Changes
-      </button>
-    </div>
-  </div>
-)}
-
+            <button
+              className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]"
+              onClick={saveState}
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
