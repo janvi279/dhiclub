@@ -4,9 +4,9 @@ import {
   FaPlus,
   FaSearch,
   FaSortAmountDownAlt,
-  FaFilter,
   FaRegEdit,
 } from "react-icons/fa";
+import { FiFilter } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 
 const countries = ["India", "USA", "UK"];
@@ -231,7 +231,7 @@ const Teams = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <FaFilter className="text-[#6246EA]" />
+          <FiFilter className="text-[#6246EA] text-xl" />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
@@ -351,7 +351,7 @@ const Teams = () => {
             />
 
             <button
-              className="w-50 block mx-auto bg-[#6246EA] text-white py-2 rounded-[40px]"
+              className="w-50 block mx-auto bg-[#6246EA] text-white py-2 rounded-[40px] cursor-pointer"
               onClick={isEditing ? handleUpdate : handleAdd}
             >
               {isEditing ? "Update" : "Submit"}

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
-import { FaPlus, FaSearch, FaSortAmountDownAlt } from "react-icons/fa";
+import { FaPlus, FaSearch, FaSortAmountDownAlt, FaFilter } from "react-icons/fa";
+import { FiFilter } from "react-icons/fi";
 import DataTable from "react-data-table-component";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 
 const countries = ["India", "USA", "Canada"];
 const states = {
@@ -31,6 +34,7 @@ const BulkUpload = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("newest");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -148,27 +152,61 @@ const BulkUpload = () => {
         <div className="flex gap-2">
           <button
             onClick={() => editCity(index)}
-            className="bg-blue-500 text-white px-2 py-1 rounded"
+            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
           >
-            Edit
+            <FaRegEdit />
           </button>
           <button
             onClick={() => deleteCity(index)}
-            className="bg-red-500 text-white px-2 py-1 rounded"
+             className="text-[#6246EA]  text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
           >
-            Delete
+        <MdDeleteOutline />
+          </button>
+            <button
+            className="text-[#429667] px-2 py-1 border-[#429667] border  font-semibold rounded-[40px] whitespace-nowrap"
+            onClick={() => deleteState(index)}
+          >
+            Active
+          </button>
+          <button
+            className="text-[#A00C19] px-2 py-1 border border-[#A00C19] font-semibold rounded-[40px] whitespace-nowrap"
+            onClick={() => deleteState(index)}
+          >
+            Deactive
           </button>
         </div>
       ),
     },
   ];
 
+  const customStyles = {
+    headCells: {
+      style: {
+        fontSize: "12px",
+        fontWeight: 600,
+        color: "#061237",
+        backgroundColor: "#F5F8FD",
+      },
+    },
+    cells: {
+      style: {
+        fontSize: "12px",
+        color: "#061237",
+        fontWeight: 500,
+      },
+    },
+    pagination: {
+      style: {
+        borderTop: "none", // bottom line remove
+        boxShadow: "none", // koi shadow hoy to remove
+      },
+    },
+  };
   return (
     <div className="max-w-7xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-      <div className="flex gap-4 items-center justify-between mb-6">
-        <h1 className="text-xl font-semibold">BulkUpload Country</h1>
-        <div className="flex gap-4 items-center">
-          <div className="relative w-64">
+       <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
+        <h1 className="text-xl font-semibold text-[#061237]">BulkUpload Country</h1>
+         <div className="relative w-64">
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
@@ -178,12 +216,26 @@ const BulkUpload = () => {
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none"
             />
           </div>
+        <div className="flex gap-4 items-center">
+         
+          <div className="relative flex items-center">
+            <FiFilter className="text-[#6246EA] text-xl" />
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="px-1 font-semibold	text-[#061237] py-2 text-base focus:outline-none"
+            >
+              <option value="all">All Status</option>
+              <option value="Active">Active</option>
+              <option value="Deactive">Deactive</option>
+            </select>
+          </div>
           <div className="flex items-center gap-2">
-            <FaSortAmountDownAlt className="text-gray-600" />
+            <FaSortAmountDownAlt className="text-[#6246EA]" />
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+              className="px-1 font-semibold	text-[#061237] py-2 text-base focus:outline-none"
             >
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
@@ -194,7 +246,8 @@ const BulkUpload = () => {
               resetForm();
               setShowModal(true);
             }}
-            className="bg-green-500 text-white px-4 py-2 rounded flex items-center gap-2"
+            className="bg-[#6246EA] text-white px-4 py-2 rounded-[40px] cursor-pointer flex items-center gap-2"
+
           >
             <FaPlus /> Add
           </button>
@@ -207,12 +260,14 @@ const BulkUpload = () => {
         pagination
         highlightOnHover
         striped
+        responsive
+        customStyles={customStyles}
       />
 
       {showModal && (
         <div className="fixed inset-0  bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-xl relative">
-            <h2 className="text-xl font-semibold mb-4 text-center">
+          <div className="bg-white rounded-[20px] p-6 w-full max-w-xl relative">
+            <h2 className="text-xl font-semibold mb-4 text-center text-[#061237]">
               {editingIndex !== null ? "Edit" : "Add"}
             </h2>
             <button
@@ -227,7 +282,7 @@ const BulkUpload = () => {
                 name="country"
                 value={formData.country}
                 onChange={handleChange}
-                className="border px-3 py-2 rounded"
+                className="border border-gray-300 px-3 py-2 rounded-[10px] focus:outline-none"
               >
                 <option value="">Select Country</option>
                 {countries.map((c) => (
@@ -243,7 +298,7 @@ const BulkUpload = () => {
                 placeholder="Country Code"
                 value={formData.countryCode}
                 onChange={handleChange}
-                className="border px-3 py-2 rounded"
+                className="border border-gray-300 px-3 py-2 rounded-[10px] focus:outline-none"
               />
 
               <input
@@ -252,14 +307,14 @@ const BulkUpload = () => {
                 placeholder="Country Currency"
                 value={formData.countryCurrency}
                 onChange={handleChange}
-                className="border px-3 py-2 rounded"
+                className="border border-gray-300 px-3 py-2 rounded-[10px] focus:outline-none"
               />
 
               <select
                 name="state"
                 value={formData.state}
                 onChange={handleChange}
-                className="border px-3 py-2 rounded"
+                className="border border-gray-300 px-3 py-2 rounded-[10px] focus:outline-none"
               >
                 <option value="">Select State</option>
                 {(states[formData.country] || []).map((s) => (
@@ -275,7 +330,7 @@ const BulkUpload = () => {
                 placeholder="State Code"
                 value={formData.stateCode}
                 onChange={handleChange}
-                className="border px-3 py-2 rounded"
+                className="border border-gray-300 px-3 py-2 rounded-[10px] focus:outline-none"
               />
 
               <input
@@ -284,7 +339,7 @@ const BulkUpload = () => {
                 placeholder="City Name"
                 value={formData.city}
                 onChange={handleChange}
-                className="border px-3 py-2 rounded"
+                className="border border-gray-300 px-3 py-2 rounded-[10px] focus:outline-none"
               />
               <input
                 type="text"
@@ -292,7 +347,7 @@ const BulkUpload = () => {
                 placeholder="City Code"
                 value={formData.cityCode}
                 onChange={handleChange}
-                className="border px-3 py-2 rounded"
+                className="border border-gray-300 px-3 py-2 rounded-[10px] focus:outline-none"
               />
               <input
                 type="text"
@@ -300,13 +355,13 @@ const BulkUpload = () => {
                 placeholder="Pin Code"
                 value={formData.pinCode}
                 onChange={handleChange}
-                className="border px-3 py-2 rounded"
+                className="border border-gray-300 px-3 py-2 rounded-[10px] focus:outline-none"
               />
             </div>
 
             <button
               onClick={addOrEditCity}
-              className="mt-4 w-full bg-indigo-600 text-white py-2 rounded"
+              className="mt-4 w-50 block mx-auto bg-indigo-600 text-white py-2 rounded-[40px]"
             >
               {editingIndex !== null ? "Save Changes" : "Submit"}
             </button>

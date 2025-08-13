@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { LuCirclePlus, LuCircleMinus } from "react-icons/lu"; // ⬅ plus & minus icons
 
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const [openItems, setOpenItems] = useState({});
@@ -11,6 +12,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     { name: "Controller", children: ["country", "state", "city", "Business Type", "Business Category", "Business Domain", "BulkUpload Country", "BulkUpload BusinessCategory"] },
     { name: "Dhiclub", children: ["Teams", "Members", "Leaders", "Registration"] },
     { name: "CRM", children: ["Clients", "Leads", "Reports"] },
+    { name: "Account" },
     { name: "Inventory", children: ["Products", "Stock", "Suppliers"] },
     { name: "Billing", children: ["Invoices", "Payments", "History"] },
   ];
@@ -25,7 +27,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       }
     };
 
-    handleResize(); // Run once on mount
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [setIsSidebarOpen]);
@@ -35,7 +37,6 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     setOpenItems((prev) => ({
       ...prev,
       [itemName]: !prev[itemName],
-
     }));
     navigate(`/${itemName}`);
   };
@@ -43,21 +44,20 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   // Handle sidebar navigation
   const handleNavigation = (itemName, subItem) => {
     const fullItemName = `${itemName} - ${subItem}`;
-    setSelectedItem(fullItemName); // Update selected item
+    setSelectedItem(fullItemName);
 
     if (window.innerWidth <= 768) {
-      setIsSidebarOpen(false); // Close sidebar on mobile after selection
-      setOpenItems({}); // Reset open items
+      setIsSidebarOpen(false);
+      setOpenItems({});
     }
 
-    // Navigate based on subItem
-    const route = subItem.toLowerCase().replace(/\s+/g, '-'); // Convert to URL-friendly format
-    navigate(`/${itemName}/${route}`); // Navigate to the new route
+    const route = subItem.toLowerCase().replace(/\s+/g, "-");
+    navigate(`/${itemName}/${route}`);
   };
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
-    setOpenItems({}); // Reset opened items when sidebar closes
+    setOpenItems({});
   };
 
   return (
@@ -73,7 +73,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         <button
           onClick={toggleSidebar}
           type="button"
-          className="p-2 mt-2 ms-50 text-sm text-gray-500 flex"
+          className="p-2 mt-2 ms-50 text-sm text-[#061237] flex"
         >
           {isSidebarOpen ? (
             <svg
@@ -102,28 +102,27 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         </button>
 
         <div className="h-full overflow-y-auto">
-          <ul className={`space-y-2 py-5 ${isSidebarOpen ? "px-5" : "px-2"} text-gray-600`}>
+          <ul className={`space-y-2 py-5 ${isSidebarOpen ? "px-5" : "px-2"} text-[#061237]`}>
             {navItems.map((item, index) => (
               <li key={index}>
                 <div
-                  className={`flex hover:text-[#061237] font-semibold items-center justify-between hover:bg-[#E4E7FF] cursor-pointer rounded-[10px] p-2  "text-[#061237]"`}
+                  className={`flex hover:text-[#6246EA] font-semibold items-center justify-between hover:bg-[#E4E7FF] cursor-pointer rounded-[10px] p-2`}
                   onClick={() => toggleItem(item.name)}
                 >
                   <span>{item.name}</span>
-                  <img
-                    src={openItems[item.name] ? "/icon-minus.png" : "/icon-plus.png"}
-                    alt="toggle"
-                    className="w-4 h-4"
-                    style={{ color: "red" }}
-                  />
+                  {openItems[item.name] ? (
+                    <LuCircleMinus className="w-4 h-4  " />
+                  ) : (
+                    <LuCirclePlus className="w-4 h-4 " />
+                  )}
                 </div>
-                {openItems[item.name] && (
-                  <ul className="ml-5 mt-1 pl-2 space-y-1 text-gray-600 font-semibold">
+                {openItems[item.name] && item.children && (
+                  <ul className="ml-5 mt-1 pl-2 space-y-1 text-[#061237] font-semibold">
                     {item.children.map((subItem, subIndex) => (
                       <li
                         key={subIndex}
                         onClick={() => handleNavigation(item.name, subItem)}
-                        className="text-gray-500 hover:bg-[#E4E7FF] hover:text-[#061237] rounded-[10px] px-2 py-1 cursor-pointer"
+                        className="text-[#061237] hover:bg-[#E4E7FF] hover:text-[#6246EA] rounded-[10px] px-2 py-1 cursor-pointer"
                       >
                         {subItem}
                       </li>

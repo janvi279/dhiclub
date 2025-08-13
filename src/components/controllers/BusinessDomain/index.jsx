@@ -1,6 +1,10 @@
+
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { FaPlus, FaEdit, FaTrash, FaSortAmountDownAlt, FaFilter, FaSearch } from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
+import { MdOutlineDelete } from "react-icons/md";
+import { FiFilter } from "react-icons/fi";
 
 const BusinessDomain = () => {
   const [domains, setDomains] = useState([]);
@@ -74,15 +78,33 @@ const BusinessDomain = () => {
         : new Date(a.createdAt) - new Date(b.createdAt)
     );
   const customStyles = {
-    headCells: { style: { fontSize: "1rem", fontWeight: 600 } },
-    cells: { style: { fontSize: "1rem" } },
-    pagination: { style: { fontSize: "1rem" } },
+    headCells: {
+      style: {
+        fontSize: "12px",
+        fontWeight: 600,
+        color: "#061237",
+        backgroundColor: "#F5F8FD",
+      },
+    },
+    cells: {
+      style: {
+        fontSize: "12px",
+        color: "#061237",
+        fontWeight: 500,
+      },
+    },
+    pagination: {
+      style: {
+        borderTop: "none", // bottom line remove
+        boxShadow: "none", // koi shadow hoy to remove
+      },
+    },
   };
   const columns = [
     {
       name: "No.",
       selector: (_, index) => index + 1,
-      width: "60px"
+
     },
     {
       name: "Business Type",
@@ -107,25 +129,27 @@ const BusinessDomain = () => {
     {
       name: "Action",
       cell: (row, index) => (
-   <div className="flex gap-2">
-                   <button
-  onClick={() => {
-    setEditDomain({ ...row, index });
-    setShowEditModal(true);
-  }}
-  className="bg-blue-500 text-white px-2 py-1 rounded"
->
-  Edit
-</button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => {
+              setEditDomain({ ...row, index });
+              setShowEditModal(true);
+            }}
+            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
+          >
+            <FaRegEdit />
+          </button>
 
-<button
-  onClick={() => deleteDomain(index)}
-  className="bg-red-500 text-white px-2 py-1 rounded"
->
-  Delete  
-</button>
+          <button
+            onClick={() => deleteDomain(index)}
+            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
+          >
+            <MdOutlineDelete />
+          </button>
+          <button className="text-[#429667] px-2 py-1 border-[#429667] border  font-semibold rounded-[40px] whitespace-nowrap" onClick={() => deleteCountry(index)}>Active</button>
+          <button className="text-[#A00C19] px-2 py-1 border border-[#A00C19] font-semibold rounded-[40px] whitespace-nowrap" onClick={() => deleteCountry(index)}>Deactive</button>
 
-                </div>
+        </div>
       )
     }
   ];
@@ -146,24 +170,24 @@ const BusinessDomain = () => {
           />
         </div>
 
-        <div className="flex items-center gap-2">
-          <FaSortAmountDownAlt className="text-gray-600" />
+        <div className="flex items-center">
+          <FaSortAmountDownAlt className="text-[#6246EA]" />
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061232]  color-[#061237] focus:outline-none"
           >
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
           </select>
         </div>
 
-        <div className="flex items-center gap-2">
-          <FaFilter className="text-gray-600" />
+        <div className="flex items-center ">
+          <FiFilter className="text-[#6246EA] text-xl" />
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061232]  color-[#061237] focus:outline-none"
           >
             <option value="all">Business Type</option>
             {businessTypes.map((type) => (
@@ -172,12 +196,12 @@ const BusinessDomain = () => {
           </select>
         </div>
 
-        <div className="flex items-center gap-2">
-          <FaFilter className="text-gray-600" />
+        <div className="flex items-center">
+          <FiFilter className="text-[#6246EA] text-xl " />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061232]  color-[#061237] focus:outline-none"
           >
             <option value="all">All</option>
             <option value="Active">Active</option>
@@ -187,7 +211,7 @@ const BusinessDomain = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="bg-green-500 text-white px-4 py-2 rounded flex items-center gap-2 ml-auto"
+          className="bg-[#6246EA] text-white px-4 py-2 rounded-[40px] cursor-pointer flex items-center gap-2"
         >
           <FaPlus /> Add
         </button>
@@ -206,8 +230,8 @@ const BusinessDomain = () => {
       {/* Add Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-opacity-30 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg w-full max-w-md relative">
-            <h2 className="text-xl font-bold mb-4 text-center">Add Business Domain</h2>
+          <div className="bg-white p-6 rounded-[20px]  w-full max-w-md relative">
+            <h2 className="text-xl font-semibold mb-4 text-center text-[#061237]">Add Business Domain</h2>
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-3 right-4 text-xl font-bold"
@@ -219,7 +243,7 @@ const BusinessDomain = () => {
               name="type"
               value={newDomain.type}
               onChange={handleInputChange}
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
             >
               <option value="">Select Business Type</option>
               {businessTypes.map((type) => (
@@ -233,12 +257,12 @@ const BusinessDomain = () => {
               value={newDomain.name}
               onChange={handleInputChange}
               placeholder="Enter Business Domain"
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
             />
 
             <button
               onClick={addDomain}
-              className="w-full bg-indigo-600 text-white py-2 rounded"
+              className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]"
             >
               Submit
             </button>
@@ -249,8 +273,8 @@ const BusinessDomain = () => {
       {/* Edit Modal */}
       {showEditModal && editDomain && (
         <div className="fixed inset-0 bg-opacity-30 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg w-full max-w-md relative">
-            <h2 className="text-xl font-bold mb-4 text-center">Edit Business Domain</h2>
+          <div className="bg-white p-6 rounded-[20px] w-full max-w-md relative">
+            <h2 className="text-xl font-semibold mb-4 text-center text-[#061237]">Edit Business Domain</h2>
             <button
               onClick={() => setShowEditModal(false)}
               className="absolute top-3 right-4 text-xl font-bold"
@@ -262,7 +286,7 @@ const BusinessDomain = () => {
               name="type"
               value={editDomain.type}
               onChange={handleInputChange}
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
             >
               <option value="">Select Business Type</option>
               {businessTypes.map((type) => (
@@ -276,12 +300,12 @@ const BusinessDomain = () => {
               value={editDomain.name}
               onChange={handleInputChange}
               placeholder="Enter Business Domain"
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
             />
 
             <button
               onClick={saveDomain}
-              className="w-full bg-indigo-600 text-white py-2 rounded"
+              className="w-50 block mx-auto bg-indigo-600 text-white py-2 rounded-[40px]"
             >
               Save Changes
             </button>

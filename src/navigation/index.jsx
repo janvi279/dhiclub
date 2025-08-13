@@ -21,6 +21,7 @@ import Members from "../components/dhiclub/Members";
 import AddMember from "../components/dhiclub/Members/AddMember";
 import PersonalDetail from "../components/dhiclub/Members/PersonalDetail";
 import SignUp from "../components/SignUp"
+import Account from "../components/Account";
 
 const AllRoute = [
   { path: "/", element: <Login />, permission: { read: true } },
@@ -119,6 +120,11 @@ const AllRoute = [
   {
     path: "/Dhiclub/registration",
     element: <Teams />,
+    permission: { read: true },
+  },
+  {
+    path: "/Account",
+    element: <Account />,
     permission: { read: true },
   },
 ];

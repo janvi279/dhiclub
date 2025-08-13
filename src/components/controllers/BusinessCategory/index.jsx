@@ -1,6 +1,10 @@
+
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { FaPlus, FaEdit, FaTrash, FaSearch, FaSortAmountDownAlt, FaFilter } from "react-icons/fa";
+import { FaPlus,FaSearch, FaSortAmountDownAlt } from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
+import { MdOutlineDelete } from "react-icons/md";
+import { FiFilter } from "react-icons/fi";
 
 const BusinessCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -73,23 +77,28 @@ const BusinessCategory = () => {
   const customStyles = {
     headCells: {
       style: {
-        fontSize: '1rem', // Tailwind's `text-md` ~ 16px
+        fontSize: "12px",
         fontWeight: 600,
+        color: "#061237",
+        backgroundColor: "#F5F8FD",
       },
     },
     cells: {
       style: {
-        fontSize: '1rem',
+        fontSize: "12px",
+        color: "#061237",
+        fontWeight: 500,
       },
     },
     pagination: {
       style: {
-        fontSize: '1rem',
+        borderTop: "none", // bottom line remove
+        boxShadow: "none", // koi shadow hoy to remove
       },
     },
   };
   const columns = [
-    { name: "No.", selector: (_, index) => index + 1, width: "60px" },
+    { name: "No.", selector: (_, index) => index + 1, },
     { name: "Business Type", selector: row => row.businessType, sortable: true },
     { name: "Business Domain", selector: row => row.businessDomain, sortable: true },
     { name: "Category", selector: row => row.businessCategory, sortable: true },
@@ -105,8 +114,10 @@ const BusinessCategory = () => {
       name: "Action",
       cell: (row, index) => (
          <div className="flex gap-2">
-          <button className="bg-blue-500 text-white px-2 py-1 rounded" onClick={() => handleEdit(row, index)}>Edit</button>
-          <button className="bg-red-500 text-white px-2 py-1 rounded" onClick={() => handleDelete(index)}>Delete</button>
+          <button className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap" onClick={() => handleEdit(row, index)}><FaRegEdit /></button>
+          <button className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap" onClick={() => handleDelete(index)}><MdOutlineDelete /></button>
+           <button className="text-[#429667] px-2 py-1 border-[#429667] border  font-semibold rounded-[40px] whitespace-nowrap" onClick={() => deleteCountry(index)}>Active</button>
+          <button  className="text-[#A00C19] px-2 py-1 border border-[#A00C19] font-semibold rounded-[40px] whitespace-nowrap" onClick={() => deleteCountry(index)}>Deactive</button>
         </div>
         
       )
@@ -116,7 +127,7 @@ const BusinessCategory = () => {
   return (
     <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
-        <h1 className="text-xl font-semibold">Business Category</h1>
+        <h1 className="text-xl text-[#061237] font-semibold">Business Category</h1>
 
         {/* Search */}
         <div className="relative w-64">
@@ -131,12 +142,12 @@ const BusinessCategory = () => {
         </div>
 
         {/* Sort */}
-        <div className="relative flex items-center gap-2">
-          <FaSortAmountDownAlt className="text-gray-600" />
+        <div className="relative flex items-center">
+          <FaSortAmountDownAlt className="text-[#6246EA]" />
           <select
             value={sortOrder}
             onChange={e => setSortOrder(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+           className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061232]  color-[#061237] focus:outline-none"
           >
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
@@ -144,12 +155,12 @@ const BusinessCategory = () => {
         </div>
 
         {/* Type Filter */}
-        <div className="relative flex items-center gap-2">
-          <FaFilter className="text-gray-600" />
+        <div className="relative flex items-center">
+          <FiFilter className="text-[#6246EA] text-xl " />
           <select
             value={typeFilter}
             onChange={e => setTypeFilter(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+        className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061232]  color-[#061237] focus:outline-none"
           >
             <option value="all">Business Type</option>
             {businessTypes.map(type => (
@@ -159,12 +170,12 @@ const BusinessCategory = () => {
         </div>
 
         {/* Domain Filter */}
-        <div className="relative flex items-center gap-2">
-          <FaFilter className="text-gray-600" />
+        <div className="relative flex items-center">
+          <FiFilter className="text-[#6246EA] text-xl" />
           <select
             value={domainFilter}
             onChange={e => setDomainFilter(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+             className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061232]  color-[#061237] focus:outline-none"
           >
             <option value="all">Business Domain</option>
             {businessDomains.map(domain => (
@@ -174,12 +185,12 @@ const BusinessCategory = () => {
         </div>
 
         {/* Status Filter */}
-        <div className="relative flex items-center gap-2">
-          <FaFilter className="text-gray-600" />
+        <div className="relative flex items-center">
+          <FiFilter className="text-[#6246EA] text-xl" />
           <select
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
+             className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061232]  color-[#061237] focus:outline-none"
           >
             <option value="all">All</option>
             <option value="Active">Active</option>
@@ -189,7 +200,7 @@ const BusinessCategory = () => {
 
         <div className="ml-auto">
           <button
-            className="bg-green-500 text-white px-4 py-2 rounded flex items-center gap-2"
+           className="bg-[#6246EA] text-white px-4 py-2 rounded-[40px] cursor-pointer flex items-center gap-2"
             onClick={() => setModalOpen(true)}
           >
             <FaPlus /> Add
@@ -211,7 +222,7 @@ const BusinessCategory = () => {
       {modalOpen && (
         <div className="fixed inset-0  bg-opacity-30 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-xl w-full max-w-md relative">
-            <h2 className="text-xl font-bold mb-4 text-center">{editMode ? "Edit Business Category" : "Add Business Category"}</h2>
+            <h2 className="text-xl text-[#061237] font-semibold mb-4 text-center">{editMode ? "Edit Business Category" : "Add Business Category"}</h2>
             <button
               className="absolute top-3 right-3 text-xl font-bold text-gray-600 hover:text-black"
               onClick={() => {
@@ -226,7 +237,7 @@ const BusinessCategory = () => {
             <select
               value={current.businessType}
               onChange={(e) => setCurrent({ ...current, businessType: e.target.value })}
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
             >
               <option value="">Select Business Type</option>
               {businessTypes.map(type => (
@@ -237,7 +248,7 @@ const BusinessCategory = () => {
             <select
               value={current.businessDomain}
               onChange={(e) => setCurrent({ ...current, businessDomain: e.target.value })}
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
             >
               <option value="">Select Business Domain</option>
               {businessDomains.map(domain => (
@@ -250,11 +261,11 @@ const BusinessCategory = () => {
               placeholder="Enter Business Category"
               value={current.businessCategory}
               onChange={(e) => setCurrent({ ...current, businessCategory: e.target.value })}
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
             />
 
             <div className="flex justify-center gap-4">
-              <button className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700" onClick={handleSubmit}>Submit</button>
+              <button className="w-50 block mx-auto bg-indigo-600 text-white py-2 rounded-[40px] hover:bg-indigo-700" onClick={handleSubmit}>Submit</button>
 
             </div>
           </div>

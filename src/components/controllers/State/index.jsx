@@ -1,10 +1,12 @@
+
 import { useState, useEffect } from "react";
 import {
   FaPlus,
   FaSearch,
   FaSortAmountDownAlt,
-  FaFilter,
+
 } from "react-icons/fa";
+import { FiFilter } from "react-icons/fi";
 import DataTable from "react-data-table-component";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
@@ -35,6 +37,7 @@ const State = () => {
       setNewState((prev) => ({ ...prev, [name]: value }));
     }
   };
+
 
   const addState = () => {
     if (newState.state && newState.stateCode) {
@@ -100,6 +103,7 @@ const State = () => {
         fontSize: "12px",
         fontWeight: 600,
         color: "#061237",
+        backgroundColor: "#F5F8FD",
       },
     },
     cells: {
@@ -121,6 +125,7 @@ const State = () => {
     {
       name: "No.",
       selector: (_, index) => index + 1,
+
     },
     {
       name: "State Name",
@@ -136,11 +141,10 @@ const State = () => {
       selector: (row) => row.status,
       cell: (row) => (
         <span
-          className={`px-[20px] py-[6px] text-xs rounded-[40px] font-semibold ${
-            row.status === "Active"
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
-          }`}
+          className={`px-[20px] py-[6px] text-xs rounded-[40px] font-semibold ${row.status === "Active"
+            ? "bg-green-100 text-green-800"
+            : "bg-red-100 text-red-800"
+            }`}
         >
           {row.status}
         </span>
@@ -151,8 +155,7 @@ const State = () => {
       cell: (row, index) => (
         <div className="flex gap-5  ">
           <button
-            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
-            key={index}
+            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap" key={index}
             onClick={() => handleEdit(row, index)}
           >
             <FaRegEdit />
@@ -197,24 +200,24 @@ const State = () => {
           />
         </div>
 
-        <div className="relative flex items-center gap-2">
+        <div className="relative flex items-center">
           <FaSortAmountDownAlt className="text-[#6246EA]" />
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="font-semibold	text-[#061237] py-2 text-base focus:outline-none"
+            className="px-1 font-semibold	text-[#061237] py-2 text-base focus:outline-none"
           >
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
           </select>
         </div>
 
-        <div className="relative flex items-center gap-2">
-          <FaFilter className="text-[#6246EA]" />
+        <div className="relative flex items-center">
+          <FiFilter className="text-[#6246EA] text-xl" />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="font-semibold	text-[#061237] py-2 text-base focus:outline-none"
+            className="px-1 font-semibold	text-[#061237] py-2 text-base focus:outline-none"
           >
             <option value="all">All Status</option>
             <option value="Active">Active</option>
@@ -241,6 +244,7 @@ const State = () => {
       />
 
       {/* Add State Modal */}
+      {/* Add State Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-5 rounded-[20px] shadow-lg w-full max-w-md relative">
@@ -253,10 +257,12 @@ const State = () => {
             >
               ×
             </button>
+
             <select
               name="country"
-              value={editingState.country}
+              value={newState.country} // ✅ Correct state reference
               onChange={handleChange}
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
             >
               <option value="">Select Country</option>
               {countries.map((cur) => (
@@ -265,6 +271,7 @@ const State = () => {
                 </option>
               ))}
             </select>
+
             <input
               name="state"
               placeholder="State Name"
@@ -289,6 +296,7 @@ const State = () => {
         </div>
       )}
 
+
       {/* Edit State Modal */}
       {showEditModal && editingState && (
         <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
@@ -307,7 +315,7 @@ const State = () => {
               name="country"
               value={editingState.country}
               onChange={handleChange}
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
             >
               <option value="">Select Country</option>
               {countries.map((cur) => (
@@ -322,7 +330,7 @@ const State = () => {
               placeholder="State Name"
               value={editingState.state}
               onChange={handleChange}
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
             />
 
             <input
@@ -330,7 +338,7 @@ const State = () => {
               placeholder="State Code"
               value={editingState.stateCode}
               onChange={handleChange}
-              className="text-gray-700 focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
             />
 
             <button
@@ -342,6 +350,7 @@ const State = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };

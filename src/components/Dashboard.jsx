@@ -6,6 +6,7 @@ import City from "./controllers/city";
 import Country from "./controllers/country";
 import Leads from "./Leads";
 import Registration from "./Registration";
+import Account from "./Account";
 
 const Dashboard = () => {
     const [selectedItem, setSelectedItem] = useState("welcome to dashboard");
@@ -30,6 +31,8 @@ const Dashboard = () => {
                 return <Registration />;
             case "Dhiclub - Leads":
                 return <Leads />;
+                  case "Dhiclub - Account":
+                return <Account/>;
             default:
                 return <p className="text-lg text-gray-600">{selectedItem}</p>;
         }
