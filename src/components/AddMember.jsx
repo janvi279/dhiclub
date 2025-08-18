@@ -65,7 +65,7 @@ const AddMember = () => {
         {/* Step Title */}
         <button
           type="button"
-          className="mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700"
+          className="mb-5 bg-primary-200 text-white px-8 py-2 rounded-full hover:bg-purple-700"
         >
           Step-2
         </button>
@@ -178,7 +178,7 @@ const AddMember = () => {
         {/* Submit */}
         <button
           type="submit"
-          className="bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700"
+          className="bg-primary-200 text-white px-8 py-2 rounded-full hover:bg-purple-700"
         >
           Next
         </button>

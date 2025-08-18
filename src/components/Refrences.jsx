@@ -56,7 +56,7 @@ const References = () => {
         >
           {/* Header */}
 
-          <h1 className="mb-5 w-fit bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700">
+          <h1 className="mb-5 w-fit bg-primary-200 text-white px-8 py-2 rounded-full hover:bg-purple-700">
             Step-5
           </h1>
           <h3 className="text-2xl font-semibold text-gray-800 mt-2">
@@ -131,7 +131,7 @@ const References = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="mt-4 bg-[#6246EA] text-white px-10 py-2 rounded-full hover:bg-purple-800"
+              className="mt-4 bg-primary-200 text-white px-10 py-2 rounded-full hover:bg-purple-800"
             >
               NEXT
             </button>

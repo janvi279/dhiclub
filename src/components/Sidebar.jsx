@@ -9,13 +9,45 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const navigate = useNavigate();
 
   const navItems = [
-    { name: "Controller", children: ["country", "state", "city","Pincode", "Business Type",  "Business Domain","Business Category", "BulkUpload Country", "BulkUpload BusinessCategory"] },
-    { name: "Dhiclub", children: ["Teams", "Registration","Members", "Visitor","Responsibility", ] },
+    {
+      name: "Controller",
+      children: [
+        "country",
+        "state",
+        "city",
+        "Pincode",
+        "Business Type",
+        "Business Domain",
+        "Business Category",
+        "BulkUpload Country",
+        "BulkUpload BusinessCategory",
+      ],
+    },
+    {
+      name: "Dhiclub",
+      children: [
+        "Teams",
+        "Registration",
+        "Members",
+        "Visitor",
+        "Responsibility",
+      ],
+    },
     { name: "CRM", children: ["Clients", "Leads", "Report"] },
-      { name: "Meeting", children: ["Attendance", "Face to Face", "Reference","Guest","Training","Testimonial","Credit Note"] },
-    { name: "Account" ,children:["Billing"]},
+    {
+      name: "Meeting",
+      children: [
+        "Attendance",
+        "Face to Face",
+        "Reference",
+        "Guest",
+        "Training",
+        "Testimonial",
+        "Credit Note",
+      ],
+    },
+    { name: "Account", children: ["Billing"] },
     { name: "Inventory", children: ["Products", "Stock", "Suppliers"] },
-
   ];
 
   // Adjust sidebar on resize
@@ -62,10 +94,10 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   };
 
   return (
-    <div className="flex h-screen w-20 max-sm:w-10 pt-[100px]">
+    <div className="flex h-screen w-20 max-sm:w-10 pt-30">
       {/* Sidebar */}
       <div
-        className={`fixed z-40 top-0 left-0 h-full w-[250px] bg-[#F9F8FF] rounded-[20px]
+        className={`fixed z-40 top-0 left-0 h-full  bg-primary-250 rounded-2xl
           transition-transform duration-300 ease-in-out
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-53"}
           relative my-10 mx-5`}
@@ -74,7 +106,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         <button
           onClick={toggleSidebar}
           type="button"
-          className="p-2 mt-2 ms-50 text-sm text-[#061237] flex"
+          className="p-2 mt-2 ms-50 text-sm text-primary-150 flex"
         >
           {isSidebarOpen ? (
             <svg
@@ -103,11 +135,15 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         </button>
 
         <div className="h-full overflow-y-auto">
-          <ul className={`space-y-2 py-5 ${isSidebarOpen ? "px-5" : "px-2"} text-[#061237]`}>
+          <ul
+            className={`space-y-2 py-5 ${
+              isSidebarOpen ? "px-5" : "px-2"
+            } text-primary-150`}
+          >
             {navItems.map((item, index) => (
               <li key={index}>
                 <div
-                  className={`flex hover:text-[#6246EA] font-semibold items-center justify-between hover:bg-[#E4E7FF] cursor-pointer rounded-[10px] p-2`}
+                  className={`flex hover:text-primary-200 font-semibold items-center justify-between hover:bg-primary-300 cursor-pointer rounded-xl p-2`}
                   onClick={() => toggleItem(item.name)}
                 >
                   <span>{item.name}</span>
@@ -118,12 +154,12 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                   )}
                 </div>
                 {openItems[item.name] && item.children && (
-                  <ul className="ml-5 mt-1 pl-2 space-y-1 text-[#061237] font-semibold">
+                  <ul className="ml-5 mt-1 pl-2 space-y-1 text-primary-150 font-semibold">
                     {item.children.map((subItem, subIndex) => (
                       <li
                         key={subIndex}
                         onClick={() => handleNavigation(item.name, subItem)}
-                        className="text-[#061237] hover:bg-[#E4E7FF] hover:text-[#6246EA] rounded-[10px] px-2 py-1 cursor-pointer"
+                        className="text-primary-150 hover:bg-primary-300 hover:text-primary-200 rounded-xl px-2 py-1 cursor-pointer"
                       >
                         {subItem}
                       </li>

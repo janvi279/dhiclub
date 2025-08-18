@@ -45,11 +45,11 @@ const Account = () => {
   const getStatusClass = (status) => {
     switch (status) {
       case "Paid":
-        return "bg-[#DBFCE7] text-[#429667]";
+        return "bg-[#DBFCE7] text-primary-400";
       case "Pending":
         return "bg-[#FDEFD9] text-[#F29000]";
       case "Failed":
-        return "bg-[#FFE3E2] text-[#A00C19]";
+        return "bg-[#FFE3E2] text-primary-500";
       default:
         return "bg-gray-100 text-gray-800";
     }
@@ -101,7 +101,7 @@ const Account = () => {
       selector: (row) => row.status,
       cell: (row) => (
         <span
-          className={`px-[16px] py-[6px] text-xs rounded-[40px] font-semibold ${getStatusClass(
+          className={`px-[16px] py-[6px] text-xs rounded-full font-semibold ${getStatusClass(
             row.status
           )}`}
         >
@@ -115,18 +115,18 @@ const Account = () => {
     {
       name: "Receipt",
       cell: () => (
-        <button className="p-1 text-base bg-[#E4E7FF] rounded-[12.63px]">
-          <MdOutlineFileDownload className="text-[#6246EA]" /> 
+        <button className="p-1 text-base bg-primary-300 rounded-[12.63px]">
+          <MdOutlineFileDownload className="text-primary-200" /> 
         </button>
       ),
     },
   ];
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+    <div className=" mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       {/* Header */}
       <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
-        <h1 className="text-xl font-semibold text-[#061237]">Account</h1>
+        <h1 className="text-xl font-semibold text-primary-150">Account</h1>
 
         {/* Search */}
         <div className="relative w-64">
@@ -143,11 +143,11 @@ const Account = () => {
         {/* Sort & Filter */}
         <div className="flex justify-end gap-3">
           <div className="flex items-center gap-2">
-            <FaSortAmountDownAlt className="text-[#6246EA]" />
+            <FaSortAmountDownAlt className="text-primary-200" />
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
-              className="font-semibold text-[#061237] py-2 text-base focus:outline-none"
+              className="font-semibold text-primary-150 py-2 text-base focus:outline-none"
             >
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
@@ -155,11 +155,11 @@ const Account = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <FiFilter className="text-[#6246EA] text-xl" />
+            <FiFilter className="text-primary-200 text-xl" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="font-semibold text-[#061237] py-2 text-base focus:outline-none"
+              className="font-semibold text-primary-150 py-2 text-base focus:outline-none"
             >
               <option value="all">All Status</option>
               <option value="Paid">Paid</option>

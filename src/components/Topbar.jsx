@@ -14,7 +14,7 @@ const Topbar = () => {
   };
   return (
     <>
-     <div className="fixed top-0 left-0 w-full z-50 bg-[#F9F8FF] flex justify-between items-center p-7 max-sm:p-5 max-sm:flex-wrap shadow-md">
+     <div className="fixed top-0 left-0 w-full z-50 bg-primary-250 flex justify-between items-center p-7 max-sm:p-5 max-sm:flex-wrap shadow-md">
 
 
         <div className="max-sm:w-full max-sm:mb-5 flex gap-2 items-center">
@@ -31,18 +31,18 @@ const Topbar = () => {
           <input
             type="text"
             placeholder="Search or type a command"
-            className="px-12 max-sm:px-7 py-2 w-75 max-sm:p-2 max-sm:w-50 max-sm:text-xs border-[1.5px] border-[#AAA9BC] rounded-lg focus:outline-none"
+            className="px-12 max-sm:px-7 py-2 w-75 max-sm:p-2 max-sm:w-50 max-sm:text-xs border-[1.5px] border-gray-300 rounded-lg focus:outline-none"
           />
         </div>
         <div className="flex relative items-center gap-5 justify-end max-sm:[justify-normal] max-sm:gap-2 ">
           <img
             src="/bell-svgrepo-com.svg"
-            className="bg-[#E4E7FF] p-4 h-[57px]  rounded-full max-sm:p-2 max-sm:h-[30px] max-sm:p-[0px]"
+            className="bg-primary-300 p-4 h-[57px]  rounded-full max-sm:p-2 max-sm:h-[30px] max-sm:p-[0px]"
 
           />
           <img
             src="/User.png"
-            className="bg-[#E4E7FF] p-4 max-sm:p-2 rounded-full max-sm:h-[30px] max-sm:p-[5px]"
+            className="bg-primary-300 p-4 max-sm:p-2 rounded-full max-sm:h-[30px] max-sm:p-[5px]"
             onClick={handleUserIconClick}
 
           />

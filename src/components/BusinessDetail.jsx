@@ -79,7 +79,7 @@ const BusinessDetail = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white rounded-lg shadow-md w-full max-w-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-4"
       >
-        <h1 className="text-xl text-center font-bold col-span-full w-50 mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700">
+        <h1 className="text-xl text-center font-bold col-span-full w-50 mb-5 bg-primary-200 text-white px-8 py-2 rounded-full hover:bg-purple-700">
           Step-4
         </h1>
         <h3 className="font-semibold col-span-full">Company Details</h3>
@@ -113,7 +113,7 @@ const BusinessDetail = () => {
 
         <button
           type="submit"
-          className="col-span-full w-fit mx-auto mt-4 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700"
+          className="col-span-full w-fit mx-auto mt-4 bg-primary-200 text-white px-8 py-2 rounded-full hover:bg-purple-700"
         >
           Next
         </button>

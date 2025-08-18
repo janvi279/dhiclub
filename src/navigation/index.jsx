@@ -1,7 +1,6 @@
 import MobileVerify from "../components/mobileVerify";
 import BusinessDetail from "../components/BusinessDetail";
 import References from "../components/Refrences";
-import Registration from "../components/Registration";
 import Login from "../pages/Auth/Login";
 import Dashboard from "../components/Dashboard";
 import Country from "../components/controllers/Country";
@@ -39,7 +38,8 @@ import Inventory from "../components/Inventry";
 import Product from "../components/Inventry/Product";
 import Stock from "../components/Inventry/Stock";
 import Suppliers from "../components/Inventry/Suppliers";
-
+import Registration from "../components/dhiclub/Registration";
+import AddRegistration from "../components/dhiclub/Registration/AddRegistration";
 
 const AllRoute = [
   { path: "/", element: <Login />, permission: { read: true } },
@@ -137,7 +137,12 @@ const AllRoute = [
   },
   {
     path: "/Dhiclub/registration",
-    element: <Teams />,
+    element: <Registration />,
+    permission: { read: true },
+  },
+    {
+    path: "/Dhiclub/registration/AddRegistration",
+    element: <AddRegistration />,
     permission: { read: true },
   },
   {

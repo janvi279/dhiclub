@@ -87,7 +87,7 @@ const Country = () => {
         <div className="text-center pt-4">
           <button
             type="submit"
-            className="bg-[#6246EA] text-white px-6 py-2 rounded hover:bg-purple-700"
+            className="bg-primary-200 text-white px-6 py-2 rounded hover:bg-purple-700"
           >
             Submit
           </button>

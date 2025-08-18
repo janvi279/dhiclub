@@ -5,8 +5,9 @@ import { MdOutlineDelete } from "react-icons/md";
 import { FiFilter } from "react-icons/fi";
 import { TbArrowsSort } from "react-icons/tb";
 import DataTable from "react-data-table-component";
+import { useNavigate } from "react-router-dom";
 
-const Country = () => {
+const Registration = () => {
   const [countryList, setCountryList] = useState([]);
   const [newCountry, setNewCountry] = useState({
     country: "",
@@ -23,7 +24,7 @@ const Country = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [currencyFilter, setCurrencyFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState("newest");
-
+const navigate=useNavigate();
   const currencyOptions = ["INR", "USD", "CAD", "EUR", "GBP", "AUD"];
 
   const handleChange = (e) => {
@@ -136,18 +137,35 @@ const Country = () => {
       sortable: false,
     },
     {
-      name: "Country Name",
-      selector: (row) => row.country,
+      name: "Member Id",
+      selector: (row) => row.memberId,
       sortable: false,
     },
     {
-      name: "Country Code",
-      selector: (row) => row.countryCode,
+      name: "Member Name",
+      selector: (row) => row.memberName,
     },
     {
-      name: "Currency",
-      selector: (row) => row.countryCurrency,
+      name: "JoiningDate",
+      selector: (row) => row.JoiningDate,
     },
+    {
+      name: "BusinessCategory",
+      selector: (row) => row.BusinessCategory,
+    },
+    {
+      name: "CompanyName",
+      selector: (row) => row.CompanyName,
+    },
+    {
+      name: "PersonalNumber",
+      selector: (row) => row.PersonalNumber,
+    },
+    {
+      name: "Email ID",
+      selector: (row) => row.EmailID,
+    },
+    
     {
       name: "Status",
       selector: (row) => row.status,
@@ -201,7 +219,7 @@ const Country = () => {
     <div className="mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
         <h1 className="font-poppins text-primary-150 font-semibold text-xl ">
-          Country List
+          New Registration
         </h1>
 
         <div className="relative w-64">
@@ -251,25 +269,11 @@ const Country = () => {
           </select>
         </div>
 
-        {/* Currency Filter Icon + Dropdown */}
-        <div className="relative flex items-center">
-          <FiFilter className="text-primary-200 text-xl" />
-          <select
-            value={currencyFilter}
-            onChange={(e) => setCurrencyFilter(e.target.value)}
-            className="px-1 py-2 font-poppins font-semibold text-md text-primary-150 focus:outline-none"
-          >
-            <option value="all">All Currency</option>
-            {currencyOptions.map((currency) => (
-              <option key={currency} value={currency}>
-                {currency}
-              </option>
-            ))}
-          </select>
-        </div>
+       
+      
         <button
           className="bg-primary-200 text-white px-4 py-2 rounded-full cursor-pointer flex items-center gap-2"
-          onClick={() => setShowModal(true)}
+          onClick={() => navigate("/Dhiclub/registration/AddRegistration")}
         >
           <FaPlus /> Add
         </button>
@@ -395,4 +399,4 @@ const Country = () => {
   );
 };
 
-export default Country;
+export default Registration;

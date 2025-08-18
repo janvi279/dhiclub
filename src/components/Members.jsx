@@ -51,7 +51,7 @@ useEffect(() => {
 }, [members]);
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+    <div className=" mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       {/* Header */}
       <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
         <h1 className="text-xl font-semibold">All Members</h1>
@@ -138,7 +138,7 @@ useEffect(() => {
 
             <button
               type="button"
-              className="bg-[#6246EA] text-white px-4 py-2 rounded w-full hover:bg-purple-700"
+              className="bg-primary-200 text-white px-4 py-2 rounded w-full hover:bg-purple-700"
               onClick={handleAddTeam}
             >
               Approve

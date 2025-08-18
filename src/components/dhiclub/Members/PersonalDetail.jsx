@@ -25,9 +25,9 @@ const PersonalDetail = () => {
   };
 
   return (
-    <div className="max-w-6xl mt-10 p-8 bg-white rounded-[20px] shadow-sm">
+    <div className=" mt-10 p-8 bg-white rounded-2xl shadow-sm">
       {/* Heading */}
-      <h1 className="text-xl font-semibold text-[#061237] mb-6">
+      <h1 className="text-xl font-semibold text-primary-150 mb-6">
         Add New Member
       </h1>
 
@@ -37,7 +37,7 @@ const PersonalDetail = () => {
           <div key={i} className="flex items-center gap-3">
             <span
               className={`font-semibold ${
-                step === i + 1 ? "text-[#6246EA]" : "text-[#AAA9BC]"
+                step === i + 1 ? "text-primary-200" : "text-[#AAA9BC]"
               }`}
             >
               {label}
@@ -116,14 +116,14 @@ const PersonalDetail = () => {
             <button
               type="button"
               onClick={handleNext}
-              className="bg-[#6246EA] text-white px-[30px] py-[10px] rounded-[40px] font-semibold"
+              className="bg-primary-200 text-white px-[30px] py-[10px] rounded-full font-semibold"
             >
               Next
             </button>
             <button
               type="button"
               onClick={() => navigate("/Dhiclub/members")}
-              className="border border-[#6246EA] text-[#6246EA] px-[30px] py-[10px] rounded-[40px] font-semibold"
+              className="border border-[#6246EA] text-primary-200 px-[30px] py-[10px] rounded-full font-semibold"
             >
               Cancel
             </button>
@@ -186,13 +186,13 @@ const PersonalDetail = () => {
           <div className="flex items-center gap-4 mt-8">
             <button
               onClick={handleBack}
-              className="border border-[#6246EA] text-[#6246EA] px-[30px] py-[10px] rounded-[40px] font-semibold"
+              className="border border-[#6246EA] text-primary-200 px-[30px] py-[10px] rounded-full font-semibold"
             >
               Back
             </button>
             <button
               onClick={handleNext}
-              className="bg-[#6246EA] text-white px-[30px] py-[10px] rounded-[40px] font-semibold"
+              className="bg-primary-200 text-white px-[30px] py-[10px] rounded-full font-semibold"
             >
               Next
             </button>
@@ -226,13 +226,13 @@ const PersonalDetail = () => {
           <div className="flex items-center gap-4 mt-8">
            <button
               onClick={handleSubmit}
-              className="bg-[#6246EA] text-white px-[30px] py-[10px] rounded-[40px] font-semibold"
+              className="bg-primary-200 text-white px-[30px] py-[10px] rounded-full font-semibold"
             >
            Register
             </button>
             <button
               onClick={()=>navigate("/Dhiclub/members")}
-              className="border border-[#6246EA] text-[#6246EA] px-[30px] py-[10px] rounded-[40px] font-semibold"
+              className="border border-[#6246EA] text-primary-200 px-[30px] py-[10px] rounded-full font-semibold"
             >
               Cancel
             </button>

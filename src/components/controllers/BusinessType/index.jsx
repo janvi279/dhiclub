@@ -68,26 +68,28 @@ const BusinessType = () => {
       }
     });
 
-  const customStyles = {
+ const customStyles = {
+    headRow: {
+      style: {
+        border: "none",
+        backgroundColor: "#F5F8FD",
+        borderRadius: "10px",
+      },
+    },
     headCells: {
       style: {
-        fontSize: "12px",
+        fontSize: "14px",
         fontWeight: 600,
         color: "#061237",
-        backgroundColor: "#F5F8FD",
+
+        border: "none",
       },
     },
     cells: {
       style: {
-        fontSize: "12px",
+        fontSize: "13px",
         color: "#061237",
         fontWeight: 500,
-      },
-    },
-    pagination: {
-      style: {
-        borderTop: "none", // bottom line remove
-        boxShadow: "none", // koi shadow hoy to remove
       },
     },
   };
@@ -106,7 +108,7 @@ const BusinessType = () => {
     {
       name: "Status",
       cell: (row) => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${row.status === "Active" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+        <span className={`px-2 py-1 rounded-full text-xs font-medium ${row.status === "Active" ? "bg-primary-350 text-green-700" : "bg-primary-450 text-red-700"}`}>
           {row.status}
         </span>
       ),
@@ -116,23 +118,23 @@ const BusinessType = () => {
       name: "Action",
       cell: (row, index) => (
         <div className="flex gap-2">
-          <button className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap" onClick={() => handleEdit(row, index)} >
+          <button className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap" onClick={() => handleEdit(row, index)} >
             <FaRegEdit />
           </button>
-          <button onClick={() => handleDelete(index)} className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap">
+          <button onClick={() => handleDelete(index)} className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap">
             <MdOutlineDelete />
           </button>
-          <button className="text-[#429667] px-2 py-1 border-[#429667] border  font-semibold rounded-[40px] whitespace-nowrap" onClick={() => deleteCountry(index)}>Active</button>
-          <button className="text-[#A00C19] px-2 py-1 border border-[#A00C19] font-semibold rounded-[40px] whitespace-nowrap" onClick={() => deleteCountry(index)}>Deactive</button>
+          <button className="text-primary-400 px-2 py-1 border-primary-400 border  font-semibold rounded-full whitespace-nowrap" onClick={() => deleteCountry(index)}>Active</button>
+          <button className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full whitespace-nowrap" onClick={() => deleteCountry(index)}>Deactive</button>
         </div>
       )
     }
   ];
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+    <div className=" mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
-        <h1 className="text-xl text-[#061237] font-semibold">Business Type</h1>
+        <h1 className="text-xl text-primary-150 font-semibold">Business Type</h1>
 
         {/* Search */}
         <div className="relative w-64">
@@ -148,11 +150,11 @@ const BusinessType = () => {
 
         {/* Sort */}
         <div className="relative flex items-center">
-          <FaSortAmountDownAlt className="text-[#6246EA]  cursor-pointer" />
+          <FaSortAmountDownAlt className="text-primary-200  cursor-pointer" />
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="px-1 py-2 font-poppins font-semibold text-[16px] color-[#061237] focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-md text-primary-150 focus:outline-none"
           >
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
@@ -161,11 +163,11 @@ const BusinessType = () => {
 
         {/* Status Filter */}
         <div className="relative flex items-center">
-          <FiFilter className="text-[#6246EA] text-xl" />
+          <FiFilter className="text-primary-200 text-xl" />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-1 py-2 font-poppins font-semibold text-[16px] color-[#061237] focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-md text-primary-150 focus:outline-none"
           >
             <option value="all">All Status</option>
             <option value="Active">Active</option>
@@ -175,7 +177,7 @@ const BusinessType = () => {
 
         {/* Add Button */}
         <button
-          className="bg-[#6246EA] text-white px-4 py-2 rounded-[40px] cursor-pointer flex items-center gap-2 cursor-pointer"
+          className="bg-primary-200 text-white px-4 py-2 rounded-full cursor-pointer flex items-center gap-2 cursor-pointer"
           onClick={() => setModalOpen(true)}
         >
           <FaPlus /> Add
@@ -194,9 +196,9 @@ const BusinessType = () => {
 
       {/* Add/Edit Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-5 rounded-[20px] shadow-lg w-full max-w-md relative">
-            <h2 className="text-xl text-[#061237] font-semibold mb-3 text-center">
+        <div className="fixed text-primary-150 inset-0 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-5 rounded-2xl shadow-lg w-full max-w-md relative">
+            <h2 className="text-xl text-primary-150 font-semibold mb-3 text-center">
               {editMode ? "Edit Business Type" : "Add Business Type"}
             </h2>
             <button
@@ -213,12 +215,12 @@ const BusinessType = () => {
               type="text"
               placeholder="Enter Business Type"
               name="name"
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
               value={current.name}
               onChange={(e) => setCurrent({ ...current, name: e.target.value })}
             />
             <button
-              className="w-50 block mx-auto bg-[#6246EA] text-white py-2 rounded-[40px] "
+              className="w-50 block mx-auto bg-primary-200 text-white py-2 rounded-full "
               onClick={handleSubmit}
             >
               Submit

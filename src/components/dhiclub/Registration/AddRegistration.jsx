@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const AddMember = () => {
+const AddRegistration = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     country: "",
@@ -37,7 +37,7 @@ const AddMember = () => {
     <div className=" mt-10 p-8 bg-white rounded-2xl shadow-sm">
       {/* Heading */}
       <h1 className="text-xl font-semibold text-primary-150 mb-6">
-        Add New Member
+Registration
       </h1>
 
       {/* Stepper */}
@@ -275,4 +275,4 @@ const AddMember = () => {
   );
 };
 
-export default AddMember;
+export default AddRegistration;

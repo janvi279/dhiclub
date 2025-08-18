@@ -67,9 +67,9 @@ const StateList = () => {
     }, [stateList]);
 
     return (
-       <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+       <div className=" mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
-                <h1 className="text-xl text-[#061237] font-semibold">State List</h1>
+                <h1 className="text-xl text-primary-150 font-semibold">State List</h1>
                   <div className="flex justify-end gap-3">
                 <button
                     className="mt-5 bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 flex items-center gap-2"
@@ -107,7 +107,7 @@ const StateList = () => {
                             ))}
                         </select>
                         <button
-                            className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
+                            className="bg-primary-200 text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
                             onClick={addState}
                         >
                             Submit
@@ -141,7 +141,7 @@ const StateList = () => {
                             ))}
                         </select>
                         <button
-                            className="bg-[#6246EA] text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
+                            className="bg-primary-200 text-white px-4 py-1 rounded w-50 hover:bg-purple-700 block mx-auto"
                             onClick={saveState}
                         >
                             Save Changes
@@ -168,8 +168,8 @@ const StateList = () => {
                             <td className="p-3">
                                 <span
                                     className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${item.status === "Active"
-                                        ? "bg-green-100 text-green-800"
-                                        : "bg-red-100 text-red-800"
+                                        ? "bg-primary-350 text-primary-400"
+                                        : "bg-primary-450 text-primary-500"
                                         }`}
                                 >
                                     {item.status}

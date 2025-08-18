@@ -57,7 +57,7 @@
 //             {navItems.map((item, index) => (
 //               <li key={index} className="list-none ">
 //                 <div
-//                   className={`flex hover:text-[#061237]  font-semibold items-center justify-between hover:bg-[#E4E7FF] cursor-pointer rounded-[10px] p-2 ${openItems[item.name] ? "text-[#061237]" : "text-[#AAA9BC]"}`}
+//                   className={`flex hover:text-primary-150  font-semibold items-center justify-between hover:bg-primary-300 cursor-pointer rounded-2xl p-2 ${openItems[item.name] ? "text-primary-150" : "text-[#AAA9BC]"}`}
 //                   onClick={() => {
 //                     toggleItem(item.name);
 //                   }}
@@ -78,7 +78,7 @@
 //                         if (window.innerWidth <= 768) {
 //                           setIsSidebarOpen(false);
 //                         }
-//                       }} className="text-gray-500 hover:bg-[#E4E7FF]  hover:text-[#061237] rounded-[10px] px-2 py-1 cursor-pointer">{subItem}</li>
+//                       }} className="text-gray-500 hover:bg-primary-300  hover:text-primary-150 rounded-2xl px-2 py-1 cursor-pointer">{subItem}</li>
 //                     ))}
 //                   </ul>
 //                 )}
@@ -143,7 +143,7 @@ const Sidebar = ({ onSelect }) => {
       {/* Sidebar */}
       <div
         className={`
-        h-full w-[250px] bg-[#F9F8FF] rounded-[20px]
+        h-full w-[250px] bg-[#F9F8FF] rounded-2xl
           transition-transform duration-300 ease-in-out
           ${isSidebarOpen ? "translate-x-3 max-sm:w-[100px]" : "-translate-x-50 "}
           lg:relative  lg:my-10 lg:mx-5 lg:min-h-screen  max-sm:relative max-sm:my-10 max-sm::mx-5 max-sm:min-h-screen
@@ -167,9 +167,9 @@ const Sidebar = ({ onSelect }) => {
           {navItems.map((item, index) => (
             <li key={index}>
               <div
-                className={`flex hover:text-[#061237] font-semibold items-center justify-between hover:bg-[#E4E7FF] cursor-pointer rounded-[10px] p-2  ${
+                className={`flex hover:text-primary-150 font-semibold items-center justify-between hover:bg-primary-300 cursor-pointer rounded-2xl p-2  ${
                   openItems[item.name]
-                    ? "text-[#061237]"
+                    ? "text-primary-150"
                     : "text-[#AAA9BC]"
                 }`}
                 onClick={() => toggleItem(item.name)}
@@ -197,7 +197,7 @@ const Sidebar = ({ onSelect }) => {
                           setIsSidebarOpen(false); // Auto-close on mobile
                         }
                       }}
-                      className="text-gray-500 hover:bg-[#E4E7FF] hover:text-[#061237] rounded-[10px] px-2 py-1 cursor-pointer"
+                      className="text-gray-500 hover:bg-primary-300 hover:text-primary-150 rounded-2xl px-2 py-1 cursor-pointer"
                     >
                       {subItem}
                     </li>
