@@ -3,14 +3,15 @@ import {
   FaPlus,
   FaSearch,
   FaSortAmountDownAlt,
-  FaFilter,
   FaRegEdit,
 } from "react-icons/fa";
+import { FiFilter } from "react-icons/fi";
 import DataTable from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
 import { useMemberList } from "../../../context/MemberListContext";
 import { RiContactsLine } from "react-icons/ri";
 import { MdDeleteOutline } from "react-icons/md";
+import { FaRegEye } from "react-icons/fa6";
 
 const Members = () => {
   const { members, addMember } = useMemberList(); // Use context instead of localStorage
@@ -19,6 +20,9 @@ const Members = () => {
   const [newTeam, setNewTeam] = useState({ teamName: "", country: "" });
   const [sortOrder, setSortOrder] = useState("newest");
   const [showModal, setShowModal] = useState(false);
+  const [viewMember, setViewMember] = useState(null)
+  const [activeTab, setActiveTab] = useState("personal");
+
   const navigate = useNavigate();
 
   const countries = ["India", "USA", "Canada"];
@@ -98,11 +102,10 @@ const Members = () => {
       selector: (row) => row.status,
       cell: (row) => (
         <span
-          className={`px-[20px] py-[6px] text-xs rounded-full font-semibold ${
-            row.status === "Active"
-              ? "bg-primary-350 text-primary-400"
-              : "bg-primary-450 text-primary-500"
-          }`}
+          className={`px-[20px] py-[6px] text-xs rounded-full font-semibold ${row.status === "Active"
+            ? "bg-primary-350 text-primary-400"
+            : "bg-primary-450 text-primary-500"
+            }`}
         >
           {row.status}
         </span>
@@ -112,6 +115,12 @@ const Members = () => {
       name: "Actions",
       cell: (row, index) => (
         <div className="flex gap-3">
+          <button
+            className="text-primary-200 text-base rounded-2xl p-2  whitespace-nowrap"
+            onClick={() => setViewMember(row)}
+          >
+            <FaRegEye />
+          </button>
           <button
             className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap"
             onClick={() => handleEdit(index)}
@@ -126,13 +135,13 @@ const Members = () => {
           </button>
           <button
             className="text-primary-400 px-2 py-1 border-primary-400 border  font-semibold rounded-full whitespace-nowrap"
-            // onClick={() => deleteState(index)}
+          // onClick={() => deleteState(index)}
           >
             Active
           </button>
           <button
             className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full whitespace-nowrap"
-            // onClick={() => deleteState(index)}
+          // onClick={() => deleteState(index)}
           >
             Deactive
           </button>
@@ -169,7 +178,7 @@ const Members = () => {
             </select>
           </div>
           <div className="flex items-center gap-2">
-            <FaFilter className="text-primary-200" />
+            <FiFilter className="text-primary-200 text-xl" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
@@ -253,6 +262,147 @@ const Members = () => {
           </div>
         </div>
       )}
+      {viewMember && (
+        <div className="fixed inset-0  bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-lg max-w-3xl w-full p-6 relative">
+            {/* Header */}
+            <h2 className="text-primary-150 text-lg font-bold">View Member</h2>
+            <button
+              className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold"
+              onClick={() => setViewMember(null)}
+            >
+              ×
+            </button>
+
+            {/* Top Section */}
+            <div className="flex pt-5 gap-5 text-primary-150">
+              {/* Profile Icon / Image */}
+              <div className="bg-gray-200 h-20 w-20 rounded-lg"></div>
+
+              {/* Member Details */}
+              <div className="grid grid-cols-2 gap-x-12 gap-y-2 text-sm">
+                <p><span className="font-semibold">Member Id:</span> {viewMember.memberId}</p>
+                <p><span className="font-semibold">Team Name:</span> {viewMember.teamName}</p>
+                <p><span className="font-semibold">Member Name:</span> {viewMember.memberName}</p>
+                <p><span className="font-semibold">Business Category:</span> {viewMember.businessCategory}</p>
+                <p><span className="font-semibold">Joining Date:</span> {viewMember.joiningDate}</p>
+                <p><span className="font-semibold">Membership:</span> {viewMember.membership}</p>
+              </div>
+            </div>
+
+            {/* Tabs */}
+            <div className="border-b border-gray-300 mt-6">
+              <div className="flex gap-8 text-sm font-medium text-primary-150">
+                <button
+                  className={`pb-2 ${activeTab === "personal"
+                    ? "border-b-2 border-primary-200 text-primary-200"
+                    : "text-primary-150"
+                    }`}
+                  onClick={() => setActiveTab("personal")}
+                >
+                  Personal Details
+                </button>
+                <button className={`pb-2 ${activeTab === "business"
+                  ? "border-b-2 border-primary-200 text-primary-200"
+                  : "text-primary-150"
+                  }`} onClick={() => setActiveTab("business")}>Business Details</button>
+                <button className={`pb-2 ${activeTab === "transaction"
+                  ? "border-b-2 border-primary-200 text-primary-200"
+                  : "text-primary-150"
+                  }`} onClick={() => setActiveTab("transaction")}>Transaction Details</button>
+                <button className={`pb-2 ${activeTab === "member"
+                  ? "border-b-2 border-primary-200 text-primary-200"
+                  : "text-primary-150"
+                  }`} onClick={() => setActiveTab("member")}>Member Performance</button>
+              </div>
+            </div>
+
+            {/* Personal Details */}
+            {/* Content based on activeTab */}
+            {activeTab === "personal" && (
+              <div>
+                <div className="grid grid-cols-2 gap-y-3 text-sm text-primary-150 mt-4">
+                  <p><span className="font-semibold">Full Name:</span> Poonam Tala</p>
+                  <p><span className="font-semibold">Education:</span> MBA</p>
+                  <p><span className="font-semibold">Contact Number:</span> +91 1234567890</p>
+                  <p><span className="font-semibold">DOB:</span> 29/07/2000</p>
+                  <p><span className="font-semibold">E-Mail ID:</span> poonamtala@gmail.com</p>
+                  <p><span className="font-semibold">Address:</span> Runway Heights, Ayodhya Chowk, 150 Ft. Ring Road, Rajkot</p>
+
+                </div>
+                {/* Attachments */}
+                <div className="mt-6">
+                  <div className="grid grid-cols-4 gap-4 text-primary-150 font-semibold">
+                    <div className="flex flex-col items-center">
+                      <div className="bg-gray-200 h-20 w-full rounded-lg"></div>
+                      <p className="text-sm mt-2">Aadhar Card</p>
+                      <p className="text-xs text-primary-150 ">Created: 01/07/2025</p>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="bg-gray-200 h-20 w-full rounded-lg"></div>
+                      <p className="text-sm mt-2">Pan Card</p>
+                      <p className="text-xs text-primary-150">Created: 01/07/2025</p>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="bg-gray-200 h-20 w-full rounded-lg"></div>
+                      <p className="text-sm mt-2">Driving Licence</p>
+                      <p className="text-xs text-primary-150">Created: 01/07/2025</p>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="bg-gray-200 h-20 w-full rounded-lg"></div>
+                      <p className="text-sm mt-2">Ration Card</p>
+                      <p className="text-xs text-primary-150">Created: 01/07/2025</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === "business" && (
+
+              <div className="grid grid-cols-2 gap-y-3 text-sm text-primary-150 mt-4">
+                <p><span className="font-semibold">Business Category :</span> Software Development</p>
+                <p><span className="font-semibold">Staff Count  :</span> 50 </p>
+                <p><span className="font-semibold">Company Name :</span> Alphabit Infoway</p>
+                <p><span className="font-semibold">GST Number :</span> abcd12345as</p>
+                <p><span className="font-semibold">Company Registration :</span> ABCD</p>
+                <p><span className="font-semibold">Office Number :</span> +91 1234567890</p>
+                <p><span className="font-semibold">Established Year  :</span> 2018</p>
+                <p><span className="font-semibold">Office Email  :</span> info@alphabitinfoway.com</p>
+              </div>
+            )}
+            {activeTab === "transaction" && (
+
+              <div className="grid grid-cols-1 gap-y-3 text-sm text-primary-150 mt-4">
+                <p><span className="font-semibold">Transaction ID :</span> 1234567890</p>
+                <p><span className="font-semibold">Payment Type :</span> UPI</p>
+                <p><span className="font-semibold">Net Amount :</span> 2000/- (without GST)</p>
+                <p><span className="font-semibold">Membership Duration :</span> 1 Year</p>
+
+              </div>
+            )}
+            {activeTab === "member" && (
+              <div>
+                <div className="flex gap-5 pt-5">
+                  <button className="bg-primary-200 text-white rounded rounded-lg p-2 text-xs">6 MONTHS</button>
+                  <button className="text-primary-200 rounded font-medium rounded-lg  text-xs">12 MONTHS</button>
+                  <button className="text-primary-200 font-medium rounded rounded-lg  text-xs">LIFETIME</button>
+                </div>
+                <div className="grid grid-cols-1 gap-y-3 text-sm text-primary-150 mt-4">
+                  <p><span className="font-semibold">Attendance :</span> 90%</p>
+                  <p><span className="font-semibold">Reference :</span> 10</p>
+                  <p><span className="font-semibold">TYFCB :</span> 00</p>
+                  <p><span className="font-semibold">Testimonials :</span> 02</p>
+                  <p><span className="font-semibold">Face to Face :</span> 04</p>
+
+                </div>
+              </div>
+            )}
+
+          </div>
+        </div>
+      )}
+
 
       {/* Member table */}
       <DataTable

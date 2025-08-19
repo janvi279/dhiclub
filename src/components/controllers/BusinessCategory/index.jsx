@@ -133,11 +133,10 @@ const BusinessCategory = () => {
       name: "Status",
       cell: (row) => (
         <span
-          className={`px-2 py-1 rounded-full text-xs font-semibold ${
-            row.status === "Active"
+          className={`px-2 py-1 rounded-full text-xs font-semibold ${row.status === "Active"
               ? "bg-primary-350 text-primary-400"
               : "bg-primary-450 text-primary-500"
-          }`}
+            }`}
         >
           {row.status}
         </span>
@@ -178,7 +177,7 @@ const BusinessCategory = () => {
 
   return (
     <div className=" mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-      <div className="flex flex-wrap gap-15 items-center justify-between pb-4 border-b border-gray-200 mb-4">
+      <div className="flex flex-wrap gap-5 items-center justify-between pb-4 border-b border-gray-200 mb-4">
         <h1 className="text-xl text-primary-150 font-semibold">
           Business Category
         </h1>
