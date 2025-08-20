@@ -10,18 +10,18 @@ const Meeting = () => {
     const [newMeeting, setNewMeeting] = useState({
         meetingId: "",
         date: "",
-        business: "",
-        speaker: "",
-        trainingSlot: "",
+        BusinessPresentation: "",
+        Guest: "",
+        TrainingSlot: "",
         location: "",
+        Banner: "",
         status: "Live",
         createdAt: new Date().toISOString(),
     });
 
     const [editingMeeting, setEditingMeeting] = useState(null);
-    const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
-
+    const [step, setStep] = useState(0);
     const [searchQuery, setSearchQuery] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
     const [sortOrder, setSortOrder] = useState("newest");
@@ -35,6 +35,15 @@ const Meeting = () => {
         }
     };
 
+
+    const handleNext = () => {
+        setStep((prev) => prev + 1);
+    };
+    const closeModal = () => {
+
+        setStep(0); // Reset step when closing
+    };
+
     const addMeeting = () => {
         if (newMeeting.meetingId && newMeeting.date) {
             setMeetingList([
@@ -44,13 +53,16 @@ const Meeting = () => {
             setNewMeeting({
                 meetingId: "",
                 date: "",
-                business: "",
-                speaker: "",
-               trainingSlot:"",
+                BusinessPresentation: "",
+                Guest: "",
+                TrainingSlot: "",
                 location: "",
+                Banner: "",
                 status: "Live",
+                createdAt: new Date().toISOString(),
             });
-            setShowModal(false);
+
+            setStep(0);
         }
     };
 
@@ -88,12 +100,11 @@ const Meeting = () => {
     }, [meetingList]);
 
     const filteredList = meetingList
-        .filter(
-            (item) =>
-                item.meetingId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                item.business.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                item.speaker.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                item.traningSlot.toLowerCase().includes(searchQuery.toLowerCase())
+        .filter((item) =>
+            item.meetingId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.BusinessPresentation.toLowerCase().includes(searchQuery.toLowerCase()) ||  // ✅ Correct
+            item.Guest.toLowerCase().includes(searchQuery.toLowerCase()) ||                 // ✅ Correct
+            item.TrainingSlot.toLowerCase().includes(searchQuery.toLowerCase())            // ✅ Correct
         )
         .filter(
             (item) =>
@@ -135,20 +146,21 @@ const Meeting = () => {
         { name: "No.", selector: (_, index) => index + 1, width: "70px" },
         { name: "Meeting ID", selector: (row) => row.meetingId, sortable: true },
         { name: "Date", selector: (row) => row.date },
-        { name: "Business Presentation", selector: (row) => row.business },
-        { name: "Guest Speaker", selector: (row) => row.speaker },
-        { name: "Traning Slot", selector: (row) => row.trainingSlot },
+        { name: "Business Presentation", selector: (row) => row.BusinessPresentation },
+        { name: "Guest Speaker", selector: (row) => row.Guest },
+        { name: "Training Slot", selector: (row) => row.TrainingSlot },
+
         { name: "Location", selector: (row) => row.location },
+        { name: "Banner", selector: (row) => row.Banner },
         {
             name: "Status",
             selector: (row) => row.status,
             cell: (row) => (
                 <span
-                    className={`px-5 py-1.5 rounded-full  ${
-            row.status === "Active"
-              ? "bg-primary-350 text-primary-400 font-semibold  "
-              : "bg-primary-450 text-primary-500"
-          }`}
+                    className={`px-5 py-1.5 rounded-full  ${row.status === "Active"
+                        ? "bg-primary-350 text-primary-400 font-semibold  "
+                        : "bg-primary-450 text-primary-500"
+                        }`}
                 >
                     {row.status}
                 </span>
@@ -229,7 +241,7 @@ const Meeting = () => {
                 {/* Add Button */}
                 <button
                     className="bg-primary-200 text-white px-4 py-2 rounded-full cursor-pointer flex items-center gap-2"
-                    onClick={() => setShowModal(true)}
+                    onClick={() => setStep(1)}
                 >
                     <FaPlus /> Add
                 </button>
@@ -247,13 +259,13 @@ const Meeting = () => {
             />
 
             {/* Add Meeting Modal */}
-            {showModal && (
+            {step === 1 && (
                 <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white p-5 rounded-2xl shadow-lg w-full max-w-md relative">
                         <h2 className="text-xl font-semibold mb-3 text-center">Upload Meeting</h2>
                         <button
                             className="absolute top-3 right-3 text-xl"
-                            onClick={() => setShowModal(false)}
+                            onClick={closeModal}  // ✅ This will close modal and reset step
                         >
                             ×
                         </button>
@@ -265,49 +277,276 @@ const Meeting = () => {
                             onChange={handleChange}
                             className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
                         />
+
                         <input
                             name="date"
-                            type="date"
+                            type={newMeeting.date ? "date" : "text"}
                             value={newMeeting.date}
+                            placeholder="Select Day"
+                            onFocus={(e) => (e.target.type = "date")}
+                            onBlur={(e) => {
+                                if (!e.target.value) e.target.type = "text";
+                            }}
                             onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
+                            className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
                         />
-                        <input
-                            name="business"
-                            placeholder="Business Presentation"
-                            value={newMeeting.business}
-                            onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
-                        />
-                        <input
-                            name="speaker"
-                            placeholder="Guest Speaker"
-                            value={newMeeting.speaker}
-                            onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
-                        />
-                        <input
-                            name="trainingSlot"
-                            placeholder="Traing Slot"
-                            value={newMeeting. trainingSlot}
-                            onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
-                        />
+
                         <input
                             name="location"
-                            placeholder="Location"
+                            placeholder="Enter Location Link"
                             value={newMeeting.location}
                             onChange={handleChange}
+
+
                             className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
                         />
-                        <button
+                        {/* Add Modal Banner Input */}
+                        <div className="relative w-full mb-5">
+                            <input
+                                type="text"
+                                placeholder="Upload Banner"
+                                value={newMeeting.Banner || ""}
+                                readOnly
+                                className="border border-gray-300 rounded-lg px-3 py-2 w-full pr-28 "
+                            />
+                            <label className="absolute right-2 top-1/2 -translate-y-1/2">
+                                <span className="bg-primary-300 text-primary-200 text-sm font-semibold px-2 py-1.5 rounded-lg cursor-pointer  transition">
+                                    Choose File
+                                </span>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    name="Banner"
+                                    className="hidden"
+                                    onChange={(e) =>
+                                        setNewMeeting((prev) => ({
+                                            ...prev,
+                                            Banner: e.target.files[0] ? e.target.files[0].name : "",
+                                        }))
+                                    }
+                                />
+                            </label>
+                        </div>
+
+                        {/* <button
+                            className="w-20 bg-primary-200 text-white py-2 rounded-full"
+                            onClick={addMeeting}
+                        >
+                            Submit
+                        </button> */}
+                        <div className="flex gap-10 justify-center">
+                            <button className="w-22 bg-primary-200 text-white py-2  rounded-full" onClick={handleNext}>Next</button>
+                            <button className="w-22 border border-primary-200   text-primary-200 font-semibold py-2 rounded-full" onClick={closeModal}>Cancle</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {step === 2 && (
+                <>
+                    <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+                        <div className="bg-white p-5 rounded-2xl shadow-lg w-full max-w-md relative">
+                            <h2 className="text-xl font-semibold mb-3 text-center">Upload Meeting</h2>
+                            <button
+                                className="absolute top-3 right-3 text-xl"
+                                onClick={closeModal}  // ✅ This will close modal and reset step
+                            >
+                                ×
+                            </button>
+
+                            <input
+                                name="BusinessPresentation"
+                                placeholder="Business Presentation Title"
+                                value={newMeeting.BusinessPresentation}
+                                onChange={handleChange}
+                                className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
+                            />
+
+                            {/* Add Modal Banner Input */}
+                            <div className="relative w-full mb-5">
+                                <input
+                                    type="text"
+                                    placeholder="Upload Banner"
+                                    value={newMeeting.Banner || ""}
+                                    readOnly
+                                    className="border border-gray-300 rounded-lg px-3 py-2 w-full pr-28 "
+                                />
+                                <label className="absolute right-2 top-1/2 -translate-y-1/2">
+                                    <span className="bg-primary-300 text-primary-200 text-sm font-semibold px-2 py-1.5 rounded-lg cursor-pointer  transition">
+                                        Choose File
+                                    </span>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        name="Banner"
+                                        className="hidden"
+                                        onChange={(e) =>
+                                            setNewMeeting((prev) => ({
+                                                ...prev,
+                                                Banner: e.target.files[0] ? e.target.files[0].name : "",
+                                            }))
+                                        }
+                                    />
+                                </label>
+                            </div>
+
+                            {/* <button
                             className="w-full bg-primary-200 text-white py-2 rounded-full"
                             onClick={addMeeting}
                         >
                             Submit
                         </button>
+                        <button onClick={handleNext}>next</button> */}
+                            <div className="flex gap-10 justify-center">
+                                <button className="w-22 bg-primary-200 text-white py-2  rounded-full" onClick={handleNext}>Next</button>
+                                <button className="w-22 border border-primary-200   text-primary-200 font-semibold py-2 rounded-full" onClick={() => setStep(1)}>Back</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </>
+            )}
+
+            {step === 3 && (
+                <>
+                    <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+                        <div className="bg-white p-5 rounded-2xl shadow-lg w-full max-w-md relative">
+                            <h2 className="text-xl font-semibold mb-3 text-center">Upload Meeting</h2>
+                            <button
+                                className="absolute top-3 right-3 text-xl"
+                                onClick={closeModal}  // ✅ This will close modal and reset step
+                            >
+                                ×
+                            </button>
+
+                            <input
+                                name="TrainingSlot"
+                                placeholder="Training Slot Title"
+                                value={newMeeting.TrainingSlot}
+                                onChange={handleChange}
+                                className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
+                            />
+
+                            {/* Add Modal Banner Input */}
+                            <div className="relative w-full mb-5">
+                                <input
+                                    type="text"
+                                    placeholder="Upload Banner"
+                                    value={newMeeting.Banner || ""}
+                                    readOnly
+                                    className="border border-gray-300 rounded-lg px-3 py-2 w-full pr-28 "
+                                />
+                                <label className="absolute right-2 top-1/2 -translate-y-1/2">
+                                    <span className="bg-primary-300 text-primary-200 text-sm font-semibold px-2 py-1.5 rounded-lg cursor-pointer  transition">
+                                        Choose File
+                                    </span>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        name="Banner"
+                                        className="hidden"
+                                        onChange={(e) =>
+                                            setNewMeeting((prev) => ({
+                                                ...prev,
+                                                Banner: e.target.files[0] ? e.target.files[0].name : "",
+                                            }))
+                                        }
+                                    />
+                                </label>
+                            </div>
+
+                            {/* <button
+                            className="w-full bg-primary-200 text-white py-2 rounded-full"
+                            onClick={addMeeting}
+                        >
+                            Submit
+                        </button>
+                        <button onClick={handleNext}>next</button> */}
+                            <div className="flex gap-10 justify-center">
+                                <button className="w-22 bg-primary-200 text-white py-2  rounded-full" onClick={handleNext}>Next</button>
+                                <button className="w-22 border border-primary-200   text-primary-200 font-semibold py-2 rounded-full" onClick={() => setStep(2)}>Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
+            {step === 4 && (
+                <>
+                    <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+                        <div className="bg-white p-5 rounded-2xl shadow-lg w-full max-w-md relative">
+                            <h2 className="text-xl font-semibold mb-3 text-center">Upload Meeting</h2>
+                            <button
+                                className="absolute top-3 right-3 text-xl"
+                                onClick={closeModal}  // ✅ This will close modal and reset step
+                            >
+                                ×
+                            </button>
+
+                            <input
+                                name="Guest"
+                                placeholder="Guest Speaker Name"
+                                value={newMeeting.Guest}
+                                onChange={handleChange}
+                                className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
+                            />
+
+                            {/* Add Modal Banner Input */}
+                            <div className="w-full mb-5">
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        placeholder="Upload Banner"
+                                        value={newMeeting.Banner || ""}
+                                        readOnly
+                                        className="border border-gray-300 rounded-lg px-3 py-2 w-full pr-28 "
+                                    />
+                                    <label className="absolute right-2 top-1/2 -translate-y-1/2">
+                                        <span className="bg-primary-300 text-primary-200 text-sm font-semibold px-2 py-1.5 rounded-lg cursor-pointer  transition">
+                                            Choose File
+                                        </span>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            name="Banner"
+                                            className="hidden"
+                                            onChange={(e) =>
+                                                setNewMeeting((prev) => ({
+                                                    ...prev,
+                                                    Banner: e.target.files[0] ? e.target.files[0].name : "",
+                                                }))
+                                            }
+                                        />
+                                    </label>
+                                </div>
+                                <input
+                                    type="text"
+                                    placeholder="Other"
+                                    value={newMeeting.other || ""}
+                                    readOnly
+                                    className="border mt-3 border-gray-300 rounded-lg px-3 py-2 w-full pr-28 "
+                                />
+                            </div>
+
+                            {/* <button
+                            className="w-full bg-primary-200 text-white py-2 rounded-full"
+                            onClick={addMeeting}
+                        >
+                            Submit
+                        </button>
+                        <button onClick={handleNext}>next</button> */}
+                            <div className="flex gap-10 justify-center">
+                                <button className="w-22 border border-primary-200   text-primary-200 font-semibold py-2 rounded-full" onClick={() => setStep(3)}>Back</button>
+                                <button
+                                    className="w-20 bg-primary-200 text-white py-2 rounded-full"
+                                    onClick={addMeeting}
+                                >
+                                    Submit
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </>
             )}
 
             {/* Edit Meeting Modal */}
@@ -336,27 +575,7 @@ const Meeting = () => {
                             onChange={handleChange}
                             className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
                         />
-                        <input
-                            name="business"
-                            placeholder="Business Presentation"
-                            value={editingMeeting.business}
-                            onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
-                        />
-                        <input
-                            name="speaker"
-                            placeholder="Guest Speaker"
-                            value={editingMeeting.speaker}
-                            onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
-                        />
-                        <input
-                            name="trainingSlot"
-                            placeholder="Traning Slot"
-                            value={editingMeeting.trainingSlot}
-                            onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
-                        />
+
                         <input
                             name="location"
                             placeholder="Location"
@@ -364,6 +583,45 @@ const Meeting = () => {
                             onChange={handleChange}
                             className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
                         />
+                         <input
+                name="BusinessPresentation"
+                placeholder="Business Presentation"
+                value={editingMeeting.BusinessPresentation || ""}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
+            />
+            <input
+                name="Guest"
+                placeholder="Guest Speaker"
+                value={editingMeeting.Guest || ""}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
+            />
+            <input
+                name="TrainingSlot"
+                placeholder="Training Slot Title"
+                value={editingMeeting.TrainingSlot || ""}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-3"
+            />
+                        <input
+                            name="Banner"
+                            type="file"
+    
+                         onChange={(e) => {
+                            const file = e.target.files[0];
+                            if (file) {
+                                setEditingMeeting((prev) => ({
+                                    ...prev,
+                                    Banner: file.name, // Store the file name
+                                }));
+                            }
+                        }}
+                            className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
+                        />
+
+                    
+
                         <button
                             className="w-full bg-primary-200 text-white py-2 rounded-full"
                             onClick={saveMeeting}

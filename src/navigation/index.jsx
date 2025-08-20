@@ -40,6 +40,8 @@ import Stock from "../components/Inventry/Stock";
 import Suppliers from "../components/Inventry/Suppliers";
 import Registration from "../components/dhiclub/Registration";
 import AddRegistration from "../components/dhiclub/Registration/AddRegistration";
+import Visitor from "../components/dhiclub/Visitors";
+import Responsibility from "../components/dhiclub/Responsibility";
 
 const AllRoute = [
   { path: "/", element: <Login />, permission: { read: true } },
@@ -143,6 +145,16 @@ const AllRoute = [
     {
     path: "/Dhiclub/registration/AddRegistration",
     element: <AddRegistration />,
+    permission: { read: true },
+  },
+   {
+    path: "/Dhiclub/visitor",
+    element: <Visitor />,
+    permission: { read: true },
+  },
+   {
+    path: "/Dhiclub/responsibility",
+    element: <Responsibility />,
     permission: { read: true },
   },
   {
