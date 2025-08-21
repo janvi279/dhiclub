@@ -1,144 +1,208 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import "react-toastify/dist/ReactToastify.css";
+// import axiosCommonInstance from "../../../utils/axios/axiosCommonInstance";
+// import { setToken } from "../../../utils/cookies/cookies";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Validation schema
   const schema = yup.object().shape({
-    email: yup.string().email("Invalid email").required("Email is required"),
+    email: yup
+      .string()
+      .email("Please enter a valid email address")
+      .required("Email is required"),
     password: yup
       .string()
-      .min(6, "Password must be at least 6 character ")
+      .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
   });
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(schema),
-    mode: "onFocus",
+    mode: "onChange", // Changed from onFocus to onChange for better UX
   });
+
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
+
   const onSubmit = async (data) => {
+    setLoading(true);
+
     try {
-      const body = {
+      // Fixed: Send data directly, not wrapped in body object
+      const response = await axiosCommonInstance.post('user/login/mail', {
         email: data.email,
         password: data.password,
-      };
-      const response = await LoginUser(body);
+      });
 
-      if (response.data) {
-        const token = response.data.data.token;
-        console.log(token);
+      if (response?.data) {
+        const token = response.data?.token;
 
-        toast.success("Login successful", {
-          autoClose: 2000,
-          position: "top-center",
-        });
-        setTimeout(() => {
-          navigate("/addMember");
-        }, 4000);
+        if (token) {
+          setToken(token);
+
+          toast.success("Login successful!", {
+            autoClose: 2000,
+            position: "top-center",
+          });
+
+          // Navigate after toast duration
+          setTimeout(() => {
+            navigate("/addMember");
+          }, 2000);
+        } else {
+          throw new Error("No token received from server");
+        }
+      } else {
+        throw new Error("Invalid response format");
       }
     } catch (error) {
-      toast.error("Login Fail");
-      console.log("error", error);
+      console.error("Login error:", error);
+
+      const errorMessage = error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.message ||
+        "Login failed. Please check your credentials.";
+
+      toast.error(errorMessage, {
+        autoClose: 3000,
+        position: "top-center",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="font-poppins flex justify-center items-center h-screen max-sm:mx-8 ">
+    <div className="font-poppins flex justify-center items-center min-h-screen max-sm:mx-8 bg-gray-50">
       <ToastContainer />
-      <div className="bg-primary-50 p-15 max-sm:p-5 rounded-2xl shadow-md w-120">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className=" flex gap-2 text-left items-center mb-6 ">
-            <img src="/D Logo.png" alt="Dhiclub Logo" className="" />
-            <p className="text-3xl font-bold font-size-30 text-primary-150">
+
+      <div className="bg-primary-50 p-8 max-sm:p-5 rounded-2xl shadow-lg w-full max-w-md">
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          {/* Logo and Title */}
+          <div className="flex gap-3 text-left items-center mb-6">
+            <img
+              src="/D Logo.png"
+              alt="Dhiclub Logo"
+              className="w-8 h-8 object-contain"
+            />
+            <h1 className="text-3xl font-bold text-primary-150">
               Dhiclub
-            </p>
+            </h1>
           </div>
+
+          {/* Header Text */}
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-primary-150 ">
+            <h2 className="text-2xl font-semibold text-primary-150 mb-2">
               Login to Your Account
             </h2>
             <p className="text-sm text-primary-100">
               Enter your credentials to access your account and explore more
             </p>
           </div>
+
           {/* Email Input */}
-          <div className=" mb-4 flex items-center relative">
-            <img
-              src="/Frame.png"
-              alt="Mail Logo"
-              className="absolute left-0 px-5"
-            />
-            <input
-              type="email"
-              placeholder="Enter Email"
-              {...register("email")}
-              className="w-full max-sm:text-sm py-3 pl-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
+          <div className="mb-4">
+            <div className="flex items-center relative">
+              <img
+                src="/Frame.png"
+                alt="Email Icon"
+                className="absolute left-4 w-5 h-5 z-10"
+              />
+              <input
+                type="email"
+                placeholder="Enter Email"
+                {...register("email")}
+                className={`w-full py-3 pl-12 pr-4 border rounded-md focus:outline-none  border-primary-100 max-sm:text-sm ${errors.email}`}
+                autoComplete="email"
+              />
+            </div>
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1 pl-2">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
-          {errors.email && (
-            <p className="text-red-500 text-xs mt-1 pl-2">
-              {errors.email.message}
-            </p>
-          )}
           {/* Password Input */}
-          <div className="mb-2 mt-2 flex items-center relative">
-            <img
-              src="/Frame-2.png"
-              alt="Password logo"
-              className="absolute left-0 px-5"
-            />
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Enter Password"
-              autoComplete="new-password"
-              className="w-full py-3 max-sm:text-sm  pl-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 "
-              {...register("password")}
-            />
-            <span
-              className="absolute right-0 top-4 cursor-pointer"
-              onClick={togglePasswordVisibility}
-            >
+          <div className="mb-4">
+            <div className="flex items-center relative">
               <img
-                src={showPassword ? "/eye-svgrepo-com.png" : "/eye-close.png"}
-                alt="Password logo"
-                className="left-0 px-5 h-[20px] max-sm:h-[18px]"
+                src="/Frame-2.png"
+                alt="Password Icon"
+                className="absolute left-4 w-5 h-5 z-10"
               />
-            </span>
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter Password"
+                autoComplete="current-password"
+                {...register("password")}
+                className={`w-full py-3 pl-12 pr-12 border rounded-md focus:outline-none border-primary-100 transition-colors max-sm:text-sm ${errors.password}`}
+              />
+              <button
+                type="button"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer focus:outline-none"
+                onClick={togglePasswordVisibility}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                <img
+                  src={showPassword ? "/eye-svgrepo-com.png" : "/eye-close.png"}
+                  alt="Toggle password visibility"
+                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
+                />
+              </button>
+            </div>
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1 pl-2">
+                {errors.password.message}
+              </p>
+            )}
           </div>
-          {errors.password && (
-            <p className="text-red-500 text-xs mt-1 pl-2">
-              {errors.password.message}
-            </p>
-          )}
+
           {/* Forgot Password */}
           <div className="mb-6 text-right">
-            <a
-              href="#"
-              className="text-xs text-primary-200  hover:underline font-normal"
+            <Link
+              to="/forgot-password"
+              className="text-xs text-primary-200 hover:underline hover:text-primary-300 transition-colors font-normal"
             >
               Forgot Password?
-            </a>
+            </Link>
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-4 ">
-            <button className="max-sm:p-1   max-sm:px-7  mb-5 bg-primary-200 text-white px-8 py-2 rounded-full cursor-pointer">
-              Login
-            </button>
+          <div className="flex gap-4 flex-col sm:flex-row">
             <button
-              className="max-sm:p-1 max-sm:px-5 mb-5 text-primary-200 border border-primary-200 rounded-full px-10 py-2 rounded-full  font-bold"
+              type="submit"
+
+              className="flex-1 py-3 px-8 bg-primary-200 text-white rounded-full font-medium transition-all duration-200  disabled:bg-primary-200  flex items-center justify-center max-sm:py-2 max-sm:px-6"
+            >
+              {loading ? (
+                <div className="flex items-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-white border-solid rounded-full animate-spin border-t-transparent"></div>
+                  <span>Logging in...</span>
+                </div>
+              ) : (
+                "Login"
+              )}
+            </button>
+
+            <button
+              type="button"
               onClick={() => navigate("/signUp")}
+              className="flex-1 py-3 px-8 text-primary-200 border border-primary-200 rounded-full font-bold   transition-all duration-200 max-sm:py-2 max-sm:px-6"
             >
               Sign Up
             </button>
@@ -148,4 +212,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;
