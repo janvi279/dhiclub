@@ -1,27 +1,27 @@
 
-  const customStyles = {
-    headRow: {
-      style: {
-        border: "none",
-        backgroundColor: "#F5F8FD",
-        borderRadius: "10px",
-      },
+const customStyles = {
+  headRow: {
+    style: {
+      border: "none",
+      backgroundColor: "#F5F8FD",
+      borderRadius: "10px",
     },
-    headCells: {
-      style: {
-        fontSize: "14px",
-        fontWeight: 600,
-        color: "#061237",
+  },
+  headCells: {
+    style: {
+      fontSize: "14px",
+      fontWeight: 600,
+      color: "#061237",
 
-        border: "none",
-      },
+      border: "none",
     },
-    cells: {
-      style: {
-        fontSize: "13px",
-        color: "#061237",
-        fontWeight: 500,
-      },
+  },
+  cells: {
+    style: {
+      fontSize: "12px",
+      color: "#061237",
+      fontWeight: 500,
     },
-  };
-  export default customStyles
+  },
+};
+export default customStyles

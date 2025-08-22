@@ -11,64 +11,82 @@ import customStyles from "../../../components/custom/customStyle";
 
 const City = () => {
   const { cities, addCity, updateCity, deleteCity } = useCity();
+
   const [search, setSearch] = useState("");
   const [filterCountry, setFilterCountry] = useState("");
   const [showAdd, setShowAdd] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [sortOrder, setSortOrder] = useState("newest");
 
-  const filteredData = cities.filter((c) => {
-    return (
-      c.cityName.toLowerCase().includes(search.toLowerCase()) &&
-      (filterCountry ? c.country === filterCountry : true)
-    );
-  });
+  // ✅ Filter + sort logic
+  const filteredData = cities
+    .filter((c) => {
+      const cityName = c.cityName || "";
+      const cityCountry = c.country?.toUpperCase() || "";
+      const filter = filterCountry?.toUpperCase() || "";
+      return (
+        cityName.toLowerCase().includes(search.toLowerCase()) &&
+        (filter ? cityCountry === filter : true)
+      );
+    })
+    .sort((a, b) => {
+      if (sortOrder === "newest") {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      } else {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      }
+    });
+
+  // ✅ Modal Handlers
+  const handleCloseAddModal = () => setShowAdd(false);
+  const handleCloseEditModal = () => setEditData(null);
 
   return (
     <div className="mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-      <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4 ">
-        {/* Header */}
-        <div className="flex justify-between items-center ">
-          <h1 className="text-primary-150 font-semibold text-xl">City List</h1>
-        </div>
+      {/* Header + Filters */}
+      <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
+        <h1 className="text-primary-150 font-semibold text-xl">City List</h1>
 
-        {/* Filters + Search */}
         <CitySearch search={search} setSearch={setSearch} />
+
         <div className="flex gap-4">
-          <CityFilters filterCountry={filterCountry} setFilterCountry={setFilterCountry} />
+          <CityFilters
+            filterCountry={filterCountry}
+            setFilterCountry={setFilterCountry}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+          />
 
           <button
             onClick={() => setShowAdd(true)}
-            className="bg-primary-200 text-white px-4 py-2 rounded-full cursor-pointer flex items-center gap-2"
+            className="bg-primary-200 text-white px-4 py-2 rounded-full flex items-center gap-2"
           >
             <FaPlus /> Add
           </button>
         </div>
-
       </div>
 
-      {/* Table */}
+      {/* DataTable */}
       <DataTable
-        columns={cityColumns({ setEditData, deleteCity })}
+        columns={cityColumns({ setEditData, deleteCity, updateCity })}
         data={filteredData}
         pagination
         highlightOnHover
         customStyles={customStyles}
       />
 
-      {/* Modals */}
+      {/* Add Modal */}
       {showAdd && (
         <AddCityModal
-          onClose={() => setShowAdd(false)}
+          isOpen={showAdd}      // ✅ important
+          onClose={handleCloseAddModal}
           onSave={addCity}
         />
       )}
-      {editData && (
-        <EditCityModal
-          city={editData}
-          onClose={() => setEditData(null)}
-          onSave={updateCity}
-        />
-      )}
+
+      {editData && <EditCityModal isOpen={!!editData}
+        city={editData} onClose={handleCloseEditModal} onSave={updateCity} />}
+
     </div>
   );
 };

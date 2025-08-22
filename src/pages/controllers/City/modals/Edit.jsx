@@ -1,65 +1,62 @@
-import { useState } from "react";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import CustomModal from "../../../../components/common/CustomModal";
+import CustomInput from "../../../../components/common/CustomInput";
 
-const EditCityModal = ({ city, onClose, onSave }) => {
-    const [form, setForm] = useState(city);
+const EditCityModal = ({ isOpen, city, onClose, onSave }) => {
+    const validationSchema = Yup.object({
+        cityName: Yup.string().trim().required("City Name is required"),
+        cityCode: Yup.string().trim().required("City Code is required"),
+    });
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+    const initialValues = {
+        cityName: city.cityName || "",
+        cityCode: city.cityCode || "",
     };
 
-    const handleSubmit = () => {
-        onSave(form);
+    const handleSubmit = (values, { resetForm }) => {
+        onSave({ ...city, ...values });
+        resetForm();
         onClose();
     };
 
     return (
-        <div className="fixed inset-0  flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-lg relative">
-                {/* Header */}
-                <h2 className="text-xl font-semibold mb-5 text-center text-primary-150">
-                    Edit City
-                </h2>
-                <button
-                    className="absolute top-3 right-3 text-xl"
-                    onClick={onClose}
-                >
-                    ×
-                </button>
-                <div className="space-y-4">
+        <CustomModal isOpen={isOpen} onClose={onClose} title="Edit City">
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+            >
+                <Form className="flex flex-col gap-4">
                     {/* City Name */}
-                    <input
+                    <Field
                         name="cityName"
-                        placeholder="City Name"
-                        value={form.cityName || ""}
-                        onChange={handleChange}
-                        className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
+                        component={CustomInput}
+                        required
+                        placeholder="Enter City Name"
                     />
 
                     {/* City Code */}
-                    <input
+                    <Field
                         name="cityCode"
-                        placeholder="City Code"
-                        value={form.cityCode || ""}
-                        onChange={handleChange}
-                        className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
+                        component={CustomInput}
+                        required
+                        placeholder="Enter City Code"
                     />
+    
+                    {/* Footer Buttons */}
+                    <div className="mt-4">
 
-
-                    <button
-                        onClick={handleSubmit}
-                        className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
-                    >
-                        Save Changes
-                    </button>
-                </div>
-
-                {/* Footer Buttons */}
-
-
-
-
-            </div>
-        </div>
+                        <button
+                            type="submit"
+                            className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
+                        >
+                            Save
+                        </button>
+                    </div>
+                </Form>
+            </Formik>
+        </CustomModal>
     );
 };
 

@@ -1,19 +1,24 @@
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
-export const cityColumns = ({ setEditData, deleteCity, updateCity }) => [
+export const countryColumns = ({ setEditData, deleteCountry, updateCountry }) => [
   {
     name: "No.",
     selector: (_, index) => index + 1,
   },
   {
-    name: "City Name",
-    selector: (row) => row.cityName,
+    name: "Country Name",
+    selector: (row) => row.countryName,
     sortable: true,
   },
   {
-    name: "City Code",
-    selector: (row) => row.cityCode,
+    name: "Country Code",
+    selector: (row) => row.countryCode,
+    sortable: true,
+  },
+  {
+    name: "Country Currency",
+    selector: (row) => row.currency,
     sortable: true,
   },
   {
@@ -41,17 +46,17 @@ export const cityColumns = ({ setEditData, deleteCity, updateCity }) => [
         > <FaRegEdit /></button>
         <button
           className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap"
-          onClick={() => deleteCity(row.id)}
+          onClick={() => deleteCountry(row.id)}
         ><MdDeleteOutline /></button>
         <button
           className="text-primary-400 px-2 py-1 border-primary-400 border  font-semibold rounded-full whitespace-nowrap"
-          onClick={() => updateCity({ ...row, status: "Active" })}
+          onClick={() => updateCountry({ ...row, status: "Active" })}
         >
           Active
         </button>
         <button
           className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full whitespace-nowrap"
-          onClick={() => updateCity({ ...row, status: "Deactive" })}
+          onClick={() => updateCountry({ ...row, status: "Deactive" })}
         >
           Deactive
         </button>

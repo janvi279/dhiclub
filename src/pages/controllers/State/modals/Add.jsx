@@ -4,22 +4,20 @@ import CustomModal from "../../../../components/common/CustomModal";
 import CustomSelect from "../../../../components/common/CustomSelect";
 import CustomInput from "../../../../components/common/CustomInput";
 
-const AddCityModal = ({ isOpen, onClose, onSave }) => {
+const AddStateModal = ({ isOpen, onClose, onSave }) => {
     const countries = ["INDIA", "USA", "UK"];
     const states = ["Gujarat", "Maharashtra", "Delhi"];
 
     const validationSchema = Yup.object({
-        country: Yup.string().required("Country is required"),
-        state: Yup.string().required("State is required"),
-        cityName: Yup.string().trim().required("City Name is required"),
-        cityCode: Yup.string().trim().required("City Code is required"),
+        countryName: Yup.string().required("Country is required"),
+        stateName: Yup.string().trim().required("State Name is required"),
+        stateCode: Yup.string().trim().required("State Code is required"),
     });
 
     const initialValues = {
-        country: "",
-        state: "",
-        cityName: "",
-        cityCode: "",
+        countryName: "",
+        stateName: "",
+        stateCode: "",
         status: "Active",
         createdAt: new Date().toISOString(),
     };
@@ -31,7 +29,7 @@ const AddCityModal = ({ isOpen, onClose, onSave }) => {
     };
 
     return (
-        <CustomModal isOpen={isOpen} onClose={onClose} title="Add City">
+        <CustomModal isOpen={isOpen} onClose={onClose} title="Add State">
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -40,7 +38,7 @@ const AddCityModal = ({ isOpen, onClose, onSave }) => {
                 <Form className="flex flex-col gap-4">
                     {/* Country */}
                     <Field
-                        name="country"
+                        name="countryName"
                         component={CustomSelect}
                         required
                         placeholder="Select Country"
@@ -54,7 +52,7 @@ const AddCityModal = ({ isOpen, onClose, onSave }) => {
 
                     {/* State */}
                     <Field
-                        name="state"
+                        name="stateName"
                         component={CustomSelect}
                         required
                         placeholder="Select State"
@@ -66,20 +64,14 @@ const AddCityModal = ({ isOpen, onClose, onSave }) => {
                         ))}
                     </Field>
 
-                    {/* City Name */}
-                    <Field
-                        name="cityName"
-                        component={CustomInput}
-                        required
-                        placeholder="Enter City Name"
-                    />
 
-                    {/* City Code */}
+
+
                     <Field
-                        name="cityCode"
+                        name="stateCode"
                         component={CustomInput}
                         required
-                        placeholder="Enter City Code"
+                        placeholder="Enter State Code"
                     />
 
                     {/* Submit Button */}
@@ -97,4 +89,4 @@ const AddCityModal = ({ isOpen, onClose, onSave }) => {
     );
 };
 
-export default AddCityModal;
+export default AddStateModal;

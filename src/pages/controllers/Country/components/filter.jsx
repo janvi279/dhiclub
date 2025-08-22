@@ -2,7 +2,7 @@ import { FiFilter } from "react-icons/fi";
 import { FaSortAmountDownAlt } from "react-icons/fa";
 import CustomFilterSelect from "../../../../components/common/CustomFilterSelect";
 
-const CityFilters = ({ filterCountry, setFilterCountry, sortOrder, setSortOrder }) => {
+const CountryFilters = ({ filterCountry, setFilterCountry, sortOrder, setSortOrder }) => {
   return (
     <div className="flex gap-3 items-center">
       <CustomFilterSelect
@@ -12,7 +12,7 @@ const CityFilters = ({ filterCountry, setFilterCountry, sortOrder, setSortOrder 
         icon={FaSortAmountDownAlt}
         placeholder="Sort By"
       />
-      
+
       <CustomFilterSelect
         value={filterCountry}
         onChange={(e) => setFilterCountry(e.target.value)}
@@ -24,4 +24,4 @@ const CityFilters = ({ filterCountry, setFilterCountry, sortOrder, setSortOrder 
   );
 };
 
-export default CityFilters;
+export default CountryFilters;

@@ -12,16 +12,13 @@ const CustomInput = ({
 
   return (
     <div className='w-full'>
-      <h5 className='text-sm sm:text-base font-normal'>
-        {label}
-        {required && <span className='text-[#D34053]'>*</span>}
-      </h5>
+  
       <input
         {...field}
         {...props}
         placeholder={placeholder}
         invalid={isInvalid ? 'true' : 'false'}
-        className='w-full border border-gray-300 rounded-lg p-3'
+       className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full"
       />
       <ErrorMessage
         name={field.name}
