@@ -287,7 +287,7 @@ const SignUp = () => {
         {/* Submit button */}
         <button
           type="submit"
-          className="col-span-full max-sm:p-1 w-50 mx-auto max-sm:px-7 mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700"
+          className="col-span-full max-sm:p-1 w-50 mx-auto max-sm:px-7 mb-5 bg-primary-200 text-white px-8 py-2 rounded-full hover:bg-purple-700"
         >
           Register
         </button>

@@ -119,8 +119,8 @@ const City = () => {
         <span
           className={`px-2 py-1 text-xs rounded-full font-medium ${
             row.status === "Active"
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
+              ? "bg-primary-350 text-primary-400"
+              : "bg-primary-450 text-primary-500"
           }`}
         >
           {row.status}
@@ -132,19 +132,19 @@ const City = () => {
       cell: (row, index) => (
         <div className="flex gap-5">
           <button
-            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF]"
+            className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300"
             onClick={() => handleEdit(row, index)}
           >
             <FaRegEdit />
           </button>
           <button
-            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF]"
+            className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300"
             onClick={() => deleteCity(index)}
           >
             <MdDeleteOutline />
           </button>
-           <button className="text-[#429667] px-2 py-1 border-[#429667] border  font-semibold rounded-[40px] whitespace-nowrap" >Active</button>
-          <button className="text-[#A00C19] px-2 py-1 border border-[#A00C19] font-semibold rounded-[40px] whitespace-nowrap">Deactive</button>
+           <button className="text-primary-400 px-2 py-1 border-primary-400 border  font-semibold rounded-full whitespace-nowrap" >Active</button>
+          <button className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full whitespace-nowrap">Deactive</button>
         </div>
       ),
     },
@@ -152,31 +152,33 @@ const City = () => {
 
 
   const customStyles = {
+    headRow: {
+      style: {
+        border: "none",
+        backgroundColor: "#F5F8FD",
+        borderRadius: "10px",
+      },
+    },
     headCells: {
       style: {
-        fontSize: "12px",
+        fontSize: "14px",
         fontWeight: 600,
         color: "#061237",
-        backgroundColor:"#F5F8FD"
+
+        border: "none",
       },
     },
     cells: {
       style: {
-        fontSize: "12px",
+        fontSize: "13px",
         color: "#061237",
         fontWeight: 500,
-      },
-    },
-    pagination: {
-      style: {
-        borderTop: "none", // bottom line remove
-        boxShadow: "none", // koi shadow hoy to remove
       },
     },
   };
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+    <div className="mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       {/* Header */}
       <div className="flex gap-5 items-center justify-between pb-4 border-b border-gray-200 mb-4">
         <h1 className="text-xl font-semibold">City List</h1>
@@ -196,11 +198,11 @@ const City = () => {
         {/* Filters */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <FaSortAmountDownAlt className="text-[#6246EA]" />
+            <FaSortAmountDownAlt className="text-primary-200" />
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
-              className="font-semibold text-[#061237] py-2 text-base focus:outline-none"
+              className="font-semibold text-primary-150 py-2 text-base focus:outline-none"
             >
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
@@ -208,11 +210,11 @@ const City = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <FiFilter className="text-[#6246EA] text-xl" />
+            <FiFilter className="text-primary-200 text-xl" />
             <select
               value={countryFilter}
               onChange={(e) => setCountryFilter(e.target.value)}
-              className="font-semibold text-[#061237] py-2 text-base focus:outline-none"
+              className="font-semibold text-primary-150 py-2 text-base focus:outline-none"
             >
               <option value="all">All Countries</option>
               {sortCountry.map((c) => (
@@ -224,11 +226,11 @@ const City = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <FiFilter className="text-[#6246EA] text-xl" />
+            <FiFilter className="text-primary-200 text-xl" />
             <select
               value={stateFilter}
               onChange={(e) => setStateFilter(e.target.value)}
-              className="font-semibold text-[#061237] py-2 text-base focus:outline-none"
+              className="font-semibold text-primary-150 py-2 text-base focus:outline-none"
             >
               <option value="all">All States</option>
               {sortState.map((s) => (
@@ -240,11 +242,11 @@ const City = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <FiFilter className="text-[#6246EA] text-xl" />
+            <FiFilter className="text-primary-200 text-xl" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="font-semibold text-[#061237] py-2 text-base focus:outline-none"
+              className="font-semibold text-primary-150 py-2 text-base focus:outline-none"
             >
               <option value="all">All Status</option>
               <option value="Active">Active</option>
@@ -255,7 +257,7 @@ const City = () => {
           {/* Add Button */}
           <button
             onClick={() => setShowModal(true)}
-            className="bg-[#6246EA] text-white px-4 py-2 rounded-[40px] flex items-center cursor-pointer gap-2"
+            className="bg-primary-200 text-white px-4 py-2 rounded-full flex items-center cursor-pointer gap-2"
           >
             <FaPlus /> Add
           </button>
@@ -274,8 +276,8 @@ const City = () => {
 
       {/* Add Modal */}
       {showModal && (
-        <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-5 rounded-[20px] w-full max-w-md relative">
+        <div className="fixed inset-0 text-primary-150  bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-5 rounded-2xl w-full max-w-md relative">
             <h2 className="text-xl font-semibold mb-4 text-center">Add City</h2>
             <button
               className="absolute top-3 right-3 text-xl font-bold"
@@ -288,7 +290,7 @@ const City = () => {
               name="country"
               value={newCity.country}
               onChange={handleChange}
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             >
               <option value="">Select Country</option>
               {sortCountry.map((c) => (
@@ -302,7 +304,7 @@ const City = () => {
               name="state"
               value={newCity.state}
               onChange={handleChange}
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             >
               <option value="">Select State</option>
               {sortState.map((s) => (
@@ -318,7 +320,7 @@ const City = () => {
               placeholder="City Name"
               value={newCity.city}
               onChange={handleChange}
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             />
             <input
               type="text"
@@ -326,12 +328,12 @@ const City = () => {
               placeholder="City Code"
               value={newCity.cityCode}
               onChange={handleChange}
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             />
 
             <button
               onClick={addCity}
-              className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]"
+              className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
             >
               Submit
             </button>
@@ -341,7 +343,7 @@ const City = () => {
 
       {/* Edit Modal */}
       {showEditModal && editingCity && (
-        <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed text-primary-150 inset-0  bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-5 rounded w-full max-w-md relative">
             <h2 className="text-xl font-semibold mb-4 text-center">
               Edit City
@@ -400,7 +402,7 @@ const City = () => {
 
             <button
               onClick={saveCity}
-              className="w-full bg-indigo-600 text-white py-2 rounded"
+              className="w-full bg-primary-200 text-white py-2 rounded"
             >
               Save Changes
             </button>

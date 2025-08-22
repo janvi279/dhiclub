@@ -34,9 +34,9 @@ const AddMember = () => {
 
 
   return (
-    <div className="max-w-6xl mt-10 p-8 bg-white rounded-[20px] shadow-sm">
+    <div className=" mt-10 p-8 bg-white rounded-2xl shadow-sm">
       {/* Heading */}
-      <h1 className="text-xl font-semibold text-[#061237] mb-6">
+      <h1 className="text-xl font-semibold text-primary-150 mb-6">
         Add New Member
       </h1>
 
@@ -44,7 +44,7 @@ const AddMember = () => {
       <div className="flex items-center gap-3 mb-10 text-md text-[#AAA9BC]">
         <span
           className={`font-semibold ${
-            step === 1 ? "text-[#6246EA]" : "text-[#AAA9BC]"
+            step === 1 ? "text-primary-200" : "text-[#AAA9BC]"
           }`}
         >
           Step 1
@@ -54,7 +54,7 @@ const AddMember = () => {
         </span>
         <span
           className={`font-semibold ${
-            step === 2 ? "text-[#6246EA]" : "text-[#AAA9BC]"
+            step === 2 ? "text-primary-200" : "text-[#AAA9BC]"
           }`}
         >
           Step 2
@@ -67,7 +67,7 @@ const AddMember = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
             {/* Country */}
             <div>
-              <label className="block mb-2 text-[#061237] font-semibold text-md">
+              <label className="block mb-2 text-primary-150 font-semibold text-md">
                 Select Country
               </label>
               <select
@@ -87,7 +87,7 @@ const AddMember = () => {
 
             {/* State */}
             <div>
-              <label className="block mb-2 text-[#061237] font-semibold text-md">
+              <label className="block mb-2 text-primary-150 font-semibold text-md">
                 Select State
               </label>
               <select
@@ -107,7 +107,7 @@ const AddMember = () => {
 
             {/* City */}
             <div>
-              <label className="block mb-2 text-[#061237] font-semibold text-md">
+              <label className="block mb-2 text-primary-150 font-semibold text-md">
                 Select City
               </label>
               <select
@@ -127,7 +127,7 @@ const AddMember = () => {
 
             {/* Business Domain */}
             <div>
-              <label className="block mb-2 text-[#061237] font-semibold text-md">
+              <label className="block mb-2 text-primary-150 font-semibold text-md">
                 Select Business Domain
               </label>
               <select
@@ -148,7 +148,7 @@ const AddMember = () => {
 
           {/* Forum Selection */}
           <div className="mt-5">
-            <label className="block mb-2 text-[#061237] font-semibold text-md">
+            <label className="block mb-2 text-primary-150 font-semibold text-md">
               Select Forum
             </label>
             <div className="flex items-center gap-5">
@@ -182,14 +182,14 @@ const AddMember = () => {
             <button
               type="button"
               onClick={handleNext}
-              className="bg-[#6246EA] text-white px-[30px] py-[10px] rounded-[40px] cursor-pointer flex items-center gap-2 font-semibold"
+              className="bg-primary-200 text-white px-[30px] py-[10px] rounded-full cursor-pointer flex items-center gap-2 font-semibold"
             >
               Next
             </button>
             <button
               type="button"
               onClick={()=>navigate("/Dhiclub/members")}
-              className="border border-[#6246EA] font-semibold px-[30px] py-[10px] rounded-[40px] cursor-pointer flex items-center text-[#6246EA] gap-2"
+              className="border border-[#6246EA] font-semibold px-[30px] py-[10px] rounded-full cursor-pointer flex items-center text-primary-200 gap-2"
             >
               Cancel
             </button>
@@ -204,7 +204,7 @@ const AddMember = () => {
 
     {/* Mobile Number */}
     <div className="mb-5">
-      <label className="block mb-2 text-[#061237] font-semibold">
+      <label className="block mb-2 text-primary-150 font-semibold">
         Mobile Number<span className="text-red-500">*</span>
       </label>
       <div className="flex gap-3">
@@ -216,7 +216,7 @@ const AddMember = () => {
         />
         <button
           type="button"
-          className="bg-[#EDEBFF] text-[#6246EA] px-4 py-2 rounded-xl font-semibold"
+          className="bg-[#EDEBFF] text-primary-200 px-4 py-2 rounded-xl font-semibold"
         >
           Send OTP
         </button>
@@ -225,7 +225,7 @@ const AddMember = () => {
 
     {/* OTP Input */}
     <div className="mb-3">
-      <label className="block mb-2 text-[#061237] font-semibold">
+      <label className="block mb-2 text-primary-150 font-semibold">
         Enter OTP sent to your mobile number
       </label>
       <div className="flex gap-2">
@@ -245,7 +245,7 @@ const AddMember = () => {
       Didn’t receive OTP?{" "}
       <button
         type="button"
-        className="text-[#6246EA] font-semibold hover:underline"
+        className="text-primary-200 font-semibold hover:underline"
       >
         Resend OTP
       </button>
@@ -256,14 +256,14 @@ const AddMember = () => {
       <button
         type="button"
         onClick={handleBack}
-        className="border border-[#6246EA] font-semibold px-[30px] py-[10px] rounded-[40px] cursor-pointer flex items-center text-[#6246EA] gap-2"
+        className="border border-[#6246EA] font-semibold px-[30px] py-[10px] rounded-full cursor-pointer flex items-center text-primary-200 gap-2"
       >
         Back
       </button>
       <button
       onClick={()=>navigate("/Dhiclub/members/AddMember/personalDetail")}
         type="submit"
-        className="bg-[#6246EA] text-white px-[30px] py-[10px] rounded-[40px] cursor-pointer flex items-center gap-2 font-semibold"
+        className="bg-primary-200 text-white px-[30px] py-[10px] rounded-full cursor-pointer flex items-center gap-2 font-semibold"
       >
         Submit
       </button>

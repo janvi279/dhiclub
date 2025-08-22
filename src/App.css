@@ -1,5 +1,5 @@
-/* styles.css */
-.rdt_Pagination {
-  border-top: none !important; /* top ni line remove */
-   box-shadow: none !important; /* extra shadow bhi remove if any */
-}
+@import "tailwindcss";
+
+
+
+

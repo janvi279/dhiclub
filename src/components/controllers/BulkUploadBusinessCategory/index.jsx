@@ -29,7 +29,12 @@ const BulkUploadBusinessCategory = () => {
   const [statusFilter, setStatusFilter] = useState("all");
 
   const businessTypes = ["Retail", "Service", "Manufacturing", "IT"].sort();
-  const businessDomains = ["E-commerce", "Healthcare", "Education", "Logistics"].sort();
+  const businessDomains = [
+    "E-commerce",
+    "Healthcare",
+    "Education",
+    "Logistics",
+  ].sort();
   const businessCategories = ["B2B", "B2C", "C2C", "C2B"].sort();
 
   // Load from localStorage on mount
@@ -65,7 +70,6 @@ const BulkUploadBusinessCategory = () => {
   };
 
   const addBusiness = () => {
-   
     const itemToAdd = { ...newBusiness, createdAt: new Date().toISOString() };
     const updated = [...businessList, itemToAdd];
     setBusinessList(updated);
@@ -86,14 +90,18 @@ const BulkUploadBusinessCategory = () => {
     // remove `index` before saving the object
     const { index, ...rest } = editingBusiness;
     // ensure createdAt stays if present
-    updated[index] = { ...updated[index], ...rest, createdAt: rest.createdAt || updated[index].createdAt || new Date().toISOString() };
+    updated[index] = {
+      ...updated[index],
+      ...rest,
+      createdAt:
+        rest.createdAt || updated[index].createdAt || new Date().toISOString(),
+    };
     setBusinessList(updated);
     setShowEditModal(false);
     setEditingBusiness(null);
   };
 
   const deleteBusiness = (index) => {
-
     setBusinessList((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -116,29 +124,41 @@ const BulkUploadBusinessCategory = () => {
         item.businessDomain.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.businessCategory.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchStatus = statusFilter === "all" || item.status === statusFilter;
+      const matchStatus =
+        statusFilter === "all" || item.status === statusFilter;
       return matchQuery && matchStatus;
     })
     .sort((a, b) =>
-      sortOrder === "newest" ? getTime(b.createdAt) - getTime(a.createdAt) : getTime(a.createdAt) - getTime(b.createdAt)
+      sortOrder === "newest"
+        ? getTime(b.createdAt) - getTime(a.createdAt)
+        : getTime(a.createdAt) - getTime(b.createdAt)
     );
 
   const columns = [
     {
       name: "No.",
       cell: (_row, index) => index + 1,
-  
     },
-    { name: "Business Type", selector: (row) => row.businessType, sortable: true },
+    {
+      name: "Business Type",
+      selector: (row) => row.businessType,
+      sortable: true,
+    },
     { name: "Domain", selector: (row) => row.businessDomain, sortable: true },
-    { name: "Category", selector: (row) => row.businessCategory, sortable: true },
+    {
+      name: "Category",
+      selector: (row) => row.businessCategory,
+      sortable: true,
+    },
     {
       name: "Status",
       selector: (row) => row.status,
       cell: (row) => (
         <span
           className={`px-2 py-1 text-xs rounded-full font-medium ${
-            row.status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+            row.status === "Active"
+              ? "bg-primary-350 text-primary-400"
+              : "bg-primary-450 text-primary-500"
           }`}
         >
           {row.status}
@@ -151,27 +171,25 @@ const BulkUploadBusinessCategory = () => {
         <div className="flex gap-2">
           <button
             onClick={() => handleEdit(row, rowIndex)}
-            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
+            className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap"
           >
             <FaRegEdit />
-        
           </button>
 
           <button
             onClick={() => deleteBusiness(rowIndex)}
-           className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
+            className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap"
           >
             <MdDeleteOutline />
-           
           </button>
-   <button
-            className="text-[#429667] px-2 py-1 border-[#429667] border  font-semibold rounded-[40px] whitespace-nowrap"
+          <button
+            className="text-primary-400 px-2 py-1 border-primary-400 border  font-semibold rounded-full whitespace-nowrap"
             onClick={() => deleteState(index)}
           >
             Active
           </button>
           <button
-            className="text-[#A00C19] px-2 py-1 border border-[#A00C19] font-semibold rounded-[40px] whitespace-nowrap"
+            className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full whitespace-nowrap"
             onClick={() => deleteState(index)}
           >
             Deactive
@@ -182,32 +200,37 @@ const BulkUploadBusinessCategory = () => {
   ];
 
   const customStyles = {
+    headRow: {
+      style: {
+        border: "none",
+        backgroundColor: "#F5F8FD",
+        borderRadius: "10px",
+      },
+    },
     headCells: {
       style: {
-        fontSize: "12px",
+        fontSize: "14px",
         fontWeight: 600,
         color: "#061237",
-        backgroundColor: "#F5F8FD",
+
+        border: "none",
       },
     },
     cells: {
       style: {
-        fontSize: "12px",
+        fontSize: "13px",
         color: "#061237",
         fontWeight: 500,
       },
     },
-    pagination: {
-      style: {
-        borderTop: "none", // bottom line remove
-        boxShadow: "none", // koi shadow hoy to remove
-      },
-    },
   };
+
   return (
-    <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+    <div className=" text-primary-150 mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
-        <h1 className="text-xl font-semibold text-[#061237]">BulkUpload BusinessCategory</h1>
+        <h1 className="text-xl font-semibold text-primary-150">
+          BulkUpload BusinessCategory
+        </h1>
 
         <div className="relative w-64 ">
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -222,11 +245,11 @@ const BulkUploadBusinessCategory = () => {
 
         <div className="flex items-center gap-5">
           <div className="flex items-center ">
-            <FiFilter className="text-[#6246EA] text-xl" />
+            <FiFilter className="text-primary-200 text-xl" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-1 font-semibold text-[#061237] py-2 text-base focus:outline-none"
+              className="px-1 font-semibold text-primary-150 py-2 text-base focus:outline-none"
             >
               <option value="all">All Status</option>
               <option value="Active">Active</option>
@@ -235,11 +258,11 @@ const BulkUploadBusinessCategory = () => {
           </div>
 
           <div className="flex items-center">
-            <FaSortAmountDownAlt className="text-[#6246EA]" />
+            <FaSortAmountDownAlt className="text-primary-200" />
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
-              className="px-1 font-semibold text-[#061237] py-2 text-base focus:outline-none"
+              className="px-1 font-semibold text-primary-150 py-2 text-base focus:outline-none"
             >
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
@@ -251,7 +274,7 @@ const BulkUploadBusinessCategory = () => {
               resetForm();
               setShowModal(true);
             }}
-            className="bg-[#6246EA] text-white px-4 py-2 rounded-[40px] cursor-pointer flex items-center gap-2"
+            className="bg-primary-200 text-white px-4 py-2 rounded-full cursor-pointer flex items-center gap-2"
           >
             <FaPlus /> Add
           </button>
@@ -271,9 +294,14 @@ const BulkUploadBusinessCategory = () => {
       {/* Add Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white p-5 rounded-[20px] w-full max-w-md relative">
-            <h2 className="text-xl font-semibold mb-4 text-center text-[#061237]">Add Business Category</h2>
-            <button className="absolute top-3 right-3 text-xl font-bold" onClick={() => setShowModal(false)}>
+          <div className="bg-white p-5 rounded-2xl w-full max-w-md relative">
+            <h2 className="text-xl font-semibold mb-4 text-center text-primary-150">
+              Add Business Category
+            </h2>
+            <button
+              className="absolute top-3 right-3 text-xl font-bold"
+              onClick={() => setShowModal(false)}
+            >
               ×
             </button>
 
@@ -281,7 +309,7 @@ const BulkUploadBusinessCategory = () => {
               name="businessType"
               value={newBusiness.businessType}
               onChange={handleChange}
-              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-[10px] focus:outline-none "
+              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none "
             >
               <option value="">Select Business Type</option>
               {businessTypes.map((type) => (
@@ -295,7 +323,7 @@ const BulkUploadBusinessCategory = () => {
               name="businessDomain"
               value={newBusiness.businessDomain}
               onChange={handleChange}
-              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-[10px] focus:outline-none"
+              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
             >
               <option value="">Select Business Domain</option>
               {businessDomains.map((domain) => (
@@ -309,7 +337,7 @@ const BulkUploadBusinessCategory = () => {
               name="businessCategory"
               value={newBusiness.businessCategory}
               onChange={handleChange}
-              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-[10px] focus:outline-none"
+              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
             >
               <option value="">Select Business Category</option>
               {businessCategories.map((cat) => (
@@ -319,7 +347,10 @@ const BulkUploadBusinessCategory = () => {
               ))}
             </select>
 
-            <button onClick={addBusiness} className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]">
+            <button
+              onClick={addBusiness}
+              className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
+            >
               Submit
             </button>
           </div>
@@ -329,9 +360,14 @@ const BulkUploadBusinessCategory = () => {
       {/* Edit Modal */}
       {showEditModal && editingBusiness && (
         <div className="fixed inset-0  bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white p-5 rounded-[20px] w-full max-w-md relative">
-            <h2 className="text-xl font-semibold mb-4 text-center text-[#061237]">Edit Business Category</h2>
-            <button className="absolute top-3 right-3 text-xl font-bold" onClick={() => setShowEditModal(false)}>
+          <div className="bg-white p-5 rounded-2xl w-full max-w-md relative">
+            <h2 className="text-xl font-semibold mb-4 text-center text-primary-150">
+              Edit Business Category
+            </h2>
+            <button
+              className="absolute top-3 right-3 text-xl font-bold"
+              onClick={() => setShowEditModal(false)}
+            >
               ×
             </button>
 
@@ -339,7 +375,7 @@ const BulkUploadBusinessCategory = () => {
               name="businessType"
               value={editingBusiness.businessType}
               onChange={handleChange}
-              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-[10px] focus:outline-none"
+              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
             >
               <option value="">Select Business Type</option>
               {businessTypes.map((type) => (
@@ -353,7 +389,7 @@ const BulkUploadBusinessCategory = () => {
               name="businessDomain"
               value={editingBusiness.businessDomain}
               onChange={handleChange}
-              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-[10px] focus:outline-none"
+              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
             >
               <option value="">Select Business Domain</option>
               {businessDomains.map((domain) => (
@@ -367,7 +403,7 @@ const BulkUploadBusinessCategory = () => {
               name="businessCategory"
               value={editingBusiness.businessCategory}
               onChange={handleChange}
-              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-[10px] focus:outline-none"
+              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
             >
               <option value="">Select Business Category</option>
               {businessCategories.map((cat) => (
@@ -377,7 +413,10 @@ const BulkUploadBusinessCategory = () => {
               ))}
             </select>
 
-            <button onClick={saveBusiness} className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]">
+            <button
+              onClick={saveBusiness}
+              className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
+            >
               Save Changes
             </button>
           </div>

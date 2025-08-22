@@ -13,7 +13,7 @@ const Country = () => {
     countryCode: "",
     countryCurrency: "",
     status: "Active",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   });
   const [editingCountry, setEditingCountry] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -36,9 +36,21 @@ const Country = () => {
   };
 
   const addCountry = () => {
-    if (newCountry.country && newCountry.countryCode && newCountry.countryCurrency) {
-      setCountryList([...countryList, { ...newCountry, createdAt: new Date().toISOString() }]);
-      setNewCountry({ country: "", countryCode: "", countryCurrency: "", status: "Active" });
+    if (
+      newCountry.country &&
+      newCountry.countryCode &&
+      newCountry.countryCurrency
+    ) {
+      setCountryList([
+        ...countryList,
+        { ...newCountry, createdAt: new Date().toISOString() },
+      ]);
+      setNewCountry({
+        country: "",
+        countryCode: "",
+        countryCurrency: "",
+        status: "Active",
+      });
       setShowModal(false);
     }
   };
@@ -77,10 +89,11 @@ const Country = () => {
   }, [countryList]);
 
   const filteredList = countryList
-    .filter((item) =>
-      item.country.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (statusFilter === "all" || item.status === statusFilter) &&
-      (currencyFilter === "all" || item.countryCurrency === currencyFilter)
+    .filter(
+      (item) =>
+        item.country.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        (statusFilter === "all" || item.status === statusFilter) &&
+        (currencyFilter === "all" || item.countryCurrency === currencyFilter)
     )
     .sort((a, b) => {
       if (sortOrder === "newest") {
@@ -90,27 +103,28 @@ const Country = () => {
       }
     });
 
-
   const customStyles = {
+    headRow: {
+      style: {
+        border: "none",
+        backgroundColor: "#F5F8FD",
+        borderRadius: "10px",
+      },
+    },
     headCells: {
       style: {
-        fontSize: "12px",
+        fontSize: "14px",
         fontWeight: 600,
         color: "#061237",
-        backgroundColor:"#F5F8FD"
+
+        border: "none",
       },
     },
     cells: {
       style: {
-        fontSize: "12px",
+        fontSize: "13px",
         color: "#061237",
         fontWeight: 500,
-      },
-    },
-    pagination: {
-      style: {
-        borderTop: "none", // bottom line remove
-        boxShadow: "none", // koi shadow hoy to remove
       },
     },
   };
@@ -120,7 +134,6 @@ const Country = () => {
       name: "No.",
       selector: (_, index) => index + 1,
       sortable: false,
-
     },
     {
       name: "Country Name",
@@ -140,7 +153,13 @@ const Country = () => {
       selector: (row) => row.status,
 
       cell: (row) => (
-        <span className={`px-[20px] py-[6px] text-xs rounded-full font-medium ${row.status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+        <span
+          className={`px-5 py-1.5 rounded-full  ${
+            row.status === "Active"
+              ? "bg-primary-350 text-primary-400 font-semibold  "
+              : "bg-primary-450 text-primary-500"
+          }`}
+        >
           {row.status}
         </span>
       ),
@@ -148,20 +167,42 @@ const Country = () => {
     {
       name: "Actions",
       cell: (row, index) => (
-        <div className="flex gap-2">
-          <button className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap" onClick={() => handleEdit(row, index)}><FaRegEdit /></button>
-          <button className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap" onClick={() => deleteCountry(index)}><MdOutlineDelete /></button>
-          <button className="text-[#429667] px-2 py-1 border-[#429667] border  font-semibold rounded-[40px] whitespace-nowrap" onClick={() => deleteCountry(index)}>Active</button>
-          <button className="text-[#A00C19] px-2 py-1 border border-[#A00C19] font-semibold rounded-[40px] whitespace-nowrap" onClick={() => deleteCountry(index)}>Deactive</button>
+        <div className="flex gap-3">
+          <button
+            className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap"
+            onClick={() => handleEdit(row, index)}
+          >
+            <FaRegEdit />
+          </button>
+          <button
+            className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap"
+            onClick={() => deleteCountry(index)}
+          >
+            <MdOutlineDelete />
+          </button>
+          <button
+            className="text-primary-400 px-2 py-1 border-primary-400 border  font-semibold rounded-full whitespace-nowrap"
+            onClick={() => deleteCountry(index)}
+          >
+            Active
+          </button>
+          <button
+            className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full whitespace-nowrap"
+            onClick={() => deleteCountry(index)}
+          >
+            Deactive
+          </button>
         </div>
       ),
     },
   ];
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+    <div className="mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
-        <h1 className="font-poppins text-[#061232] font-semibold text-[20px]">Country List</h1>
+        <h1 className="font-poppins text-primary-150 font-semibold text-xl ">
+          Country List
+        </h1>
 
         <div className="relative w-64">
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -176,11 +217,11 @@ const Country = () => {
 
         {/* Sort Icon + Dropdown */}
         <div className="relative flex items-center ">
-          <TbArrowsSort className="text-[#6246EA] text-xl" />
+          <TbArrowsSort className="text-primary-200 text-xl" />
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061232]  color-[#061237] focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-md text-primary-150  focus:outline-none"
           >
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
@@ -189,11 +230,11 @@ const Country = () => {
 
         {/* Status Filter Icon + Dropdown */}
         <div className="relative flex items-center ">
-          <FiFilter className="text-[#6246EA] text-xl" />
+          <FiFilter className="text-primary-200 text-xl" />
           {/* <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-1 py-2 font-poppins font-semibold text-[16px] color-[#061237] focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-md text-primary-150 focus:outline-none"
           >
             <option value="all">All Status</option>
             <option value="Active">Active</option>
@@ -202,7 +243,7 @@ const Country = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061237] color-[#061237] focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-md text-primary-150  focus:outline-none"
           >
             <option value="newest">All Status</option>
             <option value="oldest">Active</option>
@@ -212,11 +253,11 @@ const Country = () => {
 
         {/* Currency Filter Icon + Dropdown */}
         <div className="relative flex items-center">
-          <FiFilter className="text-[#6246EA] text-xl" />
+          <FiFilter className="text-primary-200 text-xl" />
           <select
             value={currencyFilter}
             onChange={(e) => setCurrencyFilter(e.target.value)}
-            className="px-1 py-2 font-poppins font-semibold text-[16px] color-[#061237] focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-md text-primary-150 focus:outline-none"
           >
             <option value="all">All Currency</option>
             {currencyOptions.map((currency) => (
@@ -227,7 +268,7 @@ const Country = () => {
           </select>
         </div>
         <button
-          className="bg-[#6246EA] text-white px-4 py-2 rounded-[40px] cursor-pointer flex items-center gap-2"
+          className="bg-primary-200 text-white px-4 py-2 rounded-full cursor-pointer flex items-center gap-2"
           onClick={() => setShowModal(true)}
         >
           <FaPlus /> Add
@@ -243,14 +284,17 @@ const Country = () => {
           striped
           responsive
           customStyles={customStyles}
+          rowStyle={{ borderBottom: "none" }}
         />
       </div>
 
       {/* Modals remain unchanged */}
       {showModal && (
         <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-[#F9F8FF] py-5 px-10 rounded-[20px] shadow-lg w-full max-w-md relative">
-            <h2 className="text-xl font-semibold mb-3 text-center">Add Country</h2>
+          <div className="bg-primary-250 py-5 px-10 rounded-2xl shadow-lg w-full max-w-md relative">
+            <h2 className="text-xl font-semibold mb-3 text-center text-primary-150">
+              Add Country
+            </h2>
             <button
               className="absolute top-3  right-3 text-xl font-bold text-gray-600 hover:text-black"
               onClick={() => setShowModal(false)}
@@ -263,20 +307,20 @@ const Country = () => {
               placeholder="Country Name"
               value={newCountry.country}
               onChange={handleChange}
-              className=" focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className=" focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             />
             <input
               name="countryCode"
               placeholder="Country Code"
               value={newCountry.countryCode}
               onChange={handleChange}
-              className=" focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className=" focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             />
             <select
               name="countryCurrency"
               value={newCountry.countryCurrency}
               onChange={handleChange}
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             >
               <option value="">Select Currency</option>
               {currencyOptions.map((cur) => (
@@ -286,9 +330,8 @@ const Country = () => {
               ))}
             </select>
 
-
             <button
-              className="w-50 mx-auto block bg-[#6246EA] text-white py-2 rounded-[40px]"
+              className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
               onClick={addCountry}
             >
               Submit
@@ -299,9 +342,11 @@ const Country = () => {
 
       {/* Add and Edit Modal Code Here */}
       {showEditModal && editingCountry && (
-        <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
+        <div className=" text-primary-150 fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md relative">
-            <h2 className="text-xl font-semibold mb-3 text-center">Edit Country</h2>
+            <h2 className="text-xl font-semibold mb-3 text-center">
+              Edit Country
+            </h2>
             <button
               className="absolute top-3 right-3 text-xl font-bold text-gray-600 hover:text-black"
               onClick={() => setShowEditModal(false)}
@@ -314,20 +359,20 @@ const Country = () => {
               placeholder="Country Name"
               value={editingCountry.country}
               onChange={handleChange}
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             />
             <input
               name="countryCode"
               placeholder="Country Code"
               value={editingCountry.countryCode}
               onChange={handleChange}
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             />
             <select
               name="countryCurrency"
               value={editingCountry.countryCurrency}
               onChange={handleChange}
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             >
               <option value="">Select Currency</option>
               {currencyOptions.map((cur) => (
@@ -338,7 +383,7 @@ const Country = () => {
             </select>
 
             <button
-              className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px] hover:bg-indigo-700"
+              className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full hover:bg-indigo-700"
               onClick={saveCountry}
             >
               Save Changes
@@ -346,7 +391,6 @@ const Country = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

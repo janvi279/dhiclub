@@ -46,7 +46,7 @@ const MobileVerify = () => {
         >
           <button
             type="button"
-            className="mb-5 bg-[#6246EA] text-white px-8 py-2 rounded-full hover:bg-purple-700"
+            className="mb-5 bg-primary-200 text-white px-8 py-2 rounded-full hover:bg-purple-700"
           >
             Step-1
           </button>
@@ -85,7 +85,7 @@ const MobileVerify = () => {
 
           <button
             type="submit"
-            className="mt-4 bg-[#6246EA] text-white px-6 py-2 rounded hover:bg-[#6246EA]"
+            className="mt-4 bg-primary-200 text-white px-6 py-2 rounded hover:bg-primary-200"
           >
             Submit
           </button>

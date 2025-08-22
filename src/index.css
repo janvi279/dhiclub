@@ -1,9 +1,22 @@
-body {
-  
-  background-color: #EDEDED;
-  height: 100%;
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #f5f8fd;
+  --color-primary-100: #aaa9bc;
+  --color-primary-150: #061237;
+  --color-primary-200: #6246ea;
+  --color-primary-250: #f9f8ff;
+  --color-primary-300: #e4e7ff;
+  --color-primary-350: #dbfce7;
+  --color-primary-400: #429667;
+  --color-primary-450: #ffe3e2;
+  --color-primary-500: #a00c19;
 }
-input[type="password"]::-ms-reveal,
-input[type="password"]::-webkit-textfield-decoration-container {
-  display: none;
+body {
+  background-color: "#FDFDFD";
+}
+.rdt_Table,
+.rdt_TableRow,
+.rdt_TableCell {
+  border: none !important;
 }

@@ -1,14 +1,25 @@
-
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { FaPlus, FaEdit, FaTrash, FaSortAmountDownAlt, FaFilter, FaSearch } from "react-icons/fa";
+import {
+  FaPlus,
+  FaEdit,
+  FaTrash,
+  FaSortAmountDownAlt,
+  FaFilter,
+  FaSearch,
+} from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 import { FiFilter } from "react-icons/fi";
 
 const BusinessDomain = () => {
   const [domains, setDomains] = useState([]);
-  const [newDomain, setNewDomain] = useState({ type: "", name: "", status: "Active", createdAt: new Date().toISOString() });
+  const [newDomain, setNewDomain] = useState({
+    type: "",
+    name: "",
+    status: "Active",
+    createdAt: new Date().toISOString(),
+  });
   const [editDomain, setEditDomain] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -47,7 +58,10 @@ const BusinessDomain = () => {
 
   const addDomain = () => {
     if (newDomain.name && newDomain.type) {
-      setDomains([...domains, { ...newDomain, createdAt: new Date().toISOString() }]);
+      setDomains([
+        ...domains,
+        { ...newDomain, createdAt: new Date().toISOString() },
+      ]);
       setNewDomain({ type: "", name: "", status: "Active" });
       setShowModal(false);
     }
@@ -78,25 +92,27 @@ const BusinessDomain = () => {
         : new Date(a.createdAt) - new Date(b.createdAt)
     );
   const customStyles = {
+    headRow: {
+      style: {
+        border: "none",
+        backgroundColor: "#F5F8FD",
+        borderRadius: "10px",
+      },
+    },
     headCells: {
       style: {
-        fontSize: "12px",
+        fontSize: "14px",
         fontWeight: 600,
         color: "#061237",
-        backgroundColor: "#F5F8FD",
+
+        border: "none",
       },
     },
     cells: {
       style: {
-        fontSize: "12px",
+        fontSize: "13px",
         color: "#061237",
         fontWeight: 500,
-      },
-    },
-    pagination: {
-      style: {
-        borderTop: "none", // bottom line remove
-        boxShadow: "none", // koi shadow hoy to remove
       },
     },
   };
@@ -104,27 +120,29 @@ const BusinessDomain = () => {
     {
       name: "No.",
       selector: (_, index) => index + 1,
-
     },
     {
       name: "Business Type",
       selector: (row) => row.type,
-      sortable: true
+      sortable: true,
     },
     {
       name: "Business Domain",
-      selector: (row) => row.name
+      selector: (row) => row.name,
     },
     {
       name: "Status",
       cell: (row) => (
         <span
-          className={`px-2 py-1 text-xs rounded-full font-medium ${row.status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-            }`}
+          className={`px-2 py-1 text-xs rounded-full font-medium ${
+            row.status === "Active"
+              ? "bg-primary-350 text-primary-400"
+              : "bg-primary-450 text-primary-500"
+          }`}
         >
           {row.status}
         </span>
-      )
+      ),
     },
     {
       name: "Action",
@@ -135,27 +153,36 @@ const BusinessDomain = () => {
               setEditDomain({ ...row, index });
               setShowEditModal(true);
             }}
-            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
+            className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap"
           >
             <FaRegEdit />
           </button>
 
           <button
             onClick={() => deleteDomain(index)}
-            className="text-[#6246EA] text-base rounded-[15.79px] p-[8px] bg-[#E4E7FF] whitespace-nowrap"
+            className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap"
           >
             <MdOutlineDelete />
           </button>
-          <button className="text-[#429667] px-2 py-1 border-[#429667] border  font-semibold rounded-[40px] whitespace-nowrap" onClick={() => deleteCountry(index)}>Active</button>
-          <button className="text-[#A00C19] px-2 py-1 border border-[#A00C19] font-semibold rounded-[40px] whitespace-nowrap" onClick={() => deleteCountry(index)}>Deactive</button>
-
+          <button
+            className="text-primary-400 px-2 py-1 border-primary-400 border  font-semibold rounded-full whitespace-nowrap"
+            onClick={() => deleteCountry(index)}
+          >
+            Active
+          </button>
+          <button
+            className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full whitespace-nowrap"
+            onClick={() => deleteCountry(index)}
+          >
+            Deactive
+          </button>
         </div>
-      )
-    }
+      ),
+    },
   ];
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
+    <div className=" mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
       <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
         <h1 className="text-xl font-semibold">Business Domain</h1>
 
@@ -171,11 +198,11 @@ const BusinessDomain = () => {
         </div>
 
         <div className="flex items-center">
-          <FaSortAmountDownAlt className="text-[#6246EA]" />
+          <FaSortAmountDownAlt className="text-primary-200" />
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061232]  color-[#061237] focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-md  text-primary-150 focus:outline-none"
           >
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
@@ -183,25 +210,27 @@ const BusinessDomain = () => {
         </div>
 
         <div className="flex items-center ">
-          <FiFilter className="text-[#6246EA] text-xl" />
+          <FiFilter className="text-primary-200 text-xl" />
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061232]  color-[#061237] focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-md text-primary-150 focus:outline-none"
           >
             <option value="all">Business Type</option>
             {businessTypes.map((type) => (
-              <option key={type} value={type}>{type}</option>
+              <option key={type} value={type}>
+                {type}
+              </option>
             ))}
           </select>
         </div>
 
         <div className="flex items-center">
-          <FiFilter className="text-[#6246EA] text-xl " />
+          <FiFilter className="text-primary-200 text-xl " />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-1 py-2 font-poppins font-semibold text-[16px] text-[#061232]  color-[#061237] focus:outline-none"
+            className="px-1 py-2 font-poppins font-semibold text-md text-primary-150 focus:outline-none"
           >
             <option value="all">All</option>
             <option value="Active">Active</option>
@@ -211,7 +240,7 @@ const BusinessDomain = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="bg-[#6246EA] text-white px-4 py-2 rounded-[40px] cursor-pointer flex items-center gap-2"
+          className="bg-primary-200 text-white px-4 py-2 rounded-full cursor-pointer flex items-center gap-2"
         >
           <FaPlus /> Add
         </button>
@@ -229,9 +258,11 @@ const BusinessDomain = () => {
 
       {/* Add Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-opacity-30 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-[20px]  w-full max-w-md relative">
-            <h2 className="text-xl font-semibold mb-4 text-center text-[#061237]">Add Business Domain</h2>
+        <div className="text-primary-150 fixed inset-0 bg-opacity-30 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-2xl  w-full max-w-md relative">
+            <h2 className="text-xl font-semibold mb-4 text-center text-primary-150">
+              Add Business Domain
+            </h2>
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-3 right-4 text-xl font-bold"
@@ -243,11 +274,13 @@ const BusinessDomain = () => {
               name="type"
               value={newDomain.type}
               onChange={handleInputChange}
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             >
               <option value="">Select Business Type</option>
               {businessTypes.map((type) => (
-                <option key={type} value={type}>{type}</option>
+                <option key={type} value={type}>
+                  {type}
+                </option>
               ))}
             </select>
 
@@ -257,12 +290,12 @@ const BusinessDomain = () => {
               value={newDomain.name}
               onChange={handleInputChange}
               placeholder="Enter Business Domain"
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             />
 
             <button
               onClick={addDomain}
-              className="w-50 mx-auto block bg-indigo-600 text-white py-2 rounded-[40px]"
+              className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
             >
               Submit
             </button>
@@ -272,9 +305,11 @@ const BusinessDomain = () => {
 
       {/* Edit Modal */}
       {showEditModal && editDomain && (
-        <div className="fixed inset-0 bg-opacity-30 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-[20px] w-full max-w-md relative">
-            <h2 className="text-xl font-semibold mb-4 text-center text-[#061237]">Edit Business Domain</h2>
+        <div className="text-primary-150 fixed inset-0 bg-opacity-30 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-2xl w-full max-w-md relative">
+            <h2 className="text-xl font-semibold mb-4 text-center text-primary-150">
+              Edit Business Domain
+            </h2>
             <button
               onClick={() => setShowEditModal(false)}
               className="absolute top-3 right-4 text-xl font-bold"
@@ -286,11 +321,13 @@ const BusinessDomain = () => {
               name="type"
               value={editDomain.type}
               onChange={handleInputChange}
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             >
               <option value="">Select Business Type</option>
               {businessTypes.map((type) => (
-                <option key={type} value={type}>{type}</option>
+                <option key={type} value={type}>
+                  {type}
+                </option>
               ))}
             </select>
 
@@ -300,12 +337,12 @@ const BusinessDomain = () => {
               value={editDomain.name}
               onChange={handleInputChange}
               placeholder="Enter Business Domain"
-              className="focus:outline-none border border-gray-300 rounded-[10px] px-3 py-2 w-full mb-5"
+              className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full mb-5"
             />
 
             <button
               onClick={saveDomain}
-              className="w-50 block mx-auto bg-indigo-600 text-white py-2 rounded-[40px]"
+              className="w-50 block mx-auto bg-primary-200 text-white py-2 rounded-full"
             >
               Save Changes
             </button>
