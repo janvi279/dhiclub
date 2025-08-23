@@ -41,7 +41,7 @@ const Dashboard = () => {
     return (
         <>
             <div
-                className={`py-12 max-sm:px-5 w-full transition-all duration-300  min-h-screen`}
+                className={`py-12 max-sm:px-5 w-full transition-all duration-300 `}
             >
                 <h1
                     className="text-2xl font-bold text-gray-800 cursor-pointer"

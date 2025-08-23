@@ -92,11 +92,11 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   };
 
   return (
-    <div className="flex h-screen w-20 max-sm:w-10 pt-30">
+    <div className="flex  w-20 max-sm:w-10 pt-30">
       {/* Sidebar */}
       <aside
         ref={sidebar}
-        className={`fixed z-40 top-0 left-0 h-full bg-primary-50 rounded-2xl shadow-md
+        className={`fixed z-40 top-0 left-0  bg-primary-50 rounded-2xl shadow-md
           transition-transform duration-300 ease-in-out
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-53"}
           relative my-10 mx-5`}
