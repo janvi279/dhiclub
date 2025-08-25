@@ -20,8 +20,8 @@ import Teams from "../pages/dhiclub/Teams"
 import Registration from "../pages/dhiclub/Registration"
 import Members from "../pages/dhiclub/Members"
 import AddMember from "../pages/dhiclub/Members/AddMember"
-import PersonalDetail from "../pages/dhiclub/Members/PersonalDetail"
-import Visitor from "../pages/dhiclub/Visitors"
+import AddMemberForm from "../pages/dhiclub/Registration/AddMember/AddMemberForm";
+import Visitor from "../pages/dhiclub/Visitors/index"
 import Responsibility from "../pages/dhiclub/Responsibility"
 
 /* crm routes */
@@ -49,6 +49,7 @@ import Inventory from "../pages/Inventory"
 import Product from "../pages/Inventory/Product"
 import Stock from "../pages/Inventory/Stock"
 import Suppliers from "../pages/Inventory/Suppliers"
+import AddRegistration from "../pages/dhiclub/Registration/modals/AddRegistration";
 
 const AllRoute = [
   { path: "/login", element: <Login />, permission: { read: true } },
@@ -116,13 +117,18 @@ const AllRoute = [
     permission: { read: true },
   },
   {
-    path: "/Dhiclub/members/AddMember/personalDetail",
-    element: <PersonalDetail />,
+    path: "/Dhiclub/registration/AddMember/personalDetail",
+    element: <AddMemberForm />,
     permission: { read: true },
   },
   {
     path: "/Dhiclub/registration",
     element: <Registration />,
+    permission: { read: true },
+  },
+    {
+    path: "/Dhiclub/registration/AddRegistration",
+    element: <AddRegistration />,
     permission: { read: true },
   },
   {
