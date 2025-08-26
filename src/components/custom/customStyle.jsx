@@ -18,7 +18,7 @@ const customStyles = {
   },
   cells: {
     style: {
-      fontSize: "12px",
+      fontSize: "13px",
       color: "#061237",
       fontWeight: 500,
     },

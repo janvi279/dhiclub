@@ -19,7 +19,6 @@ import Dhiclub from "../pages/dhiclub"
 import Teams from "../pages/dhiclub/Teams"
 import Registration from "../pages/dhiclub/Registration"
 import Members from "../pages/dhiclub/Members"
-import AddMember from "../pages/dhiclub/Members/AddMember"
 import AddMemberForm from "../pages/dhiclub/Registration/AddMember/AddMemberForm";
 import Visitor from "../pages/dhiclub/Visitors/index"
 import Responsibility from "../pages/dhiclub/Responsibility"
@@ -111,11 +110,7 @@ const AllRoute = [
     element: <Members />,
     permission: { read: true },
   },
-  {
-    path: "/Dhiclub/members/AddMember",
-    element: <AddMember />,
-    permission: { read: true },
-  },
+
   {
     path: "/Dhiclub/registration/AddMember/personalDetail",
     element: <AddMemberForm />,

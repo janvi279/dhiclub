@@ -8,7 +8,7 @@ const CitySearch = ({ search, setSearch }) => {
       <CustomSearch
         value={search}
         onChange={setSearch}
-        placeholder="Search visitor Name"
+        placeholder="Search role..."
       />
     </div>
   );
