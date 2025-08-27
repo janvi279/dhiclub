@@ -27,6 +27,7 @@ const responsibilityColumns = ({ updateResponsibility, handleEdit, deleteRespons
   },
     {
       name: "Actions",
+      width:"300px",
       cell: (row, index) => (
         <div className="flex gap-5">
             <button

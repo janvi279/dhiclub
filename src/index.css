@@ -11,10 +11,13 @@
   --color-primary-400: #429667;
   --color-primary-450: #ffe3e2;
   --color-primary-500: #a00c19;
+  --color-primary-550: "#F19000";
 }
+
 body {
   background-color: "#FDFDFD";
 }
+
 .rdt_Table,
 .rdt_TableRow,
 .rdt_TableCell {

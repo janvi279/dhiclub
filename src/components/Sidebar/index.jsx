@@ -47,6 +47,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       path: "/meeting",
       submenu: [
         { label: "Attendance", path: "/meeting/attendance" },
+          { label: "TYFCB", path: "/meeting/Tyfcb" },
         { label: "Face to Face", path: "/meeting/FaceToFace" },
         { label: "Reference", path: "/meeting/reference" },
         { label: "Guest", path: "/meeting/guest" },

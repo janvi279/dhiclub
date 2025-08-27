@@ -32,6 +32,7 @@ import Report from "../pages/CRM/Report"
 /*meeting routes */
 import Meeting from "../pages/Meeting"
 import Attendance from "../pages/Meeting/Attendance"
+import TYFCB from "../pages/Meeting/TYFCB"
 import FaceToFace from "../pages/Meeting/FaceToFace"
 import Reference from "../pages/Meeting/Reference"
 import Guest from "../pages/Meeting/Guest"
@@ -161,6 +162,11 @@ const AllRoute = [
   {
     path: "/Meeting",
     element: <Meeting />,
+    permission: { read: true },
+  },
+  {
+    path: "/Meeting/Tyfcb",
+    element: <TYFCB />,
     permission: { read: true },
   },
   {
