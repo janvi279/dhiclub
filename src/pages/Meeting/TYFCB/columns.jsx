@@ -1,12 +1,17 @@
 import { FaRegEye, FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
-const Column = ({ onView, onEdit, onDelete,onStatusChange }) => [
+const Column = ({ onView, onEdit, onDelete, onStatusChange }) => [
     { name: "ID", selector: (row) => row.id, width: "60px" },
-    { name: "Member", selector: (row) => row.memberName, sortable: true },
-    { name: "Chapter", selector: (row) => row.chapter, sortable: true },
-    { name: "Amount", selector: (row) => `₹${row.amount}`, sortable: true },
+    { name: "Member Name", selector: (row) => row.memberName, sortable: true },
     { name: "Date", selector: (row) => row.date },
+    { name: "Thank You to", selector: (row) => row.thankyouto, sortable: true },
+    { name: "Referral Amount", selector: (row) => `₹${row.referralAmount}`, sortable: true },
+    { name: "Business Type", selector: (row) => row.businessType },
+    { name: "Referral Type", selector: (row) => row.referralType },
+    { name: "Comment", selector: (row) => row.comment },
+
+
     {
         name: "Status",
         selector: (row) => row.status,

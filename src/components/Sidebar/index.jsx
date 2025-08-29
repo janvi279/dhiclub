@@ -47,7 +47,9 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       path: "/meeting",
       submenu: [
         { label: "Attendance", path: "/meeting/attendance" },
-          { label: "TYFCB", path: "/meeting/Tyfcb" },
+        { label: "TYFCB", path: "/meeting/Tyfcb" },
+        { label: "One to One", path: "/meeting/OnetoOne" },
+        { label: "Referral", path: "/meeting/Referral" },
         { label: "Face to Face", path: "/meeting/FaceToFace" },
         { label: "Reference", path: "/meeting/reference" },
         { label: "Guest", path: "/meeting/guest" },
@@ -93,7 +95,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   };
 
   return (
-    <div className="flex  w-20 max-sm:w-10 pt-30">
+    <div className="flex w-20 max-sm:w-10 pt-30">
       {/* Sidebar */}
       <aside
         ref={sidebar}
@@ -125,7 +127,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         </button>
 
         {/* Sidebar nav */}
-        <div className="h-full overflow-y-auto">
+      <div className="h-[calc(100%-60px)] overflow-y-auto sidebar-scroll">
           <ul className={`space-y-2 py-5 ${isSidebarOpen ? "px-5" : "px-2"} text-primary-150`}>
             {navItems.map((item, index) => (
               <li key={index}>
@@ -151,9 +153,9 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                   )}
                 </div>
 
-                {/* Submenu */}
+                {/* Submenu with scroll */}
                 {activeMenu === item.label && item.submenu && (
-                  <ul className="ml-5 mt-1 pl-2 space-y-1 text-primary-150 font-semibold">
+                  <ul className="ml-5 mt-1 pl-2 space-y-1 text-primary-150 font-semibold max-h-60 overflow-y-auto">
                     {item.submenu.map((subItem, subIndex) => (
                       <li key={subIndex}>
                         <NavLink
@@ -174,13 +176,6 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           </ul>
         </div>
       </aside>
-
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-opacity-50"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
     </div>
   );
 };

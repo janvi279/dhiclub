@@ -33,12 +33,14 @@ import Report from "../pages/CRM/Report"
 import Meeting from "../pages/Meeting"
 import Attendance from "../pages/Meeting/Attendance"
 import TYFCB from "../pages/Meeting/TYFCB"
+import OnetoOne from "../pages/Meeting/OnetoOne";
 import FaceToFace from "../pages/Meeting/FaceToFace"
 import Reference from "../pages/Meeting/Reference"
 import Guest from "../pages/Meeting/Guest"
 import Training from "../pages/Meeting/Training"
 import Testimonial from "../pages/Meeting/Testimonial"
 import CreditNote from "../pages/Meeting/CreditNote"
+import Referral from "../pages/Meeting/Referral";
 
 /* account routes */
 import Account from "../pages/Account"
@@ -50,6 +52,7 @@ import Product from "../pages/Inventory/Product"
 import Stock from "../pages/Inventory/Stock"
 import Suppliers from "../pages/Inventory/Suppliers"
 import AddRegistration from "../pages/dhiclub/Registration/modals/AddRegistration";
+
 
 const AllRoute = [
   { path: "/login", element: <Login />, permission: { read: true } },
@@ -122,7 +125,7 @@ const AllRoute = [
     element: <Registration />,
     permission: { read: true },
   },
-    {
+  {
     path: "/Dhiclub/registration/AddRegistration",
     element: <AddRegistration />,
     permission: { read: true },
@@ -167,6 +170,16 @@ const AllRoute = [
   {
     path: "/Meeting/Tyfcb",
     element: <TYFCB />,
+    permission: { read: true },
+  },
+  {
+    path: "/Meeting/OnetoOne",
+    element: <OnetoOne />,
+    permission: { read: true },
+  },
+  {
+    path: "/Meeting/Referral",
+    element: <Referral/>,
     permission: { read: true },
   },
   {

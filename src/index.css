@@ -11,7 +11,13 @@
   --color-primary-400: #429667;
   --color-primary-450: #ffe3e2;
   --color-primary-500: #a00c19;
-  --color-primary-550: "#F19000";
+  --color-primary-550: #F19000;
+  --color-primary-600: #51B68C;
+  --color-primary-650: #518FFF;
+  --color-primary-700: #F26B71;
+ 
+
+
 }
 
 body {
@@ -23,3 +29,22 @@ body {
 .rdt_TableCell {
   border: none !important;
 }
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background:transparent;
+}
+
+/* ✅ Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c5c5c5 transparent;
+}
+

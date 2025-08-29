@@ -3,12 +3,18 @@ import * as Yup from "yup";
 import CustomModal from "../../../../components/common/CustomModal";
 import CustomInput from "../../../../components/common/CustomInput";
 import CustomSelect from "../../../../components/common/CustomSelect";
+import CustomTextarea from "../../../../components/common/CustomTextarea";
+
+// ✅ Dropdown options
+const referralTypes = ["Direct", "Indirect"];
+const businessTypes = ["Service", "Product", "Other"];
 
 const schema = Yup.object().shape({
-  memberName: Yup.string().required("Member name is required"),
-  chapter: Yup.string().required("Chapter is required"),
-  amount: Yup.number().required("Amount is required"),
-  date: Yup.string().required("Date is required"),
+  thankyouto: Yup.string().required("Thank You To is required"),
+  referralAmount: Yup.number().required("Amount is required"),
+  businessType: Yup.string().required("Business Type is required"),
+  referralType: Yup.string().required("Referral Type is required"),
+  comment: Yup.string().required("Comment is required"),
 });
 
 const AddEditModal = ({ isOpen, onClose, record, onSave }) => {
@@ -16,14 +22,15 @@ const AddEditModal = ({ isOpen, onClose, record, onSave }) => {
     <CustomModal
       isOpen={isOpen}
       onClose={onClose}
-      title={record ? "Edit TYFCB Record" : "Add TYFCB Record"}
+      title={record ? "Edit TYFCB" : "Add TYFCB"}
     >
       <Formik
         initialValues={{
-          memberName: record?.memberName || "",
-          chapter: record?.chapter || "",
-          amount: record?.amount || "",
-          date: record?.date || "",
+          thankyouto: record?.thankyouto || "",
+          referralAmount: record?.referralAmount || "",
+          businessType: record?.businessType || "",
+          referralType: record?.referralType || "",
+          comment: record?.comment || "",
           status: record?.status || "Active",
         }}
         validationSchema={schema}
@@ -35,39 +42,54 @@ const AddEditModal = ({ isOpen, onClose, record, onSave }) => {
         {() => (
           <Form className="space-y-4">
             <Field
-              name="memberName"
+              name="thankyouto"
               component={CustomInput}
-              label="Member Name"
-              placeholder="Enter member name"
+              placeholder="Thank You To"
             />
             <Field
-              name="chapter"
+              name="referralAmount"
               component={CustomInput}
-              label="Chapter"
-              placeholder="Enter chapter name"
-            />
-            <Field
-              name="amount"
-              component={CustomInput}
-              label="Amount"
               type="number"
-              placeholder="Enter amount"
+              placeholder="Enter Amount"
             />
             <Field
-              name="date"
-              component={CustomInput}
-              label="Date"
-              type="date"
-              placeholder="Select date"
+              name="businessType"
+              component={CustomSelect}
+              placeholder="Business Type"
+            >
+              {businessTypes.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </Field>
+            <Field
+              name="referralType"
+              component={CustomSelect}
+              placeholder="Referral Type"
+            >
+              {referralTypes.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </Field>
+            <Field
+              name="comment"
+              component={CustomTextarea}
+              placeholder="Comment :"
+              rows={3}
             />
 
-            <div className="mt-4">
+            {/* Buttons row */}
+            <div className="gap-4 mt-6">
               <button
                 type="submit"
-               className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
+             className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
               >
                 {record ? "Save Changes" : "Add"}
               </button>
+
             </div>
           </Form>
         )}
@@ -77,3 +99,5 @@ const AddEditModal = ({ isOpen, onClose, record, onSave }) => {
 };
 
 export default AddEditModal;
+
+

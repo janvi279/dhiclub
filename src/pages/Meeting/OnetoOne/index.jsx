@@ -4,9 +4,9 @@ import customStyles from "../../../components/custom/customStyle";
 import Column from "./columns";
 import ViewModal from "./Modals/view";
 import AddEditModal from "./Modals/Add";
-import TyfcbSearch from "./components/search";
+import OnetoOneSearch from "./components/search";
 
-const Index = () => {
+const OnetoOne = () => {
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [selectedRecord, setSelectedRecord] = useState(null);
@@ -15,10 +15,26 @@ const Index = () => {
     const [editRecord, setEditRecord] = useState(null);
 
     useEffect(() => {
-        // ✅ Dummy Data (replace with API call later)
+        // ✅ Dummy Data
         const dummy = [
-            { id: 1, memberName: "John Doe", chapter: "Shakti", amount: 500, date: "2025-08-20", status: "Paid" },
-            { id: 2, memberName: "Jane Smith", chapter: "Unity", amount: 300, date: "2025-08-21", status: "Pending" },
+            {
+                id: 1,
+                metWith: "John Doe",
+                initiatedBy: "Me",
+                whereYouMeet: "Mumbai",
+                date: "2025-08-20",
+                twc: "Discussed collaboration",
+                status: "Active",
+            },
+            {
+                id: 2,
+                metWith: "Jane Smith",
+                initiatedBy: "Other",
+                whereYouMeet: "Delhi",
+                date: "2025-08-21",
+                twc: "Networking",
+                status: "Deactive",
+            },
         ];
         setData(dummy);
         setFilteredData(dummy);
@@ -30,7 +46,7 @@ const Index = () => {
         } else {
             setFilteredData(
                 data.filter((row) =>
-                    row.memberName.toLowerCase().includes(text.toLowerCase())
+                    row.metWith.toLowerCase().includes(text.toLowerCase())
                 )
             );
         }
@@ -47,18 +63,16 @@ const Index = () => {
     };
 
     const handleDelete = (id) => {
-
         setData(data.filter((r) => r.id !== id));
         setFilteredData(filteredData.filter((r) => r.id !== id));
-
     };
 
     return (
         <div className="mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
             {/* Header + Filters */}
             <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
-                <h1 className="text-primary-150 font-semibold text-xl">TYFCB</h1>
-                <TyfcbSearch onSearch={handleSearch} />
+                <h1 className="text-primary-150 font-semibold text-xl">One to One</h1>
+                <OnetoOneSearch onSearch={handleSearch} />
                 <button
                     className="bg-primary-200 text-white px-4 py-2 rounded-full flex items-center gap-2"
                     onClick={handleAdd}
@@ -89,7 +103,6 @@ const Index = () => {
                 pagination
                 highlightOnHover
             />
-
 
             {/* 👁️ View Modal */}
             <ViewModal
@@ -122,4 +135,4 @@ const Index = () => {
     );
 };
 
-export default Index;
+export default OnetoOne;
