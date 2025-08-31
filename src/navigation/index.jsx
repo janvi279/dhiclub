@@ -1,73 +1,64 @@
-import MobileVerify from "../components/mobileVerify";
-import BusinessDetail from "../components/BusinessDetail";
-import References from "../components/Refrences";
 import Login from "../pages/Auth/Login";
-import Dashboard from "../components/Dashboard";
-import Country from "../components/controllers/Country";
-import State from "../components/controllers/State";
-import City from "../components/controllers/City";
-import Controllers from "../components/controllers";
-import Currency from "../components/controllers/Currency";
-import Pincode from "../components/controllers/Pincode";
-import BusinessDomain from "../components/controllers/BusinessDomain";
-import BusinessCategory from "../components/controllers/BusinessCategory";
-import BusinessType from "../components/controllers/BusinessType";
-import BulkUpload from "../components/controllers/BulkUpload";
-import BulkUploadBusinessCategory from "../components/controllers/BulkUploadBusinessCategory";
-import Teams from "../components/dhiclub/Teams";
-import Dhiclub from "../components/dhiclub"
-import Members from "../components/dhiclub/Members";
-import AddMember from "../components/dhiclub/Members/AddMember";
-import PersonalDetail from "../components/dhiclub/Members/PersonalDetail";
-import SignUp from "../components/SignUp"
-import Account from "../components/Account";
-import CRM from "../components/CRM"
-import Clients from "../components/CRM/Clients";
-import Leads from "../components/CRM/Leads";
-import Report from "../components/CRM/Report";
-import Meeting from "../components/Meeting"
-import Attendance from "../components/Meeting/Attendance";
-import FaceToFace from "../components/Meeting/FaceToFace";
-import Reference from "../components/Meeting/Reference";
-import Guest from "../components/Meeting/Guest";
-import Training from "../components/Meeting/Training";
-import Testimonial from "../components/Meeting/Testimonial";
-import CreditNote from "../components/Meeting/CreditNote";
-import Billing from "../components/Account/Billing";
-import Inventory from "../components/Inventry";
-import Product from "../components/Inventry/Product";
-import Stock from "../components/Inventry/Stock";
-import Suppliers from "../components/Inventry/Suppliers";
-import Registration from "../components/dhiclub/Registration";
-import AddRegistration from "../components/dhiclub/Registration/AddRegistration";
-import Visitor from "../components/dhiclub/Visitors";
-import Responsibility from "../components/dhiclub/Responsibility";
+import Dashboard from "../pages/Home/Dashboard";
+import Home from "../pages/Home"
+
+/* controllers routes */
+import Controllers from "../pages/controllers"
+import Country from "../pages/controllers/Country"
+import State from "../pages/controllers/State"
+import City from "../pages/controllers/City"
+import Pincode from "../pages/controllers/Pincode"
+import BusinessType from "../pages/controllers/BusinessType"
+import BusinessDomain from "../pages/controllers/BusinessDomain"
+import BusinessCategory from "../pages/controllers/BusinessCategory"
+import BulkUpload from "../pages/controllers/BulkUpload"
+import BulkUploadBusinessCategory from "../pages/controllers/BulkUploadBusinessCategory"
+
+/* dhiclub routes */
+import Dhiclub from "../pages/dhiclub"
+import Teams from "../pages/dhiclub/Teams"
+import Registration from "../pages/dhiclub/Registration"
+import Members from "../pages/dhiclub/Members"
+import AddMemberForm from "../pages/dhiclub/Registration/AddMember/AddMemberForm";
+import Visitor from "../pages/dhiclub/Visitors/index"
+import Responsibility from "../pages/dhiclub/Responsibility"
+
+/* crm routes */
+import CRM from "../pages/CRM"
+import Clients from "../pages/CRM/Clients"
+import Leads from "../pages/CRM/Leads"
+import Report from "../pages/CRM/Report"
+
+/*meeting routes */
+import Meeting from "../pages/Meeting"
+import Attendance from "../pages/Meeting/Attendance"
+import TYFCB from "../pages/Meeting/TYFCB"
+import OnetoOne from "../pages/Meeting/OnetoOne";
+import FaceToFace from "../pages/Meeting/FaceToFace"
+import Reference from "../pages/Meeting/Reference"
+import Guest from "../pages/Meeting/Guest"
+import Training from "../pages/Meeting/Training"
+import Testimonial from "../pages/Meeting/Testimonial"
+import CreditNote from "../pages/Meeting/CreditNote"
+import Referral from "../pages/Meeting/Referral";
+
+/* account routes */
+import Account from "../pages/Account"
+import Billing from "../pages/Account/Billing"
+
+/* inventory routes*/
+import Inventory from "../pages/Inventory"
+import Product from "../pages/Inventory/Product"
+import Stock from "../pages/Inventory/Stock"
+import Suppliers from "../pages/Inventory/Suppliers"
+import AddRegistration from "../pages/dhiclub/Registration/modals/AddRegistration";
+
 
 const AllRoute = [
-  { path: "/", element: <Login />, permission: { read: true } },
-
-  {
-    path: "/verification",
-    element: <MobileVerify />,
-    permission: { read: true },
-  },
-  {
-    path: "/personal-detail",
-    element: <SignUp />,
-    permission: { read: true },
-  },
-  {
-    path: "/BusinessDetail",
-    element: <BusinessDetail />,
-    permission: { read: true },
-  },
-  { path: "/references", element: <References />, permission: { read: true } },
-  {
-    path: "/memberSignUp",
-    element: <Registration />,
-    permission: { read: true },
-  },
+  { path: "/login", element: <Login />, permission: { read: true } },
   { path: "/dashboard", element: <Dashboard />, permission: { read: true } },
+  { path: "/", element: <Home />, permission: { read: true } },
+
   { path: "/Controller", element: <Controllers />, permission: { read: true } },
   {
     path: "/Controller/country",
@@ -79,11 +70,6 @@ const AllRoute = [
   {
     path: "/Controller/pincode",
     element: <Pincode />,
-    permission: { read: true },
-  },
-  {
-    path: "/Controller/currency",
-    element: <Currency />,
     permission: { read: true },
   },
   {
@@ -111,6 +97,7 @@ const AllRoute = [
     element: <BulkUploadBusinessCategory />,
     permission: { read: true },
   },
+
   { path: "/Dhiclub", element: <Dhiclub />, permission: { read: true } },
   {
     path: "/Dhiclub/teams",
@@ -127,14 +114,10 @@ const AllRoute = [
     element: <Members />,
     permission: { read: true },
   },
+
   {
-    path: "/Dhiclub/members/AddMember",
-    element: <AddMember />,
-    permission: { read: true },
-  },
-  {
-    path: "/Dhiclub/members/AddMember/personalDetail",
-    element: <PersonalDetail />,
+    path: "/Dhiclub/registration/AddMember/personalDetail",
+    element: <AddMemberForm />,
     permission: { read: true },
   },
   {
@@ -142,21 +125,22 @@ const AllRoute = [
     element: <Registration />,
     permission: { read: true },
   },
-    {
+  {
     path: "/Dhiclub/registration/AddRegistration",
     element: <AddRegistration />,
     permission: { read: true },
   },
-   {
+  {
     path: "/Dhiclub/visitor",
     element: <Visitor />,
     permission: { read: true },
   },
-   {
+  {
     path: "/Dhiclub/responsibility",
     element: <Responsibility />,
     permission: { read: true },
   },
+
   {
     path: "/CRM",
     element: <CRM />,
@@ -177,9 +161,25 @@ const AllRoute = [
     element: <Report />,
     permission: { read: true },
   },
+
   {
     path: "/Meeting",
     element: <Meeting />,
+    permission: { read: true },
+  },
+  {
+    path: "/Meeting/Tyfcb",
+    element: <TYFCB />,
+    permission: { read: true },
+  },
+  {
+    path: "/Meeting/OnetoOne",
+    element: <OnetoOne />,
+    permission: { read: true },
+  },
+  {
+    path: "/Meeting/Referral",
+    element: <Referral/>,
     permission: { read: true },
   },
   {
@@ -228,23 +228,24 @@ const AllRoute = [
     element: <Billing />,
     permission: { read: true },
   },
+
   {
-    path: "/Inventry",
+    path: "/Inventory",
     element: <Inventory />,
     permission: { read: true },
   },
   {
-    path: "/Inventry/Product",
+    path: "/Inventory/Product",
     element: <Product />,
     permission: { read: true },
   },
   {
-    path: "/Inventry/Stock",
+    path: "/Inventory/Stock",
     element: <Stock />,
     permission: { read: true },
   },
   {
-    path: "/Inventry/Suppliers",
+    path: "/Inventory/Suppliers",
     element: <Suppliers />,
     permission: { read: true },
   },

@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Topbar from '../components/Topbar';
 import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
 
 const DefaultLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);  // Sidebar open/close state
 
     return (
         <>
-            <Topbar />
+            <Header />
             <div className="flex h-screen overflow-hidden">
                 <Sidebar
                     isSidebarOpen={isSidebarOpen}  // Pass isSidebarOpen to Sidebar
