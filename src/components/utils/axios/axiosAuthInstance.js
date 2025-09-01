@@ -2,7 +2,7 @@ import axios from 'axios'
 import { getToken } from '../cookies/cookies'
 import toast from 'react-hot-toast'
 
-const baseURL = "http://localhost:5000/api/";
+const baseURL = "http://13.202.103.22:8097/api/";
 // const baseURL = "https://tms.wolfynext.com/api/";
 // const baseURL = 'http://44.206.226.103/api/'
 

@@ -90,7 +90,7 @@ const Login = () => {
     <div className="font-poppins flex justify-center items-center min-h-screen max-sm:mx-8 bg-gray-50">
       <ToastContainer />
 
-      <div className="bg-primary-50 p-8 max-sm:p-5 rounded-2xl shadow-lg w-full max-w-md">
+      <div className="bg-primary-50 p-10 max-sm:p-5 rounded-2xl shadow-lg w-full max-w-md">
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           {/* Logo and Title */}
           <div className="flex gap-3 text-left items-center mb-6">
@@ -156,13 +156,9 @@ const Login = () => {
                 type="button"
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer focus:outline-none"
                 onClick={togglePasswordVisibility}
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-label={showPassword ? "Show password" : "Hide password"}
               >
-                <img
-                  src={showPassword ? "/eye-svgrepo-com.png" : "/eye-close.png"}
-                  alt="Toggle password visibility"
-                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
-                />
+               
               </button>
             </div>
             {errors.password && (
@@ -176,7 +172,7 @@ const Login = () => {
           <div className="mb-6 text-right">
             <Link
               to="/forgot-password"
-              className="text-xs text-primary-200 hover:underline hover:text-primary-300 transition-colors font-normal"
+              className="text-xs text-primary-200 hover:underline  transition-colors font-normal"
             >
               Forgot Password?
             </Link>
@@ -187,7 +183,7 @@ const Login = () => {
             <button
               type="submit"
 
-              className="flex-1 py-3 px-8 bg-primary-200 text-white rounded-full font-medium transition-all duration-200  disabled:bg-primary-200  flex items-center justify-center max-sm:py-2 max-sm:px-6"
+              className="cursor-pointer flex-1 py-3 px-8 bg-primary-200 text-white rounded-full font-medium transition-all duration-200  disabled:bg-primary-200  flex items-center justify-center max-sm:py-2 max-sm:px-6"
             >
               {loading ? (
                 <div className="flex items-center space-x-2">
@@ -202,7 +198,7 @@ const Login = () => {
             <button
               type="button"
               onClick={() => navigate("/signUp")}
-              className="flex-1 py-3 px-8 text-primary-200 border border-primary-200 rounded-full font-bold   transition-all duration-200 max-sm:py-2 max-sm:px-6"
+              className="cursor-pointer flex-1 py-3 px-8 text-primary-200 border border-primary-200 rounded-full font-bold   transition-all duration-200 max-sm:py-2 max-sm:px-6"
             >
               Sign Up
             </button>

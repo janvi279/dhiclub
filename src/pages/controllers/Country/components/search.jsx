@@ -8,7 +8,7 @@ const CitySearch = ({ search, setSearch }) => {
       <CustomSearch
         value={search}
         onChange={setSearch}
-        placeholder="Search City..."
+        placeholder="Search Country..."
       />
     </div>
   );

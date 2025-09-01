@@ -1,29 +1,55 @@
+import Select from "react-select";
 import { ErrorMessage } from "formik";
 
 const CustomSelect = ({
   field,
-  form: { touched, errors },
+  form: { setFieldValue, touched, errors },
   label,
   required,
-  children,
   placeholder,
+  options,
   ...props
 }) => {
   const isInvalid = touched[field.name] && errors[field.name];
 
+  // ✅ custom styles for react-select
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? "#E4E7FF" : "white", // light purple on hover
+      color: state.isFocused ? "#6246EA" : "", // light purple on hover
+      cursor: "pointer",
+    }),
+    control: (provided) => ({
+      ...provided,
+      borderColor: isInvalid ? "red" : "#d1d5db",
+      borderRadius: "0.5rem",
+      boxShadow: "none",
+      "&:hover": {
+        borderColor: isInvalid ? "red" : "none",
+      },
+    }),
+  };
+
   return (
     <div className="w-full flex flex-col gap-1">
-      
-      <select
-        {...field}
+      {label && (
+        <label className="text-sm font-medium">
+          {label} {required && <span className="text-red-500">*</span>}
+        </label>
+      )}
+
+      <Select
+        id={field.name}
+        name={field.name}
+        options={options}
+        placeholder={placeholder}
+        value={options.find((opt) => opt.value === field.value) || null}
+        onChange={(option) => setFieldValue(field.name, option.value)}
+        classNamePrefix="react-select"
+        styles={customStyles} // ✅ applied fixed styles
         {...props}
-        className={`focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full
-          ${isInvalid ? "border-red-500" : "border-gray-300"} 
-        `}
-      >
-        {placeholder && <option value="">{placeholder}</option>}
-        {children}
-      </select>
+      />
 
       <ErrorMessage
         name={field.name}
@@ -35,52 +61,3 @@ const CustomSelect = ({
 };
 
 export default CustomSelect;
-
-
-
-// import { ErrorMessage } from "formik";
-
-// const CustomSelect = ({
-//   field,
-//   form: { touched, errors },
-//   label,
-//   required,
-//   options = [],
-//   placeholder,
-//   ...props
-// }) => {
-//   const isInvalid = touched[field.name] && errors[field.name];
-
-//   return (
-//     <div className="w-full flex flex-col gap-1">
-//       {label && (
-//         <label className="text-sm font-medium text-gray-700">
-//           {label} {required && <span className="text-red-500">*</span>}
-//         </label>
-//       )}
-
-//       <select
-//         {...field}
-//         {...props}
-//         className={`focus:outline-none border rounded-lg px-3 py-2 w-full
-//           ${isInvalid ? "border-red-500" : "border-gray-300"} 
-//         `}
-//       >
-//         {placeholder && <option value="">{placeholder}</option>}
-//         {options.map((opt) => (
-//           <option key={opt.value} value={opt.value}>
-//             {opt.label}
-//           </option>
-//         ))}
-//       </select>
-
-//       <ErrorMessage
-//         name={field.name}
-//         component="div"
-//         className="text-red-500 text-sm sm:text-base mt-1"
-//       />
-//     </div>
-//   );
-// };
-
-// export default CustomSelect;

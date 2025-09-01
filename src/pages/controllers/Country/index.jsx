@@ -13,7 +13,7 @@ const Country = () => {
   const { country, addCountry, updateCountry, deleteCountry } = useCountry();
 
   const [search, setSearch] = useState("");
-  const [filterCountry, setFilterCountry] = useState("");
+  const [filterCountry, setFilterCountry] = useState("ALL");
   const [showAdd, setShowAdd] = useState(false);
   const [editData, setEditData] = useState(null);
   const [sortOrder, setSortOrder] = useState("newest");
@@ -24,9 +24,10 @@ const Country = () => {
       const countryName = c.countryName || "";
       const Country = c.countryName?.toUpperCase() || "";
       const filter = filterCountry?.toUpperCase() || "";
+
       return (
         countryName.toLowerCase().includes(search.toLowerCase()) &&
-        (filter ? Country === filter : true)
+        (filter === "ALL" ? true : Country === filter)
       );
     })
     .sort((a, b) => {
@@ -78,15 +79,20 @@ const Country = () => {
       {/* Add Modal */}
       {showAdd && (
         <AddCountryModal
-          isOpen={showAdd}      // ✅ important
+          isOpen={showAdd} // ✅ important
           onClose={handleCloseAddModal}
           onSave={addCountry}
         />
       )}
 
-      {editData && <EditCountryModal isOpen={!!editData}
-        country={editData} onClose={handleCloseEditModal} onSave={updateCountry} />}
-
+      {editData && (
+        <EditCountryModal
+          isOpen={!!editData}
+          country={editData}
+          onClose={handleCloseEditModal}
+          onSave={updateCountry}
+        />
+      )}
     </div>
   );
 };

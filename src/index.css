@@ -11,13 +11,10 @@
   --color-primary-400: #429667;
   --color-primary-450: #ffe3e2;
   --color-primary-500: #a00c19;
-  --color-primary-550: #F19000;
-  --color-primary-600: #51B68C;
-  --color-primary-650: #518FFF;
-  --color-primary-700: #F26B71;
- 
-
-
+  --color-primary-550: #f19000;
+  --color-primary-600: #51b68c;
+  --color-primary-650: #518fff;
+  --color-primary-700: #f26b71;
 }
 
 body {
@@ -37,9 +34,8 @@ body {
   overflow: hidden;
 }
 
-
 ::-webkit-scrollbar-thumb:hover {
-  background:transparent;
+  background: transparent;
 }
 
 /* ✅ Firefox */
@@ -47,4 +43,3 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #c5c5c5 transparent;
 }
-
