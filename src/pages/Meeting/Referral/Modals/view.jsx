@@ -42,21 +42,19 @@ const ViewModal = ({ isOpen, onClose, record }) => {
         {/* 🔹 Tabs */}
         <div className="flex gap-6  text-sm font-medium mt-4">
           <button
-            className={`pb-2 ${
-              activeTab === "referral"
-                ? "border-b-2 border-primary-200 text-primary-200"
-                : "text-gray-500"
-            }`}
+            className={`pb-2 ${activeTab === "referral"
+              ? "border-b-2 border-primary-200 text-primary-200"
+              : "text-gray-500"
+              }`}
             onClick={() => setActiveTab("referral")}
           >
             Referral Details
           </button>
           <button
-            className={`pb-2 ${
-              activeTab === "contact"
-                ? "border-b-2 border-primary-200 text-primary-200"
-                : "text-gray-500"
-            }`}
+            className={`pb-2 ${activeTab === "contact"
+              ? "border-b-2 border-primary-200 text-primary-200"
+              : "text-gray-500"
+              }`}
             onClick={() => setActiveTab("contact")}
           >
             Contact Details
