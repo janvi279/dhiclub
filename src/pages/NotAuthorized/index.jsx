@@ -1,8 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { removeToken } from '../../utils/cookies/cookies'
+import { removeToken } from '../../components/utils/cookies/cookies'
 
-const NotAuthrized = () => {
+const NotAuthorized  = () => {
     const navigate = useNavigate()
 
     const handleBack = () => {
@@ -23,4 +23,4 @@ const NotAuthrized = () => {
     )
 }
 
-export default NotAuthrized
+export default NotAuthorized 

@@ -334,12 +334,13 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   }, [isSidebarOpen]);
 
   return (
-    <div className="flex w-20 max-sm:w-10 pt-30 ">
+    <div className="flex  max-sm:w-10 pt-30 w-20 ">
       <aside
         ref={sidebar}
-        className={`fixed z-40 top-30 left-0 h-screen bg-primary-50 rounded-2xl shadow-md
-            transition-all duration-300 ease-in-out m-2
-            ${isSidebarOpen ? "w-64" : "w-16"}`}
+        className={`fixed z-40  left-0  bg-primary-50 rounded-2xl shadow-md
+          transition-all duration-300 ease-in-out
+          ${isSidebarOpen ? " w-64" : "w-16"}
+            my-5 mx-3`}
       >
         {/* Toggle button */}
         <button
@@ -355,19 +356,19 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           ) : (
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path clipRule="evenodd" fillRule="evenodd"
-                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 
-                10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 
-                01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 
+                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0
+                10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0
+                01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0
                 010 1.5H2.75A.75.75 0 012 10z"/>
             </svg>
           )}
         </button>
 
         {/* Sidebar content */}
-        <div className="h-100 pt-16 pb-4 overflow-y-auto">
+        <div className="h-122 pt-16 pb-4 overflow-y-auto sidebar-scroll">
           <ul className={`space-y-2 text-primary-150 ${isSidebarOpen ? "px-4" : "px-2"}`}>
             {navItems.map((item, index) => (
-              <li key={index} className="relative group">
+              <li key={index} >
                 {/* Main navigation item */}
                 <div
                   className={`flex items-center rounded-xl hover:bg-primary-300 hover:text-primary-200 transition-colors cursor-pointer
@@ -377,13 +378,13 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
-                      `flex items-center font-medium ${isSidebarOpen ? "gap-3 flex-1" : "justify-center"
+                      `flex items-center font-medium ${isSidebarOpen ? "gap-3 " : "justify-center"
                       } ${isActive ? "text-primary-200" : ""}`
                     }
                     onClick={(e) => e.preventDefault()}
                   >
                     {/* Icon */}
-                    <span className="flex-shrink-0 relative">
+                    <span className="flex-shrink-0 ">
                       {item.icon &&
                         React.cloneElement(item.icon, {
                           className: "w-5 h-5"
@@ -400,9 +401,10 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
                   {/* Submenu toggle (only when expanded) */}
                   {isSidebarOpen && item.submenu && (
-                    <button className="p-1 hover:bg-primary-400 rounded transition-colors">
+                    <button className="p-1  rounded transition-colors">
                       {activeMenu === item.label ? (
-                        <LuCircleMinus className="w-4 h-4" />
+                        <LuCircleMinus className="w-4 h-4"
+                        />
                       ) : (
                         <LuCirclePlus className="w-4 h-4" />
                       )}
@@ -412,14 +414,14 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
                 {/* Submenu (only when expanded and active) */}
                 {isSidebarOpen && activeMenu === item.label && item.submenu && (
-                  <div className="overflow-hidden transition-all duration-300 ease-in-out">
+                  <div className="max-h-60 overflow-y-auto transition-all duration-300 ease-in-out">
                     <ul className="ml-8 mt-2 space-y-1 ">
                       {item.submenu.map((subItem, subIndex) => (
                         <li key={subIndex}>
                           <NavLink
                             to={subItem.path}
                             className={({ isActive }) =>
-                              `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium 
+                              `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium
                               transition-colors hover:bg-primary-300 hover:text-primary-200 ${isActive ? "bg-primary-300 text-primary-200" : ""
                               }`
                             }

@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { toast, ToastContainer } from "react-toastify";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
-// import axiosCommonInstance from "../../../utils/axios/axiosCommonInstance";
-// import { setToken } from "../../../utils/cookies/cookies";
+import axiosAuthInstance from "../../../components/utils/axios/axiosAuthInstance"
+import { setToken, setRole } from "../../../components/utils/cookies/cookies";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,26 +42,21 @@ const Login = () => {
 
     try {
       // Fixed: Send data directly, not wrapped in body object
-      const response = await axiosCommonInstance.post('user/login/mail', {
+      const response = await axiosAuthInstance.post('socialAuth/authenticate', {
         email: data.email,
         password: data.password,
       });
 
       if (response?.data) {
-        const token = response.data?.token;
+        const token = response.data?.data?.accessToken;
+        const role = response.data?.data?.role || "Admin";
 
         if (token) {
           setToken(token);
-
-          toast.success("Login successful!", {
-            autoClose: 2000,
-            position: "top-center",
-          });
-
-          // Navigate after toast duration
-          setTimeout(() => {
-            navigate("/addMember");
-          }, 2000);
+          if (role) {
+            setRole(role);
+          }
+          navigate("/dashboard");
         } else {
           throw new Error("No token received from server");
         }
@@ -71,24 +65,14 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Login error:", error);
-
-      const errorMessage = error.response?.data?.message ||
-        error.response?.data?.error ||
-        error.message ||
-        "Login failed. Please check your credentials.";
-
-      toast.error(errorMessage, {
-        autoClose: 3000,
-        position: "top-center",
-      });
-    } finally {
+    }
+    finally {
       setLoading(false);
     }
-  };
-
+  }
   return (
     <div className="font-poppins flex justify-center items-center min-h-screen max-sm:mx-8 bg-gray-50">
-      <ToastContainer />
+
 
       <div className="bg-primary-50 p-10 max-sm:p-5 rounded-2xl shadow-lg w-full max-w-md">
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -158,7 +142,7 @@ const Login = () => {
                 onClick={togglePasswordVisibility}
                 aria-label={showPassword ? "Show password" : "Hide password"}
               >
-               
+
               </button>
             </div>
             {errors.password && (
@@ -179,30 +163,24 @@ const Login = () => {
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-4 flex-col sm:flex-row">
-            <button
-              type="submit"
 
-              className="cursor-pointer flex-1 py-3 px-8 bg-primary-200 text-white rounded-full font-medium transition-all duration-200  disabled:bg-primary-200  flex items-center justify-center max-sm:py-2 max-sm:px-6"
-            >
-              {loading ? (
-                <div className="flex items-center space-x-2">
-                  <div className="w-4 h-4 border-2 border-white border-solid rounded-full animate-spin border-t-transparent"></div>
-                  <span>Logging in...</span>
-                </div>
-              ) : (
-                "Login"
-              )}
-            </button>
+          <button
+            type="submit"
 
-            <button
-              type="button"
-              onClick={() => navigate("/signUp")}
-              className="cursor-pointer flex-1 py-3 px-8 text-primary-200 border border-primary-200 rounded-full font-bold   transition-all duration-200 max-sm:py-2 max-sm:px-6"
-            >
-              Sign Up
-            </button>
-          </div>
+            className="mx-auto w-50 cursor-pointer flex-1 py-3 px-8 bg-primary-200 text-white rounded-full font-medium transition-all duration-200  disabled:bg-primary-200  flex items-center justify-center max-sm:py-2 max-sm:px-6"
+          >
+            {loading ? (
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 border-2 border-white border-solid rounded-full animate-spin border-t-transparent"></div>
+                <span>Logging in...</span>
+              </div>
+            ) : (
+              "Login"
+            )}
+          </button>
+
+
+
         </form>
       </div>
     </div>

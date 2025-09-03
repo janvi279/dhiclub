@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { removeRole,removeToken } from "../utils/cookies/cookies";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false)
@@ -8,10 +9,15 @@ const Header = () => {
 
   }
   const navigate = useNavigate();
+
   const handleLogout = () => {
-    // Perform any logout-related tasks here (e.g., clearing session)
-    navigate("/login"); // Redirect to login page
-  };
+    removeToken()
+    removeRole()
+    setTimeout(() => {
+      navigate('/login')
+    }, 100)
+ 
+  }
   return (
     <>
      <div className="fixed top-0 left-0 w-full z-50 bg-primary-50 flex justify-between items-center p-7 max-sm:p-5 max-sm:flex-wrap shadow-md">
