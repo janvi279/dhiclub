@@ -339,8 +339,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         ref={sidebar}
         className={`fixed z-40  left-0  bg-primary-50 rounded-2xl shadow-md
           transition-all duration-300 ease-in-out
-          ${isSidebarOpen ? " w-64" : "w-16"}
-            my-5 mx-3`}
+         
+            relative my-5 mx-3`}
       >
         {/* Toggle button */}
         <button
@@ -365,7 +365,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         </button>
 
         {/* Sidebar content */}
-        <div className="h-122 pt-16 pb-4 overflow-y-auto sidebar-scroll">
+        <div className={`h-full pt-16 pb-4 overflow-y-auto sidebar-scroll  ${isSidebarOpen ? " w-64" : "w-16"}`}>
           <ul className={`space-y-2 text-primary-150 ${isSidebarOpen ? "px-4" : "px-2"}`}>
             {navItems.map((item, index) => (
               <li key={index} >

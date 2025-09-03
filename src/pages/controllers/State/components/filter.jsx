@@ -5,21 +5,30 @@ import CustomFilterSelect from "../../../../components/common/CustomFilterSelect
 const StateFilters = ({ filterState, setFilterState, sortOrder, setSortOrder }) => {
   return (
     <div className="flex gap-3 items-center">
+      {/* Sort By */}
       <CustomFilterSelect
         value={sortOrder}
-        onChange={(e) => setSortOrder(e.target.value)}
-        options={["newest", "oldest"]}
+        onChange={(option) => setSortOrder(option?.value)} // ✅ same as CountryFilters
+        options={[
+          { value: "newest", label: "Newest" },
+          { value: "oldest", label: "Oldest" },
+        ]}
         icon={FaSortAmountDownAlt}
-        placeholder="Sort By"
       />
 
+      {/* State Filter */}
       <CustomFilterSelect
-        value={filterState}
-        onChange={(e) => setFilterState(e.target.value)}
-        options={["Gujrat", "Delhi", "maharastra"]}
-        icon={FiFilter}
-        placeholder="All State"
-      />
+  value={filterState}
+  onChange={(option) => setFilterState(option?.value)}
+  options={[
+    { value: "ALL", label: "All" },
+    { value: "GUJARAT", label: "Gujarat" },
+    { value: "DELHI", label: "Delhi" },
+    { value: "MAHARASHTRA", label: "Maharashtra" },
+  ]}
+  icon={FiFilter}
+/>
+
     </div>
   );
 };
