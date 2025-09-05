@@ -87,7 +87,7 @@ const AddMemberForm = () => {
                                 <button
                                     type="button"
                                     onClick={() => setStep((prev) => prev - 1)}
-                                    className="border border-[#6246EA] text-primary-200 px-[30px] py-[10px] rounded-full font-semibold"
+                                    className="border border-[#44C5FF] text-primary-200 px-[30px] py-[10px] rounded-full font-semibold"
                                 >
                                     Back
                                 </button>

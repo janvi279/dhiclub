@@ -1,6 +1,6 @@
 import CustomSearch from "../../../../components/common/CustomSearch";
 
-const CitySearch = ({ search, setSearch }) => {
+const CountrySearch = ({ search, setSearch }) => {
 
   return (
     <div className="flex justify-between items-center ">
@@ -14,4 +14,4 @@ const CitySearch = ({ search, setSearch }) => {
   );
 };
 
-export default CitySearch;
+export default CountrySearch;

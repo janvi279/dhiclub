@@ -337,8 +337,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     <div className="flex  max-sm:w-10 pt-30 w-20 ">
       <aside
         ref={sidebar}
-        className={`fixed z-40  left-0  bg-primary-50 rounded-2xl shadow-md
-          transition-all duration-300 ease-in-out
+        className={`fixed z-40  left-0  bg-primary-750 rounded-2xl shadow-md
+          transition-all duration-300 ease-in-out border border-primary-800
          
             relative my-5 mx-3`}
       >
@@ -346,7 +346,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           type="button"
-          className="absolute top-4 right-4 p-2 text-sm text-primary-150 hover:bg-primary-300 rounded-lg transition-colors z-50"
+          className="absolute top-4 right-4 p-2 text-sm text-primary-850 hover:bg-primary-300 rounded-lg transition-colors z-50"
         >
           {isSidebarOpen ? (
             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none"
@@ -366,7 +366,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
         {/* Sidebar content */}
         <div className={`h-full pt-16 pb-4 overflow-y-auto sidebar-scroll  ${isSidebarOpen ? " w-64" : "w-16"}`}>
-          <ul className={`space-y-2 text-primary-150 ${isSidebarOpen ? "px-4" : "px-2"}`}>
+          <ul className={`space-y-2 text-primary-850 ${isSidebarOpen ? "px-4" : "px-2"}`}>
             {navItems.map((item, index) => (
               <li key={index} >
                 {/* Main navigation item */}

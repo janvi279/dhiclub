@@ -180,14 +180,14 @@
 //             style: {
 //                 fontSize: "14px",
 //                 fontWeight: 600,
-//                 color: "#061237",
+//                 color: "#000000",
 //                 border: "none",
 //             },
 //         },
 //         cells: {
 //             style: {
 //                 fontSize: "13px",
-//                 color: "#061237",
+//                 color: "#000000",
 //                 fontWeight: 500,
 //             },
 //         },
@@ -829,8 +829,8 @@ const Responsibility = () => {
 
             <DataTable columns={columns} data={filteredList} pagination highlightOnHover striped customStyles={{
                 headRow: { style: { border: "none", backgroundColor: "#F5F8FD", borderRadius: "10px" } },
-                headCells: { style: { fontSize: "14px", fontWeight: 600, color: "#061237", border: "none" } },
-                cells: { style: { fontSize: "13px", color: "#061237", fontWeight: 500 } }
+                headCells: { style: { fontSize: "14px", fontWeight: 600, color: "#000000", border: "none" } },
+                cells: { style: { fontSize: "13px", color: "#000000", fontWeight: 500 } }
             }} noDataComponent="No responsibilities found" />
 
             {/* Modals */}

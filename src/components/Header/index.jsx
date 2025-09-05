@@ -20,7 +20,7 @@ const Header = () => {
   }
   return (
     <>
-     <div className="fixed top-0 left-0 w-full z-50 bg-primary-50 flex justify-between items-center p-7 max-sm:p-5 max-sm:flex-wrap shadow-md">
+     <div className="fixed top-0 left-0 w-full z-50  flex justify-between items-center p-7 max-sm:p-5 max-sm:flex-wrap ">
 
 
         <div className="max-sm:w-full max-sm:mb-5 flex gap-2 items-center">

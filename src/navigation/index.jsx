@@ -179,7 +179,7 @@ const AllRoute = [
   },
   {
     path: "/Meeting/Referral",
-    element: <Referral/>,
+    element: <Referral />,
     permission: { read: true },
   },
   {

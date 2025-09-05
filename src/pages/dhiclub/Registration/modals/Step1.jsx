@@ -71,7 +71,7 @@ const Step1 = ({ countries, states, cities, businessDomains, navigate }) => {
         <button
           type="button"
           onClick={() => navigate("/Dhiclub/members")}
-          className="border border-[#6246EA] px-8 py-2 rounded-full text-primary-200 font-semibold"
+          className="border border-[#44C5FF] px-8 py-2 rounded-full text-primary-200 font-semibold"
         >
           Cancel
         </button>

@@ -170,14 +170,14 @@ const Visitor = () => {
       style: {
         fontSize: "14px",
         fontWeight: 600,
-        color: "#061237",
+        color: "#000000",
         border: "none",
       },
     },
     cells: {
       style: {
         fontSize: "13px",
-        color: "#061237",
+        color: "#000000",
         fontWeight: 500,
       },
     },

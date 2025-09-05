@@ -1,5 +1,5 @@
-const Clients=()=>{
-    return(
+const Clients = () => {
+    return (
         <div>Clients</div>
     )
 }

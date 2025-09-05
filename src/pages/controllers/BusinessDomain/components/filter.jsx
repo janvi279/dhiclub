@@ -17,17 +17,22 @@ const BusinessDomainFilters = ({
       {/* Sort */}
       <CustomFilterSelect
         value={sortOrder}
-        onChange={(e) => setSortOrder(e.target.value)}
-        options={["Newest", "Oldest"]}
+        onChange={(option) => setSortOrder(option?.value)} // ✅ fixed
+        options={[
+          { value: "newest", label: "Newest" },
+          { value: "oldest", label: "Oldest" },
+        ]}
         icon={FaSortAmountDownAlt}
-        placeholder="Sort By"
       />
 
       {/* Type Filter */}
       <CustomFilterSelect
         value={typeFilter}
-        onChange={(e) => setTypeFilter(e.target.value)}
-        options={["All Business Types", ...businessTypes]}
+        onChange={(option) => setTypeFilter(option?.value)} // ✅ fixed
+        options={[
+          { value: "ALL", label: "All Business Types" },
+          ...businessTypes.map((t) => ({ value: t, label: t })),
+        ]}
         icon={FiFilter}
         placeholder="Business Type"
       />
@@ -35,8 +40,12 @@ const BusinessDomainFilters = ({
       {/* Status Filter */}
       <CustomFilterSelect
         value={statusFilter}
-        onChange={(e) => setStatusFilter(e.target.value)}
-        options={["All", "Active", "Deactive"]}
+        onChange={(option) => setStatusFilter(option?.value)} // ✅ fixed
+        options={[
+          { value: "ALL", label: "All" },
+          { value: "Active", label: "Active" },
+          { value: "Deactive", label: "Deactive" },
+        ]}
         icon={FiFilter}
         placeholder="Status"
       />

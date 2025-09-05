@@ -1,54 +1,56 @@
 import { useState, useEffect } from "react";
 
 export const useCity = () => {
-  const [cities, setCities] = useState([]);
+  const [city, setCity] = useState([]);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("cities")) || [];
-    setCities(stored);
+    const stored = JSON.parse(localStorage.getItem("city")) || [];
+    setCity(stored);
   }, []);
 
   const saveToStorage = (data) => {
-    localStorage.setItem("cities", JSON.stringify(data));
+    localStorage.setItem("city", JSON.stringify(data));
   };
 
-  const addCity = (city) => {
-    const newData = [...cities, { id: Date.now(), ...city }];
-    setCities(newData);
+  // 🔹 Fix: avoid same name for param & state
+  const addCity = (newCity) => {
+    const newData = [...city, { id: Date.now(), ...newCity }];
+    setCity(newData);
     saveToStorage(newData);
   };
 
-  const updateCity = (updated) => {
-    const newData = cities.map((c) => (c.id === updated.id ? updated : c));
-    setCities(newData);
+  const updateCity = (id, updatedData) => {
+    const newData = city.map((c) => (c.id === id ? { ...c, ...updatedData } : c));
+    setCity(newData);
     saveToStorage(newData);
   };
 
   const deleteCity = (id) => {
-    const newData = cities.filter((c) => c.id !== id);
-    setCities(newData);
+    const newData = city.filter((c) => c.id !== id);
+    setCity(newData);
     saveToStorage(newData);
   };
 
-  return { cities, addCity, updateCity, deleteCity };
+  return { city, addCity, updateCity, deleteCity };
 };
+
 
 // import { useState, useEffect } from "react";
 // // import axiosCommonInstance from "../../../utils/axios/axiosCommonInstance";
 // // import { setToken } from "../../../utils/cookies/cookies";
 
 // export const useCity = () => {
-//   const [cities, setCities] = useState([]);
+//   const [city, setCity] = useState([]);
 //   const [loading, setLoading] = useState(false);
 
-//   // ✅ Fetch Cities from API
-//   const fetchCities = async () => {
+//   // ✅ Fetch City from API
+//   const fetchCity = async () => {
 //     setLoading(true);
 //     try {
-//       const res = await axiosCommonInstance.get("/api/cities");
-//       setCities(res.data);
+//       const res = await axiosCommonInstance.get("/api/city");
+//       setCity(res.data);
 //     } catch (err) {
-//       console.error("Error fetching cities:", err);
+//       console.error("Error fetching city:", err);
 //     } finally {
 //       setLoading(false);
 //     }
@@ -57,8 +59,8 @@ export const useCity = () => {
 //   // ✅ Add new city
 //   const addCity = async (city) => {
 //     try {
-//       const res = await axiosCommonInstance.post("/api/cities", city);
-//       setCities((prev) => [...prev, res.data]);
+//       const res = await axiosCommonInstance.post("/api/city", city);
+//       setCity((prev) => [...prev, res.data]);
 //     } catch (err) {
 //       console.error("Error adding city:", err);
 //     }
@@ -67,8 +69,8 @@ export const useCity = () => {
 //   // ✅ Update city
 //   const updateCity = async (updated) => {
 //     try {
-//       const res = await await axiosCommonInstance.put(`/api/cities/${updated.id}`, updated);
-//       setCities((prev) =>
+//       const res = await await axiosCommonInstance.put(`/api/city/${updated.id}`, updated);
+//       setCity((prev) =>
 //         prev.map((c) => (c.id === updated.id ? res.data : c))
 //       );
 //     } catch (err) {
@@ -79,8 +81,8 @@ export const useCity = () => {
 //   // ✅ Delete city
 //   const deleteCity = async (id) => {
 //     try {
-//       await axiosCommonInstance.delete(`/api/cities/${id}`);
-//       setCities((prev) => prev.filter((c) => c.id !== id));
+//       await axiosCommonInstance.delete(`/api/city/${id}`);
+//       setCity((prev) => prev.filter((c) => c.id !== id));
 //     } catch (err) {
 //       console.error("Error deleting city:", err);
 //     }
@@ -88,8 +90,8 @@ export const useCity = () => {
 
 //   // ✅ Fetch on mount
 //   useEffect(() => {
-//     fetchCities();
+//     fetchCity();
 //   }, []);
 
-//   return { cities, loading, addCity, updateCity, deleteCity, fetchCities };
+//   return { city, loading, addCity, updateCity, deleteCity, fetchCity };
 // };

@@ -72,14 +72,14 @@ const Account = () => {
       style: {
         fontSize: "12px",
         fontWeight: 600,
-        color: "#061237",
+        color: "#000000",
         backgroundColor: "#F5F8FD",
       },
     },
     cells: {
       style: {
         fontSize: "12px",
-        color: "#061237",
+        color: "#000000",
         fontWeight: 500,
       },
     },

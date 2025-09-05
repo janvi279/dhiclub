@@ -16,8 +16,8 @@ const CustomSelect = ({
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isFocused ? "#E4E7FF" : "white", // light purple on hover
-      color: state.isFocused ? "#6246EA" : "", // light purple on hover
+      backgroundColor: state.isFocused ? "#E8F5FA" : "white", // light purple on hover
+      color: state.isFocused ? "#44C5FF" : "", // light purple on hover
       cursor: "pointer",
     }),
     control: (provided) => ({
@@ -48,7 +48,7 @@ const CustomSelect = ({
         onChange={(option) => setFieldValue(field.name, option.value)}
         classNamePrefix="react-select"
         styles={customStyles} // ✅ applied fixed styles
-        {...props}
+        {...props}  
       />
 
       <ErrorMessage

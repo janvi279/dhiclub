@@ -1,5 +1,5 @@
-const CRM=()=>{
-    return(
+const CRM = () => {
+    return (
         <div>
             CRM
         </div>

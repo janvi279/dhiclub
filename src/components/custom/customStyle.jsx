@@ -1,5 +1,15 @@
 
 const customStyles = {
+   table: {
+      style: {
+        overflow: 'visible'
+      }
+    },
+    tableWrapper: {
+      style: {
+        overflow: 'visible'
+      }
+    },
   headRow: {
     style: {
       border: "none",
@@ -9,9 +19,9 @@ const customStyles = {
   },
   headCells: {
     style: {
-      fontSize: "14px",
-      fontWeight: 600,
-      color: "#061237",
+      fontSize: "13px",
+      fontWeight: 500,
+      color: "#000000",
 
       border: "none",
     },
@@ -19,8 +29,9 @@ const customStyles = {
   cells: {
     style: {
       fontSize: "13px",
-      color: "#061237",
-      fontWeight: 500,
+      color: "#000000",
+      fontWeight: 400,
+
     },
   },
 };

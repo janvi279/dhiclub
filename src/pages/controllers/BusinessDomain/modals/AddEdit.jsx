@@ -1,4 +1,4 @@
-import { Formik, Form,Field } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import CustomModal from "../../../../components/common/CustomModal";
 import CustomInput from "../../../../components/common/CustomInput";
@@ -11,8 +11,8 @@ const validationSchema = Yup.object({
     name: Yup.string().trim().required("Business Domain Name is required"),
 });
 
-const AddBusinessDomainModal = ({ isOpen, onClose, onSave }) => {
-    const initialValues = {
+const AddEditModal = ({ isOpen, onClose, onSave, domain }) => {
+    const initialValues = domain || {
         type: "",
         name: "",
         status: "Active",
@@ -26,7 +26,7 @@ const AddBusinessDomainModal = ({ isOpen, onClose, onSave }) => {
     };
 
     return (
-        <CustomModal isOpen={isOpen} onClose={onClose} title="Add Business Domain">
+        <CustomModal isOpen={isOpen} onClose={onClose} title={domain ? "Edit Business Domain" : "Add Business Domain"}>
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -35,34 +35,33 @@ const AddBusinessDomainModal = ({ isOpen, onClose, onSave }) => {
                 {() => (
                     <Form className="flex flex-col gap-4">
                         {/* Business Type */}
-                    
+
                         <Field
                             name="type"
                             component={CustomSelect}
+                            options={businessTypes.map((s) => ({
+                                value: s,
+                                label: s,
+                            }))}
                             required
                             placeholder="Select Business Type"
-                        >
-                            {businessTypes.map((t) => (
-                                <option key={t} value={t}>
-                                    {t}
-                                </option>
-                            ))}
-                        </Field>
+                        />
+
 
                         {/* Business Domain Name */}
-                       <Field
-                        name="name"
-                        component={CustomInput}
-                        required
-                        placeholder="Enter Business Domain"
-                    />
+                        <Field
+                            name="name"
+                            component={CustomInput}
+                            required
+                            placeholder="Enter Business Domain"
+                        />
 
                         {/* Submit Button */}
                         <button
                             type="submit"
                             className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
                         >
-                            Submit
+                            {domain ? "Update" : "Submit"}
                         </button>
                     </Form>
                 )}
@@ -71,4 +70,4 @@ const AddBusinessDomainModal = ({ isOpen, onClose, onSave }) => {
     );
 };
 
-export default AddBusinessDomainModal;
+export default AddEditModal;
