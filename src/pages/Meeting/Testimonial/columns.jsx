@@ -1,4 +1,5 @@
 import { FaRegEye } from "react-icons/fa";
+import CustomActions from "../../../components/common/customActions";
 
 const testimonialColumns = (onView, onStatusChange) => [
   {
@@ -43,38 +44,44 @@ const testimonialColumns = (onView, onStatusChange) => [
       </span>
     ),
   },
-  {
+{
     name: "Action",
     cell: (row) => (
-      <div className="flex gap-3">
+      <CustomActions
+        options={[
+          {
+            label: "View",
+            icon: <FaRegEye />,
+            onClick: () => onView(row),
+            className: "text-primary-200",
+          },
+        
+          {
+            label: "Active",
+            icon: <span className="w-2 h-2 rounded-full bg-green-500"></span>,
+       onClick: () => onStatusChange({ ...row, status: "Active" }),
 
-        <button
-          className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap"
-          onClick={() => onView(row)}
-        >
-          <FaRegEye size={18} />
-        </button>
-
-        <button
-          className="text-primary-400 px-2 py-1 border-primary-400 border font-semibold rounded-full whitespace-nowrap"
-          onClick={() => onStatusChange({ ...row, status: "Active" })}
-        >
-          Active
-        </button>
-
-
-        <button
-          className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full whitespace-nowrap"
-          onClick={() => onStatusChange({ ...row, status: "Deactive" })}
-        >
-          Deactive
-        </button>
-      </div>
+            className:
+              row.status === "Active"
+                ? "opacity-50 cursor-not-allowed"
+                : "text-green-600",
+          },
+          {
+            label: "Deactive",
+            icon: <span className="w-2 h-2 rounded-full bg-yellow-500"></span>,
+           onClick:() => onStatusChange({ ...row, status: "Deactive" }),
+            className:
+              row.status === "Deactive"
+                ? "opacity-50 cursor-not-allowed"
+                : "text-yellow-600",
+          },
+        
+        ]}
+      />
     ),
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,
-  },
-];
+  }]
 
 export default testimonialColumns;

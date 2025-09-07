@@ -1,17 +1,15 @@
 import CustomSearch from "../../../../components/common/CustomSearch";
 
-const CitySearch = ({ search, setSearch }) => {
-
+const VisitorSearch = ({ search, setSearch }) => {
   return (
-    <div className="flex justify-between items-center mb-4">
-
+    <div className="flex justify-between items-center">
       <CustomSearch
         value={search}
         onChange={setSearch}
-        placeholder="Search visitor Name"
+        placeholder="Search visitor name"
       />
     </div>
   );
 };
 
-export default CitySearch;
+export default VisitorSearch;

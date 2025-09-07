@@ -20,7 +20,9 @@ export const useCity = () => {
   };
 
   const updateCity = (id, updatedData) => {
-    const newData = city.map((c) => (c.id === id ? { ...c, ...updatedData } : c));
+    const newData = city.map((c) =>
+      c.id === id ? { ...c, ...updatedData } : c
+    );
     setCity(newData);
     saveToStorage(newData);
   };
@@ -33,7 +35,6 @@ export const useCity = () => {
 
   return { city, addCity, updateCity, deleteCity };
 };
-
 
 // import { useState, useEffect } from "react";
 // // import axiosCommonInstance from "../../../utils/axios/axiosCommonInstance";

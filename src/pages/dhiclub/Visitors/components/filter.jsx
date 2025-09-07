@@ -1,27 +1,37 @@
-import { FiFilter } from "react-icons/fi";
 import { FaSortAmountDownAlt } from "react-icons/fa";
+import { FiFilter } from "react-icons/fi";
 import CustomFilterSelect from "../../../../components/common/CustomFilterSelect";
 
-const CityFilters = ({ filterCountry, setFilterCountry, sortOrder, setSortOrder }) => {
+const VisitorFilters = ({ sortOrder, setSortOrder, cityFilter, setCityFilter }) => {
   return (
     <div className="flex gap-3 items-center">
+      {/* Sort */}
       <CustomFilterSelect
         value={sortOrder}
-        onChange={(e) => setSortOrder(e.target.value)}
-        options={["newest", "oldest"]}
+        onChange={(option) => setSortOrder(option?.value)}
+        options={[
+          { value: "newest", label: "Newest" },
+          { value: "oldest", label: "Oldest" },
+        ]}
         icon={FaSortAmountDownAlt}
         placeholder="Sort By"
       />
-      
+
+      {/* City Filter */}
       <CustomFilterSelect
-        value={filterCountry}
-        onChange={(e) => setFilterCountry(e.target.value)}
-        options={["INDIA", "USA", "UK"]}
+        value={cityFilter}
+        onChange={(option) => setCityFilter(option?.value)}
+        options={[
+          { value: "all", label: "All Cities" },
+          { value: "Rajkot", label: "Rajkot" },
+          { value: "Ahmedabad", label: "Ahmedabad" },
+          { value: "Mumbai", label: "Mumbai" },
+        ]}
         icon={FiFilter}
-        placeholder="All Countries"
+        placeholder="City"
       />
     </div>
   );
 };
 
-export default CityFilters;
+export default VisitorFilters;

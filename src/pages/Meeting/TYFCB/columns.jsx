@@ -1,9 +1,10 @@
 import { FaRegEye, FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import CustomActions from "../../../components/common/customActions";
 
 const Column = ({ onView, onEdit, onDelete, onStatusChange }) => [
     { name: "ID", selector: (row) => row.id, width: "60px" },
-    { name: "Member Name", selector: (row) => row.memberName, sortable: true },
+    { name: "MemberName", selector: (row) => row.memberName, sortable: true },
     { name: "Date", selector: (row) => row.date },
     { name: "Thank You to", selector: (row) => row.thankyouto, sortable: true },
     { name: "Referral Amount", selector: (row) => `₹${row.referralAmount}`, sortable: true },
@@ -27,33 +28,53 @@ const Column = ({ onView, onEdit, onDelete, onStatusChange }) => [
         ),
     },
     {
-        name: "Action",
-        cell: (row) => (
-            <div className="flex gap-3">
-                <button onClick={() => onView(row)} className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap">
-                    <FaRegEye />
-                </button>
-                <button onClick={() => onEdit(row)} className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap">
-                    <FaRegEdit />
-                </button>
-                <button onClick={() => onDelete(row.id)} className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap">
-                    <MdDeleteOutline />
-                </button>
-                <button
-                    className="text-primary-400 px-2 py-1 border-primary-400 border  font-semibold rounded-full whitespace-nowrap"
-                    onClick={() => onStatusChange({ ...row, status: "Active" })}
-                >
-                    Active
-                </button>
-                <button
-                    className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full whitespace-nowrap"
-                    onClick={() => onStatusChange({ ...row, status: "Deactive" })}
-                >
-                    Deactive
-                </button>
-            </div>
-        ),
-    },
+    name: "Actions",
+    cell: (row) => (
+      <CustomActions
+        options={[
+          {
+            label: "View",
+            icon: <FaRegEye />,
+            onClick: () => onView(row),
+            className: "text-blue-600",
+          },
+          {
+            label: "Edit",
+            icon: <FaRegEdit />,
+            onClick: () => onEdit(row),
+            className: "text-primary-200",
+          },
+          {
+            label: "Delete",
+            icon: <MdDeleteOutline />,
+            onClick: () => onDelete(row.id),
+            className: "text-red-600 border-t border-gray-100",
+          },
+          {
+            label: "Paid",
+            icon: <span className="w-2 h-2 rounded-full bg-green-500"></span>,
+            onClick: () => onStatusChange({ ...row, status: "Paid" }),
+            className:
+              row.status === "Paid"
+                ? "opacity-50 cursor-not-allowed"
+                : "text-green-600",
+          },
+          {
+            label: "Pending",
+            icon: <span className="w-2 h-2 rounded-full bg-yellow-500"></span>,
+            onClick: () => onStatusChange({ ...row, status: "Pending" }),
+            className:
+              row.status === "Pending"
+                ? "opacity-50 cursor-not-allowed"
+                : "text-yellow-600",
+          },
+        ]}
+      />
+    ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+  },
 ];
 
 export default Column;

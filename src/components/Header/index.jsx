@@ -29,7 +29,7 @@ const Header = () => {
         </div>
 
         {/* Search */}
-        <div className="flex items-center ">
+        {/* <div className="flex items-center ">
           <img
             src="/Search-icon.png"
             className="absolute pl-5 max-sm:pl-2"
@@ -39,7 +39,7 @@ const Header = () => {
             placeholder="Search or type a command"
             className="px-12 max-sm:px-7 py-2 w-75 max-sm:p-2 max-sm:w-50 max-sm:text-xs border-[1.5px] border-gray-300 rounded-lg focus:outline-none"
           />
-        </div>
+        </div> */}
         <div className="flex relative items-center gap-5 justify-end max-sm:[justify-normal] max-sm:gap-2 ">
           <img
             src="/bell-svgrepo-com.svg"

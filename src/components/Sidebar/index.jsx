@@ -194,18 +194,33 @@
 
 // export default Sidebar;
 
-
-
-
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { LuCirclePlus, LuCircleMinus } from "react-icons/lu";
-import { FaGlobe, FaCity, FaUsers, FaClipboardList, FaCalendarAlt, FaHandshake, FaCreditCard } from "react-icons/fa";
-import { MdDashboard, MdBusiness, MdInventory, MdEventAvailable, MdAppRegistration } from "react-icons/md";
+import {
+  FaGlobe,
+  FaCity,
+  FaUsers,
+  FaClipboardList,
+  FaCalendarAlt,
+  FaHandshake,
+  FaCreditCard,
+} from "react-icons/fa";
+import {
+  MdDashboard,
+  MdBusiness,
+  MdInventory,
+  MdEventAvailable,
+  MdAppRegistration,
+} from "react-icons/md";
 import { AiOutlineTeam } from "react-icons/ai";
 import { BiUserCheck, BiUserPlus, BiBuilding } from "react-icons/bi";
 import { RiTeamLine, RiUserSettingsLine } from "react-icons/ri";
-import { HiOutlineUsers, HiOutlineDocumentReport, HiOutlineUserGroup } from "react-icons/hi";
+import {
+  HiOutlineUsers,
+  HiOutlineDocumentReport,
+  HiOutlineUserGroup,
+} from "react-icons/hi";
 import { IoMdPeople } from "react-icons/io";
 import ControllerIcon from "@/assets/sidebar-icons/controller.svg?react";
 import DhiclubIcon from "@/assets/sidebar-icons/D Logo.svg?react";
@@ -225,15 +240,51 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       path: "/controller",
       icon: <ControllerIcon className="w-5 h-5" />,
       submenu: [
-        { label: "Country", path: "/controller/country", icon: <FaGlobe className="w-4 h-4" /> },
-        { label: "State", path: "/controller/state", icon: <FaCity className="w-4 h-4" /> },
-        { label: "City", path: "/controller/city", icon: <FaCity className="w-4 h-4" /> },
-        { label: "Pincode", path: "/controller/pincode", icon: <MdDashboard className="w-4 h-4" /> },
-        { label: "Business Type", path: "/controller/business-type", icon: <MdBusiness className="w-4 h-4" /> },
-        { label: "Business Domain", path: "/controller/business-domain", icon: <BiBuilding className="w-4 h-4" /> },
-        { label: "Business Category", path: "/controller/business-category", icon: <MdBusiness className="w-4 h-4" /> },
-        { label: "BulkUpload Country", path: "/controller/bulkUpload-country", icon: <FaClipboardList className="w-4 h-4" /> },
-        { label: "BulkUpload BusinessCategory", path: "/controller/bulkUpload-businessCategory", icon: <FaClipboardList className="w-4 h-4" /> },
+        {
+          label: "Country",
+          path: "/controller/country",
+          icon: <FaGlobe className="w-4 h-4" />,
+        },
+        {
+          label: "State",
+          path: "/controller/state",
+          icon: <FaCity className="w-4 h-4" />,
+        },
+        {
+          label: "City",
+          path: "/controller/city",
+          icon: <FaCity className="w-4 h-4" />,
+        },
+        {
+          label: "Pincode",
+          path: "/controller/pincode",
+          icon: <MdDashboard className="w-4 h-4" />,
+        },
+        {
+          label: "Business Type",
+          path: "/controller/business-type",
+          icon: <MdBusiness className="w-4 h-4" />,
+        },
+        {
+          label: "Business Domain",
+          path: "/controller/business-domain",
+          icon: <BiBuilding className="w-4 h-4" />,
+        },
+        {
+          label: "Business Category",
+          path: "/controller/business-category",
+          icon: <MdBusiness className="w-4 h-4" />,
+        },
+        {
+          label: "BulkUpload Country",
+          path: "/controller/bulkUpload-country",
+          icon: <FaClipboardList className="w-4 h-4" />,
+        },
+        {
+          label: "BulkUpload BusinessCategory",
+          path: "/controller/bulkUpload-businessCategory",
+          icon: <FaClipboardList className="w-4 h-4" />,
+        },
       ],
     },
     {
@@ -241,11 +292,31 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       path: "/dhiclub",
       icon: <DhiclubIcon className="w-5 h-5" />,
       submenu: [
-        { label: "Teams", path: "/dhiclub/teams", icon: <AiOutlineTeam className="w-4 h-4" /> },
-        { label: "Registration", path: "/dhiclub/registration", icon: <MdAppRegistration className="w-4 h-4" /> },
-        { label: "Members", path: "/dhiclub/members", icon: <FaUsers className="w-4 h-4" /> },
-        { label: "Visitor", path: "/dhiclub/visitor", icon: <FaUsers className="w-4 h-4" /> },
-        { label: "Responsibility", path: "/dhiclub/responsibility", icon: <FaClipboardList className="w-4 h-4" /> },
+        {
+          label: "Teams",
+          path: "/dhiclub/teams",
+          icon: <AiOutlineTeam className="w-4 h-4" />,
+        },
+        {
+          label: "Registration",
+          path: "/dhiclub/registration",
+          icon: <MdAppRegistration className="w-4 h-4" />,
+        },
+        {
+          label: "Members",
+          path: "/dhiclub/members",
+          icon: <FaUsers className="w-4 h-4" />,
+        },
+        {
+          label: "Visitor",
+          path: "/dhiclub/visitor",
+          icon: <FaUsers className="w-4 h-4" />,
+        },
+        {
+          label: "Responsibility",
+          path: "/dhiclub/responsibility",
+          icon: <FaClipboardList className="w-4 h-4" />,
+        },
       ],
     },
     {
@@ -253,9 +324,21 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       path: "/crm",
       icon: <CrmIcon className="w-5 h-5" />,
       submenu: [
-        { label: "Clients", path: "/crm/clients", icon: <HiOutlineUserGroup className="w-4 h-4" /> },
-        { label: "Leads", path: "/crm/leads", icon: <FaHandshake className="w-4 h-4" /> },
-        { label: "Report", path: "/crm/report", icon: <HiOutlineDocumentReport className="w-4 h-4" /> },
+        {
+          label: "Clients",
+          path: "/crm/clients",
+          icon: <HiOutlineUserGroup className="w-4 h-4" />,
+        },
+        {
+          label: "Leads",
+          path: "/crm/leads",
+          icon: <FaHandshake className="w-4 h-4" />,
+        },
+        {
+          label: "Report",
+          path: "/crm/report",
+          icon: <HiOutlineDocumentReport className="w-4 h-4" />,
+        },
       ],
     },
     {
@@ -263,16 +346,56 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       path: "/meeting",
       icon: <MdEventAvailable className="w-5 h-5" />,
       submenu: [
-        { label: "Attendance", path: "/meeting/attendance", icon: <BiUserCheck className="w-4 h-4" /> },
-        { label: "TYFCB", path: "/meeting/Tyfcb", icon: <FaClipboardList className="w-4 h-4" /> },
-        { label: "One to One", path: "/meeting/OnetoOne", icon: <HiOutlineUsers className="w-4 h-4" /> },
-        { label: "Referral", path: "/meeting/Referral", icon: <FaHandshake className="w-4 h-4" /> },
-        { label: "Face to Face", path: "/meeting/FaceToFace", icon: <IoMdPeople className="w-4 h-4" /> },
-        { label: "Reference", path: "/meeting/reference", icon: <HiOutlineDocumentReport className="w-4 h-4" /> },
-        { label: "Guest", path: "/meeting/guest", icon: <FaUsers className="w-4 h-4" /> },
-        { label: "Training", path: "/meeting/training", icon: <FaClipboardList className="w-4 h-4" /> },
-        { label: "Testimonial", path: "/meeting/testimonial", icon: <HiOutlineDocumentReport className="w-4 h-4" /> },
-        { label: "Credit Note", path: "/meeting/credit-note", icon: <FaCreditCard className="w-4 h-4" /> },
+        {
+          label: "Attendance",
+          path: "/meeting/attendance",
+          icon: <BiUserCheck className="w-4 h-4" />,
+        },
+        {
+          label: "TYFCB",
+          path: "/meeting/Tyfcb",
+          icon: <FaClipboardList className="w-4 h-4" />,
+        },
+        {
+          label: "One to One",
+          path: "/meeting/OnetoOne",
+          icon: <HiOutlineUsers className="w-4 h-4" />,
+        },
+        {
+          label: "Referral",
+          path: "/meeting/Referral",
+          icon: <FaHandshake className="w-4 h-4" />,
+        },
+        {
+          label: "Face to Face",
+          path: "/meeting/FaceToFace",
+          icon: <IoMdPeople className="w-4 h-4" />,
+        },
+        {
+          label: "Reference",
+          path: "/meeting/reference",
+          icon: <HiOutlineDocumentReport className="w-4 h-4" />,
+        },
+        {
+          label: "Guest",
+          path: "/meeting/guest",
+          icon: <FaUsers className="w-4 h-4" />,
+        },
+        {
+          label: "Training",
+          path: "/meeting/training",
+          icon: <FaClipboardList className="w-4 h-4" />,
+        },
+        {
+          label: "Testimonial",
+          path: "/meeting/testimonial",
+          icon: <HiOutlineDocumentReport className="w-4 h-4" />,
+        },
+        {
+          label: "Credit Note",
+          path: "/meeting/credit-note",
+          icon: <FaCreditCard className="w-4 h-4" />,
+        },
       ],
     },
     {
@@ -280,7 +403,11 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       path: "/account",
       icon: <BillingIcon className="w-5 h-5" />,
       submenu: [
-        { label: "Billing", path: "/account/billing", icon: <FaCreditCard className="w-4 h-4" /> }
+        {
+          label: "Billing",
+          path: "/account/billing",
+          icon: <FaCreditCard className="w-4 h-4" />,
+        },
       ],
     },
     {
@@ -288,9 +415,21 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       path: "/inventory",
       icon: <InventoryIcon className="w-5 h-5" />,
       submenu: [
-        { label: "Products", path: "/inventory/product", icon: <MdInventory className="w-4 h-4" /> },
-        { label: "Stock", path: "/inventory/stock", icon: <FaClipboardList className="w-4 h-4" /> },
-        { label: "Suppliers", path: "/inventory/suppliers", icon: <HiOutlineUserGroup className="w-4 h-4" /> },
+        {
+          label: "Products",
+          path: "/inventory/product",
+          icon: <MdInventory className="w-4 h-4" />,
+        },
+        {
+          label: "Stock",
+          path: "/inventory/stock",
+          icon: <FaClipboardList className="w-4 h-4" />,
+        },
+        {
+          label: "Suppliers",
+          path: "/inventory/suppliers",
+          icon: <HiOutlineUserGroup className="w-4 h-4" />,
+        },
       ],
     },
   ];
@@ -337,9 +476,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     <div className="flex  max-sm:w-10 pt-30 w-20 ">
       <aside
         ref={sidebar}
-        className={`fixed z-40  left-0  bg-primary-750 rounded-2xl shadow-md
+        className={` z-40  left-0  bg-primary-750 rounded-2xl shadow-md
           transition-all duration-300 ease-in-out border border-primary-800
-         
             relative my-5 mx-3`}
       >
         {/* Toggle button */}
@@ -349,36 +487,62 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           className="absolute top-4 right-4 p-2 text-sm text-primary-850 hover:bg-primary-300 rounded-lg transition-colors z-50"
         >
           {isSidebarOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none"
-              viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           ) : (
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path clipRule="evenodd" fillRule="evenodd"
+              <path
+                clipRule="evenodd"
+                fillRule="evenodd"
                 d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0
                 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0
                 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0
-                010 1.5H2.75A.75.75 0 012 10z"/>
+                010 1.5H2.75A.75.75 0 012 10z"
+              />
             </svg>
           )}
         </button>
 
         {/* Sidebar content */}
-        <div className={`h-full pt-16 pb-4 overflow-y-auto sidebar-scroll  ${isSidebarOpen ? " w-64" : "w-16"}`}>
-          <ul className={`space-y-2 text-primary-850 ${isSidebarOpen ? "px-4" : "px-2"}`}>
+        <div
+          className={`h-full pt-16 pb-4 overflow-y-auto sidebar-scroll  ${
+            isSidebarOpen ? " w-64" : "w-16"
+          }`}
+        >
+          <ul
+            className={`space-y-2 text-primary-850 ${
+              isSidebarOpen ? "px-4" : "px-2"
+            }`}
+          >
             {navItems.map((item, index) => (
-              <li key={index} >
+              <li key={index}>
                 {/* Main navigation item */}
                 <div
                   className={`flex items-center rounded-xl hover:bg-primary-300 hover:text-primary-200 transition-colors cursor-pointer
-                    ${isSidebarOpen ? "justify-between p-3" : "justify-center p-2"}`}
+                    ${
+                      isSidebarOpen
+                        ? "justify-between p-3"
+                        : "justify-center p-2"
+                    }`}
                   onClick={(e) => handleNavClick(item, e)}
                 >
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
-                      `flex items-center font-medium ${isSidebarOpen ? "gap-3 " : "justify-center"
+                      `flex items-center font-medium ${
+                        isSidebarOpen ? "gap-3 " : "justify-center"
                       } ${isActive ? "text-primary-200" : ""}`
                     }
                     onClick={(e) => e.preventDefault()}
@@ -387,10 +551,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                     <span className="flex-shrink-0 ">
                       {item.icon &&
                         React.cloneElement(item.icon, {
-                          className: "w-5 h-5"
+                          className: "w-5 h-5",
                         })}
-
-
                     </span>
 
                     {/* Label (only when expanded) */}
@@ -403,8 +565,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                   {isSidebarOpen && item.submenu && (
                     <button className="p-1  rounded transition-colors">
                       {activeMenu === item.label ? (
-                        <LuCircleMinus className="w-4 h-4"
-                        />
+                        <LuCircleMinus className="w-4 h-4" />
                       ) : (
                         <LuCirclePlus className="w-4 h-4" />
                       )}
@@ -422,12 +583,17 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                             to={subItem.path}
                             className={({ isActive }) =>
                               `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium
-                              transition-colors hover:bg-primary-300 hover:text-primary-200 ${isActive ? "bg-primary-300 text-primary-200" : ""
+                              transition-colors hover:bg-primary-300 hover:text-primary-200 ${
+                                isActive
+                                  ? "bg-primary-300 text-primary-200"
+                                  : ""
                               }`
                             }
                           >
                             {subItem.icon && (
-                              <span className="flex-shrink-0">{subItem.icon}</span>
+                              <span className="flex-shrink-0">
+                                {subItem.icon}
+                              </span>
                             )}
                             <span className="truncate">{subItem.label}</span>
                           </NavLink>

@@ -79,13 +79,11 @@ const AddEditModal = ({ isOpen, onClose, record, onSave }) => {
               name="initiatedBy"
               component={CustomSelect}
               placeholder="Initiated By"
-            >
-              {initiatedByOptions.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </Field>
+              options={initiatedByOptions.map((s) => ({
+                value: s,
+                label: s,
+              }))}
+            />
 
             {/* Where did you meet */}
             <Field

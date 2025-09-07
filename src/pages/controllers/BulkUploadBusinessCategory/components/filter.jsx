@@ -2,24 +2,37 @@ import { FiFilter } from "react-icons/fi";
 import { FaSortAmountDownAlt } from "react-icons/fa";
 import CustomFilterSelect from "../../../../components/common/CustomFilterSelect";
 
-const BusinessFilters = ({ statusFilter, setStatusFilter, sortOrder, setSortOrder }) => (
+const BusinessFilters = ({
+  statusFilter,
+  setStatusFilter,
+  sortOrder,
+  setSortOrder,
+}) => (
   <div className="flex gap-3 items-center">
-    <CustomFilterSelect
-      value={statusFilter}
-      onChange={(e) => setStatusFilter(e.target.value)}
-      options={["all", "Active", "Deactive"]}
-      icon={FiFilter}
-
-    />
+   
+    {/* Sort Order */}
     <CustomFilterSelect
       value={sortOrder}
-      onChange={(e) => setSortOrder(e.target.value)}
-      options={["newest", "oldest"]}
+      onChange={(option) => setSortOrder(option?.value)}
+      options={[
+        { value: "newest", label: "Newest" },
+        { value: "oldest", label: "Oldest" },
+      ]}
       icon={FaSortAmountDownAlt}
-      placeholder="Sort By"
+    />
+  
+     {/* Status Filter */}
+    <CustomFilterSelect
+      value={statusFilter}
+      onChange={(option) => setStatusFilter(option?.value)}
+      options={[
+        { value: "all", label: "All" },
+        { value: "Active", label: "Active" },
+        { value: "Deactive", label: "Deactive" },
+      ]}
+      icon={FiFilter}
     />
   </div>
 );
-
 
 export default BusinessFilters;

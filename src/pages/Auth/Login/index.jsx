@@ -6,6 +6,8 @@ import * as yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 import axiosAuthInstance from "../../../components/utils/axios/axiosAuthInstance";
 import { setToken, setRole } from "../../../components/utils/cookies/cookies";
+import Mail from "../../../../public/Mail.svg";
+import Pwd from "../../../../public/Pwd.svg";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -96,11 +98,8 @@ const Login = () => {
           {/* Email Input */}
           <div className="mb-4">
             <div className="flex items-center relative">
-              <img
-                src="/Frame.png"
-                alt="Email Icon"
-                className="absolute left-4 w-5 h-5 z-10"
-              />
+           <img src={Mail} alt="Mail Icon" className="absolute left-4 w-5 h-5 z-10" />
+
               <input
                 type="email"
                 placeholder="Enter Email"
@@ -119,11 +118,8 @@ const Login = () => {
           {/* Password Input */}
           <div className="mb-4">
             <div className="flex items-center relative">
-              <img
-                src="/Frame-2.png"
-                alt="Password Icon"
-                className="absolute left-4 w-5 h-5 z-10"
-              />
+              
+                  <img src={Pwd} alt="Mail Icon" className="absolute left-4 w-5 h-5 z-10" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"

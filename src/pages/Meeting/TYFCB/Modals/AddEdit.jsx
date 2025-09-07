@@ -26,6 +26,8 @@ const AddEditModal = ({ isOpen, onClose, record, onSave }) => {
     >
       <Formik
         initialValues={{
+          memberName:record?.memberName||"john",
+          date:record?.date||"2025-08-01",
           thankyouto: record?.thankyouto || "",
           referralAmount: record?.referralAmount || "",
           businessType: record?.businessType || "",
@@ -52,28 +54,25 @@ const AddEditModal = ({ isOpen, onClose, record, onSave }) => {
               type="number"
               placeholder="Enter Amount"
             />
+
+            {/* Business Type CustomSelect */}
             <Field
               name="businessType"
               component={CustomSelect}
-              placeholder="Business Type"
-            >
-              {businessTypes.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </Field>
+              required
+              placeholder="Select Business Type"
+              options={businessTypes.map((b) => ({ value: b, label: b }))}
+            />
+
+            {/* Referral Type CustomSelect */}
             <Field
               name="referralType"
               component={CustomSelect}
-              placeholder="Referral Type"
-            >
-              {referralTypes.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </Field>
+              required
+              placeholder="Select Referral Type"
+              options={referralTypes.map((r) => ({ value: r, label: r }))}
+            />
+
             <Field
               name="comment"
               component={CustomTextarea}
@@ -85,11 +84,10 @@ const AddEditModal = ({ isOpen, onClose, record, onSave }) => {
             <div className="gap-4 mt-6">
               <button
                 type="submit"
-             className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
+                className="w-50 mx-auto block bg-primary-200 text-white py-2 rounded-full"
               >
-                {record ? "Save Changes" : "Add"}
+                {record ? "Update" : "Add"}
               </button>
-
             </div>
           </Form>
         )}
@@ -99,5 +97,3 @@ const AddEditModal = ({ isOpen, onClose, record, onSave }) => {
 };
 
 export default AddEditModal;
-
-

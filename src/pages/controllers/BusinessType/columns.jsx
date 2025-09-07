@@ -1,7 +1,12 @@
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import CustomActions from "../../../components/common/customActions";
 
-export const businessTypeColumns = ({ setEditData, deleteBusinessType, updateBusinessType }) => [
+export const businessTypeColumns = ({
+  setEditData,
+  deleteBusinessType,
+  updateBusinessType,
+}) => [
   {
     name: "No.",
     selector: (_, index) => index + 1,
@@ -28,32 +33,44 @@ export const businessTypeColumns = ({ setEditData, deleteBusinessType, updateBus
   {
     name: "Actions",
     cell: (row) => (
-      <div className="flex gap-3">
-        <button
-          className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300"
-          onClick={() => setEditData(row)}
-        >
-          <FaRegEdit />
-        </button>
-        <button
-          className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300"
-          onClick={() => deleteBusinessType(row.id)}
-        >
-          <MdDeleteOutline />
-        </button>
-        <button
-          className="text-primary-400 px-2 py-1 border border-primary-400 font-semibold rounded-full"
-          onClick={() => updateBusinessType({ ...row, status: "Active" })}
-        >
-          Active
-        </button>
-        <button
-          className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full"
-          onClick={() => updateBusinessType({ ...row, status: "Deactive" })}
-        >
-          Deactive
-        </button>
-      </div>
+      <CustomActions
+        options={[
+          {
+            label: "Edit",
+            icon: <FaRegEdit />,
+            onClick: () => setEditData(row),
+            className: "text-blue-600",
+          },
+          {
+            label: "Active",
+            icon: <span className="w-2 h-2 rounded-full bg-green-500"></span>,
+            onClick: () => updateBusinessType(row.id, { status: "Active" }),
+            className:
+              row.status === "Active"
+                ? "opacity-50 cursor-not-allowed"
+                : "text-green-600",
+          },
+          {
+            label: "Deactive",
+            icon: <span className="w-2 h-2 rounded-full bg-yellow-500"></span>,
+            onClick: () => updateBusinessType(row.id, { status: "Deactive" }),
+            className:
+              row.status === "Deactive"
+                ? "opacity-50 cursor-not-allowed"
+                : "text-yellow-600",
+          },
+
+          {
+            label: "Delete",
+            icon: <MdDeleteOutline />,
+            onClick: () => deleteBusinessType(row.id),
+            className: "text-red-600 border-t border-gray-100",
+          },
+        ]}
+      />
     ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
   },
 ];

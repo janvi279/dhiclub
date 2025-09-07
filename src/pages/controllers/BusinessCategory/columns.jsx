@@ -1,5 +1,6 @@
 import { FaRegEdit } from "react-icons/fa";
-import { MdOutlineDelete } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
+import CustomActions from "../../../components/common/customActions";
 
 export const businessCategoryColumns = ({ setEditData, deleteCategory, updateCategory }) => [
   {
@@ -25,7 +26,7 @@ export const businessCategoryColumns = ({ setEditData, deleteCategory, updateCat
     name: "Status",
     cell: (row) => (
       <span
-        className={`px-2 py-1 text-xs rounded-full font-medium ${
+        className={`px-5 py-1.5 text-xs rounded-full font-medium ${
           row.status === "Active"
             ? "bg-primary-350 text-primary-400"
             : "bg-primary-450 text-primary-500"
@@ -35,35 +36,47 @@ export const businessCategoryColumns = ({ setEditData, deleteCategory, updateCat
       </span>
     ),
   },
-  {
+   {
     name: "Actions",
     cell: (row) => (
-      <div className="flex gap-2">
-        <button
-          className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap"
-          onClick={() => setEditData(row)}
-        >
-          <FaRegEdit />
-        </button>
-        <button
-          className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300 whitespace-nowrap"
-          onClick={() => deleteCategory(row.id)}
-        >
-          <MdOutlineDelete />
-        </button>
-        <button
-          className="text-primary-400 px-2 py-1 border border-primary-400 font-semibold rounded-full whitespace-nowrap"
-          onClick={() => updateCategory({ ...row, status: "Active" })}
-        >
-          Active
-        </button>
-        <button
-          className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full whitespace-nowrap"
-          onClick={() => updateCategory({ ...row, status: "Deactive" })}
-        >
-          Deactive
-        </button>
-      </div>
+      <CustomActions
+        options={[
+          {
+            label: "Edit",
+            icon: <FaRegEdit />,
+            onClick: () => setEditData(row),
+            className: "text-blue-600",
+          },
+          {
+            label: "Active",
+            icon: <span className="w-2 h-2 rounded-full bg-green-500"></span>,
+            onClick: () => updateCategory(row.id, { status: "Active" }),
+            className:
+              row.status === "Active"
+                ? "opacity-50 cursor-not-allowed"
+                : "text-green-600",
+          },
+          {
+            label: "Deactive",
+            icon: <span className="w-2 h-2 rounded-full bg-yellow-500"></span>,
+            onClick: () => updateCategory(row.id, { status: "Deactive" }),
+            className:
+              row.status === "Deactive"
+                ? "opacity-50 cursor-not-allowed"
+                : "text-yellow-600",
+          },
+
+          {
+            label: "Delete",
+            icon: <MdDeleteOutline />,
+            onClick: () => deleteCategory(row.id),
+            className: "text-red-600 border-t border-gray-100",
+          },
+        ]}
+      />
     ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
   },
 ];

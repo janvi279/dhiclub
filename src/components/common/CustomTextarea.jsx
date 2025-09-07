@@ -1,4 +1,4 @@
-import { ErrorMessage } from 'formik'
+import { ErrorMessage } from "formik";
 
 const CustomTextarea = ({
   field,
@@ -9,29 +9,29 @@ const CustomTextarea = ({
   rows,
   ...props
 }) => {
-  const isInvalid = !!touched[field.name] && !!errors[field.name]
+  const isInvalid = !!touched[field.name] && !!errors[field.name];
 
   return (
-    <div className='w-full'>
-      <h5 className='text-sm sm:text-base font-normal'>
+    <div className="w-full">
+      <h5 className="text-sm sm:text-base font-normal">
         {label}
-        {required && <span className='text-[#D34053]'>*</span>}
+        {required && <span className="text-[#D34053]">*</span>}
       </h5>
       <textarea
         {...field}
         {...props}
         placeholder={placeholder}
-        invalid={isInvalid ? 'true' : 'false'}
-        className='w-full border border-gray-300 rounded-lg p-3'
+        invalid={isInvalid ? "true" : "false"}
+        className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none"
         rows={rows}
       />
       <ErrorMessage
         name={field.name}
-        component='div'
-        className='text-[#D34053] text-sm sm:text-base'
+        component="div"
+        className="text-[#D34053] text-sm sm:text-base"
       />
     </div>
-  )
-}
+  );
+};
 
-export default CustomTextarea
+export default CustomTextarea;

@@ -14,7 +14,7 @@ const HOTNESS_LEVELS = [
   { level: 2, color: "bg-orange-400", width: "w-24", label: "Warm" },
   { level: 3, color: "bg-orange-500", width: "w-32", label: "Medium" },
   { level: 4, color: "bg-red-400", width: "w-40", label: "Hot" },
-  { level: 5, color: "bg-red-600", width: "w-48", label: "Very Hot" }
+  { level: 5, color: "bg-red-600", width: "w-48", label: "Very Hot" },
 ];
 
 // Validation schemas
@@ -82,14 +82,19 @@ const AddReferralModal = ({ isOpen, onClose, onSave }) => {
     const errors = await validateForm(values);
 
     if (activeTab === "referral") {
-      const referralFields = ["referralTo", "referralType", "referralStatus", "hotness"];
-      const referralErrors = Object.keys(errors).filter(key =>
+      const referralFields = [
+        "referralTo",
+        "referralType",
+        "referralStatus",
+        "hotness",
+      ];
+      const referralErrors = Object.keys(errors).filter((key) =>
         referralFields.includes(key)
       );
 
       if (referralErrors.length > 0) {
         const touchedFields = {};
-        referralFields.forEach(field => {
+        referralFields.forEach((field) => {
           touchedFields[field] = true;
         });
         setTouched(touchedFields);
@@ -117,9 +122,10 @@ const AddReferralModal = ({ isOpen, onClose, onSave }) => {
                 className={`
                   w-4 h-4 rounded border-2 cursor-pointer flex items-center justify-center
                   transition-colors
-                  ${isSelected
-                    ? "border-primary-200 bg-primary-200"
-                    : "border-gray-300 bg-white hover:border-primary-200"
+                  ${
+                    isSelected
+                      ? "border-primary-200 bg-primary-200"
+                      : "border-gray-300 bg-white hover:border-primary-200"
                   }
                 `}
                 onClick={() => setFieldValue("hotness", isSelected ? 0 : level)}
@@ -176,9 +182,10 @@ const AddReferralModal = ({ isOpen, onClose, onSave }) => {
           type="button"
           className={`
             flex-1 pb-3 text-sm font-medium text-center transition-colors
-            ${activeTab === "referral"
-              ? "text-primary-200 border-b-2 border-primary-200"
-              : "text-gray-500 hover:text-gray-700"
+            ${
+              activeTab === "referral"
+                ? "text-primary-200 border-b-2 border-primary-200"
+                : "text-gray-500 hover:text-gray-700"
             }
           `}
           onClick={() => setActiveTab("referral")}
@@ -189,9 +196,10 @@ const AddReferralModal = ({ isOpen, onClose, onSave }) => {
           type="button"
           className={`
             flex-1 pb-3 text-sm font-medium text-center transition-colors
-            ${activeTab === "contact"
-              ? "text-primary-200 border-b-2 border-primary-200"
-              : "text-gray-500 hover:text-gray-700"
+            ${
+              activeTab === "contact"
+                ? "text-primary-200 border-b-2 border-primary-200"
+                : "text-gray-500 hover:text-gray-700"
             }
           `}
           onClick={() => setActiveTab("contact")}
@@ -206,9 +214,15 @@ const AddReferralModal = ({ isOpen, onClose, onSave }) => {
         onSubmit={handleSubmit}
         validateOnChange={true}
         validateOnBlur={true}
-
       >
-        {({ values, setFieldValue, validateForm, setTouched, errors, touched }) => (
+        {({
+          values,
+          setFieldValue,
+          validateForm,
+          setTouched,
+          errors,
+          touched,
+        }) => (
           <Form className="space-y-5">
             {activeTab === "referral" && (
               <>
@@ -225,39 +239,29 @@ const AddReferralModal = ({ isOpen, onClose, onSave }) => {
                   name="referralType"
                   component={CustomSelect}
                   placeholder="Select Referral Type *"
-                  className="w-full"
-                >
-               
-                  {REFERRAL_TYPES.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </Field>
+                  options={REFERRAL_TYPES.map((type) => ({
+                    value: type,
+                    label: type,
+                  }))}
+                />
 
                 {/* Referral Status Dropdown */}
                 <Field
                   name="referralStatus"
                   component={CustomSelect}
                   placeholder="Select Referral Status *"
-                  className="w-full"
-                >
-                
-                  {REFERRAL_STATUSES.map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
-                  ))}
-                </Field>
+                  options={REFERRAL_STATUSES.map((status) => ({
+                    value: status,
+                    label: status,
+                  }))}
+                />
 
                 {/* Hotness Rating */}
                 <HotnessRating values={values} setFieldValue={setFieldValue} />
 
                 {/* Show hotness error */}
                 {errors.hotness && touched.hotness && (
-                  <div className="text-sm text-red-600">
-                    {errors.hotness}
-                  </div>
+                  <div className="text-sm text-red-600">{errors.hotness}</div>
                 )}
 
                 {/* Next Button */}
@@ -266,12 +270,16 @@ const AddReferralModal = ({ isOpen, onClose, onSave }) => {
                     type="button"
                     className="
                       px-8 py-3 bg-primary-200 text-white rounded-full
-                      hover:bg-primary-300 transition-colors
+                       transition-colors cursor-pointer
                       focus:outline-none focus:ring-2 focus:ring-primary-200 focus:ring-offset-2
                       disabled:opacity-50 disabled:cursor-not-allowed
                     "
                     onClick={async () => {
-                      const isValid = await validateCurrentTab(values, validateForm, setTouched);
+                      const isValid = await validateCurrentTab(
+                        values,
+                        validateForm,
+                        setTouched
+                      );
                       if (isValid) {
                         setActiveTab("contact");
                       }
@@ -321,8 +329,8 @@ const AddReferralModal = ({ isOpen, onClose, onSave }) => {
                     type="submit"
                     disabled={isSubmitting}
                     className="
-                      flex-1 py-3 bg-primary-200 text-white rounded-full
-                      hover:bg-primary-300 transition-colors
+                      flex-1 py-3 bg-primary-200 text-white rounded-full cursor-pointer
+                       transition-colors
                       focus:outline-none focus:ring-2 focus:ring-primary-200 focus:ring-offset-2
                       disabled:opacity-50 disabled:cursor-not-allowed
                     "

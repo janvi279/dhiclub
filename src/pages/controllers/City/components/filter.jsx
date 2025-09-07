@@ -2,7 +2,12 @@ import { FiFilter } from "react-icons/fi";
 import { FaSortAmountDownAlt } from "react-icons/fa";
 import CustomFilterSelect from "../../../../components/common/CustomFilterSelect";
 
-const CityFilters = ({ filterCity, setFilterCity, sortOrder, setSortOrder }) => {
+const CityFilters = ({
+  filterCity,
+  setFilterCity,
+  sortOrder,
+  setSortOrder,
+}) => {
   return (
     <div className="flex gap-3 items-center">
       {/* Sort Order */}
@@ -24,11 +29,9 @@ const CityFilters = ({ filterCity, setFilterCity, sortOrder, setSortOrder }) => 
           { value: "ALL", label: "All" },
           { value: "Rajkot", label: "Rajkot" },
           { value: "Ahmedabad", label: "Ahmedabad" },
-          { value: "Surat", label: "Surat" },
         ]}
         icon={FiFilter}
       />
-
     </div>
   );
 };

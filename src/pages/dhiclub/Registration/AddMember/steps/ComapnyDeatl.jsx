@@ -20,6 +20,7 @@ const CompanyDetails = () => {
 
       <Field
         name="registration"
+        type="date"
         placeholder="Company Registration"
         component={CustomInput}
         label="Company Registration"

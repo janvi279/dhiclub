@@ -1,8 +1,9 @@
 import { FaRegEdit } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa6";
 import { MdDeleteOutline } from "react-icons/md";
+import CustomActions from "../../../components/common/customActions";
 
-const responsibilityColumns = ({ updateResponsibility, handleEdit, deleteResponsibility, setResponsibilityList , handleViewVisitor}) => {
+const responsibilityColumns = ({ updateResponsibility, handleEdit, deleteResponsibility , handleViewVisitor}) => {
   const columns = [
     { name: "No.", selector: (_, index) => index + 1 },
     { name: "Member Id", selector: (row) => row.MemberId },
@@ -16,7 +17,7 @@ const responsibilityColumns = ({ updateResponsibility, handleEdit, deleteRespons
     selector: (row) => row.status,
     cell: (row) => (
       <span
-        className={`px-[20px] py-[6px] text-xs rounded-full font-semibold ${row.status === "Active"
+        className={`px-5 py-1.5 text-xs rounded-full font-semibold ${row.status === "Active"
           ? "bg-primary-350 text-primary-400"
           : "bg-primary-450 text-primary-500"
           }`}
@@ -25,44 +26,55 @@ const responsibilityColumns = ({ updateResponsibility, handleEdit, deleteRespons
       </span>
     ),
   },
-    {
-      name: "Actions",
-      width:"300px",
-      cell: (row, index) => (
-        <div className="flex gap-5">
-            <button
-            className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300"
-     onClick={() =>  handleViewVisitor(row)}
-          >
-           <FaRegEye/>
-          </button>
-          <button
-            className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300"
-            onClick={() => handleEdit(row, index)}
-          >
-            <FaRegEdit />
-          </button>
-          <button
-            className="text-primary-200 text-base rounded-2xl p-2 bg-primary-300"
-            onClick={() => deleteResponsibility(index)}
-          >
-            <MdDeleteOutline />
-          </button>
-           <button
-          className="text-primary-400 px-2 py-1 border-primary-400 border  font-semibold rounded-full whitespace-nowrap"
-          onClick={() => updateResponsibility({ ...row, status: "Active" })}
-        >
-          Active
-        </button>
-        <button
-          className="text-primary-500 px-2 py-1 border border-primary-500 font-semibold rounded-full whitespace-nowrap"
-          onClick={() => updateResponsibility({ ...row, status: "Deactive" })}
-        >
-          Deactive
-        </button>
-        </div>
-      ),
-    },
+   {
+    name: "Actions",
+    cell: (row) => (
+      <CustomActions
+        options={[
+          {
+            label: "View",
+            icon: <FaRegEye />,
+            onClick: () => handleViewVisitor(row),
+            className: "text-primary-200",
+          },
+          {
+            label: "Edit",
+            icon: <FaRegEdit />,
+            onClick: () => handleEdit(row),
+            className: "text-blue-600",
+          },
+          {
+            label: "Active",
+            icon: <span className="w-2 h-2 rounded-full bg-green-500"></span>,
+            onClick: () => updateResponsibility({ ...row, status: "Active" }),
+            className:
+              row.status === "Active"
+                ? "opacity-50 cursor-not-allowed"
+                : "text-green-600",
+          },
+          {
+            label: "Deactive",
+            icon: <span className="w-2 h-2 rounded-full bg-yellow-500"></span>,
+            onClick: () =>
+              updateResponsibility({ ...row, status: "Deactive" }),
+            className:
+              row.status === "Deactive"
+                ? "opacity-50 cursor-not-allowed"
+                : "text-yellow-600",
+          },
+          {
+            label: "Delete",
+            icon: <MdDeleteOutline />,
+            onClick: () => deleteResponsibility(row.MemberId),
+            className: "text-red-600 border-t border-gray-100",
+          },
+        ]}
+      />
+    ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+  },
   ];
 
   return columns;

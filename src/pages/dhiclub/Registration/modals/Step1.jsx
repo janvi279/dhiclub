@@ -6,61 +6,81 @@ const Step1 = ({ countries, states, cities, businessDomains, navigate }) => {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Country */}
         <div className="max-w-md">
           <label className="block mb-2 text-primary-150 font-semibold text-md">
             Select Country
           </label>
-          <Field name="country" component={CustomSelect} placeholder="Select Country">
-            {countries.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </Field>
+          <Field
+            name="country"
+            component={CustomSelect}
+            placeholder="Select Country"
+            options={countries.map((c) => ({ value: c, label: c }))}
+          />
         </div>
 
+        {/* State */}
         <div className="max-w-md">
           <label className="block mb-2 text-primary-150 font-semibold text-md">
             Select State
           </label>
-          <Field name="state" component={CustomSelect} placeholder="Select State">
-            {states.map((s) => (
-              <option key={s} value={s}>{s}</option>
-            ))}
-          </Field>
+          <Field
+            name="state"
+            component={CustomSelect}
+            placeholder="Select State"
+            options={states.map((s) => ({ value: s, label: s }))}
+          />
         </div>
 
+        {/* City */}
         <div className="max-w-md">
           <label className="block mb-2 text-primary-150 font-semibold text-md">
             Select City
           </label>
-          <Field name="city" component={CustomSelect} placeholder="Select City">
-            {cities.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </Field>
+          <Field
+            name="city"
+            component={CustomSelect}
+            placeholder="Select City"
+            options={cities.map((c) => ({ value: c, label: c }))}
+          />
         </div>
 
+        {/* Business Domain */}
         <div className="max-w-md">
           <label className="block mb-2 text-primary-150 font-semibold text-md">
             Select Business Domain
           </label>
-          <Field name="businessDomain" component={CustomSelect} placeholder="Select Business Domain">
-            {businessDomains.map((b) => (
-              <option key={b} value={b}>{b}</option>
-            ))}
-          </Field>
+          <Field
+            name="businessDomain"
+            component={CustomSelect}
+            placeholder="Select Business Domain"
+            options={businessDomains.map((b) => ({ value: b, label: b }))}
+          />
         </div>
       </div>
 
+      {/* Forum */}
       <div className="mt-8">
         <label className="block mb-2 text-primary-150 font-semibold text-md">
           Select Forum
         </label>
         <div className="flex items-center gap-5">
-          <Field name="forum" component={CustomRadioButton} value="Shakti" label="Shakti" />
-          <Field name="forum" component={CustomRadioButton} value="Laxmi" label="Laxmi" />
+          <Field
+            name="forum"
+            component={CustomRadioButton}
+            value="Shakti"
+            label="Shakti"
+          />
+          <Field
+            name="forum"
+            component={CustomRadioButton}
+            value="Laxmi"
+            label="Laxmi"
+          />
         </div>
       </div>
 
+      {/* Buttons */}
       <div className="flex items-center gap-4 mt-8">
         <button
           type="submit"
