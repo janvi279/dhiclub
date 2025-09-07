@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { removeRole,removeToken } from "../utils/cookies/cookies";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false)
@@ -8,13 +9,18 @@ const Header = () => {
 
   }
   const navigate = useNavigate();
+
   const handleLogout = () => {
-    // Perform any logout-related tasks here (e.g., clearing session)
-    navigate("/login"); // Redirect to login page
-  };
+    removeToken()
+    removeRole()
+    setTimeout(() => {
+      navigate('/login')
+    }, 100)
+ 
+  }
   return (
     <>
-     <div className="fixed top-0 left-0 w-full z-50 bg-primary-50 flex justify-between items-center p-7 max-sm:p-5 max-sm:flex-wrap shadow-md">
+     <div className="fixed top-0 left-0 w-full z-50  flex justify-between items-center p-7 max-sm:p-5 max-sm:flex-wrap ">
 
 
         <div className="max-sm:w-full max-sm:mb-5 flex gap-2 items-center">
@@ -23,7 +29,7 @@ const Header = () => {
         </div>
 
         {/* Search */}
-        <div className="flex items-center ">
+        {/* <div className="flex items-center ">
           <img
             src="/Search-icon.png"
             className="absolute pl-5 max-sm:pl-2"
@@ -33,7 +39,7 @@ const Header = () => {
             placeholder="Search or type a command"
             className="px-12 max-sm:px-7 py-2 w-75 max-sm:p-2 max-sm:w-50 max-sm:text-xs border-[1.5px] border-gray-300 rounded-lg focus:outline-none"
           />
-        </div>
+        </div> */}
         <div className="flex relative items-center gap-5 justify-end max-sm:[justify-normal] max-sm:gap-2 ">
           <img
             src="/bell-svgrepo-com.svg"

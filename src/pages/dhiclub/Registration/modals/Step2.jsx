@@ -50,7 +50,7 @@ const Step2 = ({ values, setFieldValue, otpRefs, handleOtpChange, setStep }) => 
         <button
           type="button"
           onClick={() => setStep(1)}
-          className="border border-[#6246EA] px-8 py-2 rounded-full text-primary-200 font-semibold"
+          className="border border-[#44C5FF] px-8 py-2 rounded-full text-primary-200 font-semibold"
         >
           Back
         </button>

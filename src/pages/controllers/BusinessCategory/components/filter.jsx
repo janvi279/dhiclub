@@ -1,5 +1,4 @@
 import { FaSortAmountDownAlt } from "react-icons/fa";
-import { FiFilter } from "react-icons/fi";
 import CustomFilterSelect from "../../../../components/common/CustomFilterSelect";
 
 const BusinessCategoryFilters = ({
@@ -13,19 +12,23 @@ const BusinessCategoryFilters = ({
       {/* Sort */}
       <CustomFilterSelect
         value={sortOrder}
-        onChange={(e) => setSortOrder(e.target.value)}
-        options={["newest", "oldest"]}
+        onChange={(val) => setSortOrder(val?.value)} // ✅ use value
+        options={[
+          { value: "newest", label: "Newest" },
+          { value: "oldest", label: "Oldest" },
+        ]}
         icon={FaSortAmountDownAlt}
-
       />
 
       {/* Status Filter */}
       <CustomFilterSelect
         value={statusFilter}
-        onChange={(e) => setStatusFilter(e.target.value)}
-        options={["all", "Active", "Deactive"]}
-        icon={FiFilter}
-
+        onChange={(val) => setStatusFilter(val?.value)} // ✅ fixed here
+        options={[
+          { value: "all", label: "All" },
+          { value: "Active", label: "Active" },
+          { value: "Deactive", label: "Deactive" },
+        ]}
       />
     </div>
   );

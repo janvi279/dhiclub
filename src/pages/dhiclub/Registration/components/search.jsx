@@ -1,14 +1,12 @@
 import CustomSearch from "../../../../components/common/CustomSearch";
 
 const CitySearch = ({ search, setSearch }) => {
-
   return (
-    <div className="flex justify-between items-center mb-4">
-
+    <div className="flex justify-between items-center ">
       <CustomSearch
         value={search}
         onChange={setSearch}
-        placeholder="Search City..."
+        placeholder="Search Registration..."
       />
     </div>
   );

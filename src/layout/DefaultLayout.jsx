@@ -17,7 +17,7 @@ const DefaultLayout = () => {
                 <div className={`relative flex flex-col flex-1 overflow-x-hidden ${isSidebarOpen ? 'ml-50' : 'ml-0 p-0'}`}>
                     {/* Adjust the margin-left based on sidebar state */}
                     <main>
-                        <div className="mx-auto max-w-screen-2xl p-4 pt-[130px]">
+                        <div className="mx-auto max-w-screen-2xl px-4 pt-30 my-5 ">
                             <Outlet /> {/* This renders the Dashboard component */}
                         </div>
                     </main>

@@ -1,7 +1,8 @@
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import CustomActions from "../../../components/common/customActions";
 
-export const registrationColumns = ({ setEditData, deleteRow, updateRow } = {}) => [
+export const registrationColumns = ({ setEditData, deleteRow } = {}) => [
   {
     name: "No.",
     selector: (_, index) => index + 1,
@@ -12,27 +13,28 @@ export const registrationColumns = ({ setEditData, deleteRow, updateRow } = {}) 
   { name: "Company", selector: (row) => row.companyName, sortable: true },
   { name: "City", selector: (row) => row.city, sortable: true },
 
-  {
+{
     name: "Actions",
     cell: (row) => (
-      <div className="flex gap-3">
-        {setEditData && (
-          <button
-            className="text-primary-200 p-2 bg-primary-300 rounded-2xl"
-            onClick={() => setEditData(row)}
-          >
-            <FaRegEdit />
-          </button>
-        )}
-        {deleteRow && (
-          <button
-            className="text-primary-200 p-2 bg-primary-300 rounded-2xl"
-            onClick={() => deleteRow(row.id)}
-          >
-            <MdDeleteOutline />
-          </button>
-        )}
-      </div>
+      <CustomActions
+        options={[
+          {
+            label: "Edit",
+            icon: <FaRegEdit />,
+            onClick: () => setEditData(row),
+            className: "text-blue-600",
+          },
+          {
+            label: "Delete",
+            icon: <MdDeleteOutline />,
+            onClick: () => deleteRow(row.id),
+            className: "text-red-600 border-t border-gray-100",
+          },
+        ]}
+      />
     ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
   },
 ];

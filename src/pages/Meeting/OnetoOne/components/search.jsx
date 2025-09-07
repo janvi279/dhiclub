@@ -1,17 +1,15 @@
 import CustomSearch from "../../../../components/common/CustomSearch";
 
-const TyfcbSearch = ({ search, setSearch }) => {
+const OnetoOneSearch = ({ search, setSearch }) => {
   return (
-    <div className="flex justify-between items-center mb-4">
-
+    <div className="flex justify-between items-center ">
       <CustomSearch
+        placeholder="Search by Met With"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search..."
+        onChange={setSearch}
       />
     </div>
   );
-
 };
 
-export default TyfcbSearch;
+export default OnetoOneSearch;

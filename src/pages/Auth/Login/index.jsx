@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { toast, ToastContainer } from "react-toastify";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
-// import axiosCommonInstance from "../../../utils/axios/axiosCommonInstance";
-// import { setToken } from "../../../utils/cookies/cookies";
+import axiosAuthInstance from "../../../components/utils/axios/axiosAuthInstance";
+import { setToken, setRole } from "../../../components/utils/cookies/cookies";
+import Mail from "../../../../public/Mail.svg";
+import Pwd from "../../../../public/Pwd.svg";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +29,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange", // Changed from onFocus to onChange for better UX
@@ -43,26 +44,21 @@ const Login = () => {
 
     try {
       // Fixed: Send data directly, not wrapped in body object
-      const response = await axiosCommonInstance.post('user/login/mail', {
+      const response = await axiosAuthInstance.post("socialAuth/authenticate", {
         email: data.email,
         password: data.password,
       });
 
       if (response?.data) {
-        const token = response.data?.token;
+        const token = response.data?.data?.accessToken;
+        const role = response.data?.data?.role || "Admin";
 
         if (token) {
           setToken(token);
-
-          toast.success("Login successful!", {
-            autoClose: 2000,
-            position: "top-center",
-          });
-
-          // Navigate after toast duration
-          setTimeout(() => {
-            navigate("/addMember");
-          }, 2000);
+          if (role) {
+            setRole(role);
+          }
+          navigate("/dashboard");
         } else {
           throw new Error("No token received from server");
         }
@@ -71,26 +67,13 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Login error:", error);
-
-      const errorMessage = error.response?.data?.message ||
-        error.response?.data?.error ||
-        error.message ||
-        "Login failed. Please check your credentials.";
-
-      toast.error(errorMessage, {
-        autoClose: 3000,
-        position: "top-center",
-      });
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="font-poppins flex justify-center items-center min-h-screen max-sm:mx-8 bg-gray-50">
-      <ToastContainer />
-
-      <div className="bg-primary-50 p-8 max-sm:p-5 rounded-2xl shadow-lg w-full max-w-md">
+      <div className="bg-primary-50 p-10 max-sm:p-5 rounded-2xl shadow-lg w-full max-w-md">
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           {/* Logo and Title */}
           <div className="flex gap-3 text-left items-center mb-6">
@@ -99,9 +82,7 @@ const Login = () => {
               alt="Dhiclub Logo"
               className="w-8 h-8 object-contain"
             />
-            <h1 className="text-3xl font-bold text-primary-150">
-              Dhiclub
-            </h1>
+            <h1 className="text-3xl font-bold text-primary-150">Dhiclub</h1>
           </div>
 
           {/* Header Text */}
@@ -117,11 +98,8 @@ const Login = () => {
           {/* Email Input */}
           <div className="mb-4">
             <div className="flex items-center relative">
-              <img
-                src="/Frame.png"
-                alt="Email Icon"
-                className="absolute left-4 w-5 h-5 z-10"
-              />
+           <img src={Mail} alt="Mail Icon" className="absolute left-4 w-5 h-5 z-10" />
+
               <input
                 type="email"
                 placeholder="Enter Email"
@@ -140,11 +118,8 @@ const Login = () => {
           {/* Password Input */}
           <div className="mb-4">
             <div className="flex items-center relative">
-              <img
-                src="/Frame-2.png"
-                alt="Password Icon"
-                className="absolute left-4 w-5 h-5 z-10"
-              />
+              
+                  <img src={Pwd} alt="Mail Icon" className="absolute left-4 w-5 h-5 z-10" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"
@@ -156,14 +131,8 @@ const Login = () => {
                 type="button"
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer focus:outline-none"
                 onClick={togglePasswordVisibility}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                <img
-                  src={showPassword ? "/eye-svgrepo-com.png" : "/eye-close.png"}
-                  alt="Toggle password visibility"
-                  className="w-5 h-5 max-sm:w-4 max-sm:h-4"
-                />
-              </button>
+                aria-label={showPassword ? "Show password" : "Hide password"}
+              ></button>
             </div>
             {errors.password && (
               <p className="text-red-500 text-xs mt-1 pl-2">
@@ -176,37 +145,27 @@ const Login = () => {
           <div className="mb-6 text-right">
             <Link
               to="/forgot-password"
-              className="text-xs text-primary-200 hover:underline hover:text-primary-300 transition-colors font-normal"
+              className="text-xs text-primary-200 hover:underline  transition-colors font-normal"
             >
               Forgot Password?
             </Link>
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-4 flex-col sm:flex-row">
-            <button
-              type="submit"
 
-              className="flex-1 py-3 px-8 bg-primary-200 text-white rounded-full font-medium transition-all duration-200  disabled:bg-primary-200  flex items-center justify-center max-sm:py-2 max-sm:px-6"
-            >
-              {loading ? (
-                <div className="flex items-center space-x-2">
-                  <div className="w-4 h-4 border-2 border-white border-solid rounded-full animate-spin border-t-transparent"></div>
-                  <span>Logging in...</span>
-                </div>
-              ) : (
-                "Login"
-              )}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => navigate("/signUp")}
-              className="flex-1 py-3 px-8 text-primary-200 border border-primary-200 rounded-full font-bold   transition-all duration-200 max-sm:py-2 max-sm:px-6"
-            >
-              Sign Up
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="mx-auto w-50 cursor-pointer flex-1 py-3 px-8 bg-primary-200 text-white rounded-full font-medium transition-all duration-200  disabled:bg-primary-200  flex items-center justify-center max-sm:py-2 max-sm:px-6"
+          >
+            {loading ? (
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 border-2 border-white border-solid rounded-full animate-spin border-t-transparent"></div>
+                <span>Logging in...</span>
+              </div>
+            ) : (
+              "Login"
+            )}
+          </button>
         </form>
       </div>
     </div>

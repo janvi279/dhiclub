@@ -6,7 +6,7 @@ const HOTNESS_LEVELS = [
   { level: 2, color: "bg-orange-400", width: "w-24", label: "Warm" },
   { level: 3, color: "bg-orange-500", width: "w-32", label: "Medium" },
   { level: 4, color: "bg-red-400", width: "w-40", label: "Hot" },
-  { level: 5, color: "bg-red-600", width: "w-48", label: "Very Hot" }
+  { level: 5, color: "bg-red-600", width: "w-48", label: "Very Hot" },
 ];
 
 const ViewModal = ({ isOpen, onClose, record }) => {
@@ -89,7 +89,11 @@ const ViewModal = ({ isOpen, onClose, record }) => {
                     {/* Checkbox */}
                     <div
                       className={`w-4 h-4 rounded border-2 flex items-center justify-center
-                        ${isSelected ? "border-primary-200 bg-primary-200" : "border-gray-300 bg-white"}
+                        ${
+                          isSelected
+                            ? "border-primary-200 bg-primary-200"
+                            : "border-gray-300 bg-white"
+                        }
                       `}
                     >
                       {isSelected && (

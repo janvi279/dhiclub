@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { FaSearch, FaSortAmountDownAlt } from "react-icons/fa";
-import { FiFilter } from "react-icons/fi";
-import { MdOutlineFileDownload } from "react-icons/md";
 import DataTable from "react-data-table-component";
+import { accountColumns } from "./columns";
+import AccountSearch from "./components/search";
+import AccountFilters from "./components/filter";
+import customStyles from "../../components/custom/customStyle";
 
 const Account = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState("newest");
 
@@ -42,6 +43,7 @@ const Account = () => {
     },
   ];
 
+  // ✅ Status pill styles
   const getStatusClass = (status) => {
     switch (status) {
       case "Paid":
@@ -55,124 +57,37 @@ const Account = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const filteredTransactions = transactions.filter((t) => {
-    const matchesQuery =
-      t.memberId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      t.transactionId.includes(searchQuery);
-    const matchesStatus = statusFilter === "all" || t.status === statusFilter;
-    return matchesQuery && matchesStatus;
-  });
-
-  const customStyles = {
-    headCells: {
-      style: {
-        fontSize: "12px",
-        fontWeight: 600,
-        color: "#061237",
-        backgroundColor: "#F5F8FD",
-      },
-    },
-    cells: {
-      style: {
-        fontSize: "12px",
-        color: "#061237",
-        fontWeight: 500,
-      },
-    },
-    pagination: {
-      style: {
-        borderTop: "none",
-        boxShadow: "none",
-      },
-    },
-  };
-
-  const columns = [
-    { name: "No.", selector: (row) => row.no, sortable: true },
-    { name: "Member ID", selector: (row) => row.memberId, sortable: true },
-    { name: "Transaction ID", selector: (row) => row.transactionId, sortable: true },
-    { name: "Payment Date/Time", selector: (row) => row.date, sortable: true },
-    {
-      name: "Payment Status",
-      selector: (row) => row.status,
-      cell: (row) => (
-        <span
-          className={`px-[16px] py-[6px] text-xs rounded-full font-semibold ${getStatusClass(
-            row.status
-          )}`}
-        >
-          {row.status}
-        </span>
-      ),
-    },
-    { name: "Payment Type", selector: (row) => row.type, sortable: true },
-    { name: "Net Amount", selector: (row) => row.amount.toFixed(2), sortable: true },
-    { name: "GST", selector: (row) => row.gst.toFixed(2), sortable: true },
-    {
-      name: "Receipt",
-      cell: () => (
-        <button className="p-1 text-base bg-primary-300 rounded-[12.63px]">
-          <MdOutlineFileDownload className="text-primary-200" /> 
-        </button>
-      ),
-    },
-  ];
+  // ✅ Filtering + Search + Sorting
+  const filteredTransactions = transactions
+    .filter((t) => {
+      const matchesQuery =
+        t.memberId.toLowerCase().includes(search.toLowerCase()) ||
+        t.transactionId.includes(search);
+      const matchesStatus = statusFilter === "all" || t.status === statusFilter;
+      return matchesQuery && matchesStatus;
+    })
+    .sort((a, b) => (sortOrder === "newest" ? b.no - a.no : a.no - b.no));
 
   return (
-    <div className=" mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-      {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-gray-200 mb-4">
+    <div className="mx-auto border border-primary-800 bg-white shadow-lg rounded-lg p-5">
+      {/* Header + Filters */}
+      <div className="flex flex-wrap gap-4 items-center justify-between pb-11 border-b border-gray-200 mb-4">
         <h1 className="text-xl font-semibold text-primary-150">Account</h1>
-
-        {/* Search */}
-        <div className="relative w-64">
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={handleSearch}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none"
+        <AccountSearch search={search} setSearch={setSearch} />
+        <div className="flex gap-4">
+          
+          <AccountFilters
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
           />
-        </div>
-
-        {/* Sort & Filter */}
-        <div className="flex justify-end gap-3">
-          <div className="flex items-center gap-2">
-            <FaSortAmountDownAlt className="text-primary-200" />
-            <select
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
-              className="font-semibold text-primary-150 py-2 text-base focus:outline-none"
-            >
-              <option value="newest">Newest</option>
-              <option value="oldest">Oldest</option>
-            </select>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <FiFilter className="text-primary-200 text-xl" />
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="font-semibold text-primary-150 py-2 text-base focus:outline-none"
-            >
-              <option value="all">All Status</option>
-              <option value="Paid">Paid</option>
-              <option value="Pending">Pending</option>
-              <option value="Failed">Failed</option>
-            </select>
-          </div>
         </div>
       </div>
 
       {/* Data Table */}
       <DataTable
-        columns={columns}
+        columns={accountColumns(getStatusClass)}
         data={filteredTransactions}
         pagination
         highlightOnHover

@@ -3,27 +3,64 @@ import DataTable from "react-data-table-component";
 import { FaRegEye } from "react-icons/fa6";
 import customStyles from "../../../components/custom/customStyle";
 import MemberViewModal from "./modal/MemberViewModal";
+import MemberSearch from "./components/search";
+import MemberFilters from "./components/filter";
 
 const Index = () => {
   // ✅ Dummy Data
   const [data] = useState([
-    { id: 1, name: "John Doe", city: "Ahmedabad", state: "Gujarat", pincode: "380015", status: "Active" },
-    { id: 2, name: "Jane Smith", city: "Surat", state: "Gujarat", pincode: "395007", status: "Inactive" },
-    { id: 3, name: "Ravi Patel", city: "Rajkot", state: "Gujarat", pincode: "360001", status: "Active" },
+    {
+      id: 1,
+      name: "John Doe",
+      city: "Ahmedabad",
+      state: "Gujarat",
+      pincode: "380015",
+      status: "Active",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      city: "Surat",
+      state: "Gujarat",
+      pincode: "395007",
+      status: "Inactive",
+    },
+    {
+      id: 3,
+      name: "Ravi Patel",
+      city: "Rajkot",
+      state: "Gujarat",
+      pincode: "360001",
+      status: "Active",
+    },
   ]);
 
-  // ✅ State for Modal
+  // ✅ State
   const [selectedMember, setSelectedMember] = useState(null);
+  const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState("ALL"); // ✅ default to ALL
+  const [sortOrder, setSortOrder] = useState("newest");
 
-  // ✅ Open modal
-  const handleViewVisitor = (row) => {
-    setSelectedMember(row);
-  };
+  // ✅ Open/Close modal
+  const handleViewVisitor = (row) => setSelectedMember(row);
+  const handleCloseModal = () => setSelectedMember(null);
 
-  // ✅ Close modal
-  const handleCloseModal = () => {
-    setSelectedMember(null);
-  };
+  // ✅ Filter + Search + Sort
+  const q = search.trim().toLowerCase();
+  const filteredData = data
+    .filter((r) =>
+      // search across name/city/state/pincode
+      [r.name, r.city, r.state, r.pincode]
+        .filter(Boolean)
+        .some((v) => v.toLowerCase().includes(q))
+    )
+    .filter((r) =>
+      // treat "ALL" (or empty) as no filter
+      !filterStatus || filterStatus === "ALL"
+        ? true
+        : r.status.toLowerCase() === filterStatus.toLowerCase()
+    )
+    .sort((a, b) => (sortOrder === "newest" ? b.id - a.id : a.id - b.id));
 
   // ✅ Columns
   const columns = [
@@ -61,16 +98,27 @@ const Index = () => {
   ];
 
   return (
-    <div className="mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-      {/* Header */}
-      <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
+    <div className="mx-auto border border-primary-800 bg-white shadow-lg rounded-lg p-5">
+      {/* Header + Filters */}
+      <div className="flex flex-wrap gap-4 items-center justify-between pb-11 border-b border-gray-200 mb-4">
         <h1 className="text-primary-150 font-semibold text-xl">Members</h1>
+
+        <MemberSearch search={search} setSearch={setSearch} />
+
+        <div className="flex gap-4">
+          <MemberFilters
+            filterStatus={filterStatus}
+            setFilterStatus={setFilterStatus}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+          />
+        </div>
       </div>
 
       {/* DataTable */}
       <DataTable
         columns={columns}
-        data={data}
+        data={filteredData}
         pagination
         highlightOnHover
         striped

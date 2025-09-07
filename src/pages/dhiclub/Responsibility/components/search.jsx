@@ -1,10 +1,8 @@
 import CustomSearch from "../../../../components/common/CustomSearch";
 
-const CitySearch = ({ search, setSearch }) => {
-
+const ResponsibilitySearch = ({ search, setSearch }) => {
   return (
-    <div className="flex justify-between items-center mb-4">
-
+    <div className="flex justify-between items-center">
       <CustomSearch
         value={search}
         onChange={setSearch}
@@ -14,4 +12,4 @@ const CitySearch = ({ search, setSearch }) => {
   );
 };
 
-export default CitySearch;
+export default ResponsibilitySearch;

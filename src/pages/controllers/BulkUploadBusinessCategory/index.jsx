@@ -5,8 +5,7 @@ import { useBulkUploadBusiness } from "./hooks/useBulkUploadBusiness";
 import { businessColumns } from "./columns";
 import BusinessSearch from "./components/search";
 import BusinessFilters from "./components/filter";
-import AddModal from "./modals/Add";
-import EditModal from "./modals/Edit";
+import AddEditModal from "./modals/AddEdit";
 import customStyles from "../../../components/custom/customStyle";
 
 const BulkUploadBusinessCategory = () => {
@@ -17,15 +16,16 @@ const BulkUploadBusinessCategory = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState("newest");
 
-  const [showAdd, setShowAdd] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
 
   const filteredData = businessList
     .filter((item) => {
+      const query = search.toLowerCase();
       const matchQuery =
-        (item.businessType?.toLowerCase() || "").includes(search.toLowerCase()) ||
-        (item.businessDomain?.toLowerCase() || "").includes(search.toLowerCase()) ||
-        (item.businessCategory?.toLowerCase() || "").includes(search.toLowerCase());
+        (item.businessType?.toLowerCase() || "").includes(query) ||
+        (item.businessDomain?.toLowerCase() || "").includes(query) ||
+        (item.businessCategory?.toLowerCase() || "").includes(query);
 
       const matchStatus =
         statusFilter === "all" || item.status === statusFilter;
@@ -35,12 +35,26 @@ const BulkUploadBusinessCategory = () => {
     .sort((a, b) =>
       sortOrder === "newest" ? b.id - a.id : a.id - b.id
     );
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setEditData(null);
+  };
 
+  const handleSave = async (values) => {
+    if (editData) {
+      await updateBusiness(editData.id, values);
+    } else {
+      await addBusiness(values);
+    }
+    handleCloseModal();
+  };
 
   return (
-    <div className="mx-auto mt-10 bg-white shadow-lg rounded-lg p-5">
-      <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
-        <h1 className="text-xl font-semibold text-primary-150">Bulk Upload Business Category</h1>
+    <div className="mx-auto border border-primary-800 bg-white shadow-lg rounded-lg p-5">
+      <div className="flex flex-wrap gap-4 items-center justify-between pb-11 border-b border-gray-200 mb-4">
+        <h1 className="text-xl font-semibold text-primary-150">
+          Bulk Upload Business Category
+        </h1>
         <BusinessSearch search={search} setSearch={setSearch} />
         <div className="flex gap-4">
           <BusinessFilters
@@ -50,7 +64,7 @@ const BulkUploadBusinessCategory = () => {
             setSortOrder={setSortOrder}
           />
           <button
-            onClick={() => setShowAdd(true)}
+            onClick={() => setModalOpen(true)}
             className="bg-primary-200 text-white px-4 py-2 rounded-full flex items-center gap-2"
           >
             <FaPlus /> Add
@@ -59,23 +73,26 @@ const BulkUploadBusinessCategory = () => {
       </div>
 
       <DataTable
-        columns={businessColumns({ setEditData, deleteBusiness, updateBusiness })}
+        columns={businessColumns({
+          setEditData: (row) => {
+            setEditData(row);
+            setModalOpen(true);
+          },
+          deleteBusiness,
+          updateBusiness,
+        })}
         data={filteredData}
         customStyles={customStyles}
         pagination
         highlightOnHover
       />
 
-      {showAdd && (
-        <AddModal isOpen={showAdd} onClose={() => setShowAdd(false)} onSave={addBusiness} />
-      )}
-
-      {editData && (
-        <EditModal
-          isOpen={!!editData}
-          onClose={() => setEditData(null)}
-          onSave={updateBusiness}
-          initialData={editData}
+      {modalOpen && (
+        <AddEditModal
+          isOpen={modalOpen}
+          onClose={handleCloseModal}
+          onSave={handleSave}
+          editData={editData}
         />
       )}
     </div>

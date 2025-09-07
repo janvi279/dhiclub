@@ -11,19 +11,20 @@ const CustomInput = ({
   const isInvalid = !!touched[field.name] && !!errors[field.name]
 
   return (
-    <div className='w-full'>
-  
+    <div className="w-full">
       <input
         {...field}
         {...props}
         placeholder={placeholder}
-        invalid={isInvalid ? 'true' : 'false'}
-       className="focus:outline-none border border-gray-300 rounded-lg px-3 py-2 w-full"
+        className={`focus:outline-none rounded-lg px-3 py-2 w-full 
+          ${isInvalid ? 'border border-red-500' : 'border border-gray-300'}
+         
+        `}
       />
       <ErrorMessage
         name={field.name}
-        component='div'
-        className='text-[#D34053] text-sm sm:text-base'
+        component="div"
+        className="text-[#D34053] text-sm sm:text-base mt-1"
       />
     </div>
   )
