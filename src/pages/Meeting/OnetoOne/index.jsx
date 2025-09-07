@@ -3,7 +3,7 @@ import DataTable from "react-data-table-component";
 import { FaPlus } from "react-icons/fa";
 import customStyles from "../../../components/custom/customStyle";
 import Column from "./columns";
-import ViewModal from "./Modals/View";
+import ViewModal from "./Modals/view";
 import AddEditModal from "./Modals/AddEdit";
 import OnetoOneSearch from "./components/search";
 import OnetoOneFilters from "./components/filter"; // ✅ status & sort filter
