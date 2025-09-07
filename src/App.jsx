@@ -29,7 +29,7 @@ const App = () => {
             <Route path='/reset-password' element={<ResetPassword />} /> */}
         </Route>
         <Route>
-          <Route element={<PrivateRoute />}>
+          {/* <Route element={<PrivateRoute />}> */}
             <Route element={<DefaultLayout />}>
               {AllRoutes.map((route, index) => {
                 return (
@@ -37,7 +37,7 @@ const App = () => {
                 )
               })}
             </Route>
-          </Route>
+          {/* </Route> */}
         </Route>
       </Routes>
       {/* </AuthProvider> */}

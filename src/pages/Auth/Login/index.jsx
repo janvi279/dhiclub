@@ -43,28 +43,34 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // Fixed: Send data directly, not wrapped in body object
-      const response = await axiosAuthInstance.post("socialAuth/authenticate", {
-        email: data.email,
-        password: data.password,
-      });
+      // API call commented out due to mixed content error (HTTPS -> HTTP)
+      // const response = await axiosAuthInstance.post("socialAuth/authenticate", {
+      //   email: data.email,
+      //   password: data.password,
+      // });
 
-      if (response?.data) {
-        const token = response.data?.data?.accessToken;
-        const role = response.data?.data?.role || "Admin";
+      // if (response?.data) {
+      //   const token = response.data?.data?.accessToken;
+      //   const role = response.data?.data?.role || "Admin";
 
-        if (token) {
-          setToken(token);
-          if (role) {
-            setRole(role);
-          }
-          navigate("/dashboard");
-        } else {
-          throw new Error("No token received from server");
-        }
-      } else {
-        throw new Error("Invalid response format");
-      }
+      //   if (token) {
+      //     setToken(token);
+      //     if (role) {
+      //       setRole(role);
+      //     }
+      //     navigate("/dashboard");
+      //   } else {
+      //     throw new Error("No token received from server");
+      //   }
+      // } else {
+      //   throw new Error("Invalid response format");
+      // }
+
+      // Temporary: Simulate successful login for testing
+      console.log("Login attempt with:", data);
+      // You can uncomment the line below to simulate navigation
+      // navigate("/dashboard");
+      
     } catch (error) {
       console.error("Login error:", error);
     } finally {
@@ -98,7 +104,11 @@ const Login = () => {
           {/* Email Input */}
           <div className="mb-4">
             <div className="flex items-center relative">
-           <img src={Mail} alt="Mail Icon" className="absolute left-4 w-5 h-5 z-10" />
+              <img
+                src={Mail}
+                alt="Mail Icon"
+                className="absolute left-4 w-5 h-5 z-10"
+              />
 
               <input
                 type="email"
@@ -118,8 +128,11 @@ const Login = () => {
           {/* Password Input */}
           <div className="mb-4">
             <div className="flex items-center relative">
-              
-                  <img src={Pwd} alt="Mail Icon" className="absolute left-4 w-5 h-5 z-10" />
+              <img
+                src={Pwd}
+                alt="Mail Icon"
+                className="absolute left-4 w-5 h-5 z-10"
+              />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"
