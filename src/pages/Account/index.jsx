@@ -75,7 +75,7 @@ const Account = () => {
         <h1 className="text-xl font-semibold text-primary-150">Account</h1>
         <AccountSearch search={search} setSearch={setSearch} />
         <div className="flex gap-4 max-sm:flex-wrap">
-          
+
           <AccountFilters
             sortOrder={sortOrder}
             setSortOrder={setSortOrder}

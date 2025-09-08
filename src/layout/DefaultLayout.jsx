@@ -9,7 +9,7 @@ const DefaultLayout = () => {
     return (
         <>
             <Header />
-            <div className="flex h-screen max-sm:block  overflow-hidden max-sm:overflow-auto">
+            <div className="flex h-screen max-sm:block  max-sm:overflow-auto">
                 <Sidebar
                     isSidebarOpen={isSidebarOpen}  // Pass isSidebarOpen to Sidebar
                     setIsSidebarOpen={setIsSidebarOpen}  // Pass the function to toggle the sidebar
