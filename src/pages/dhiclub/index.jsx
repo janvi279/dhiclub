@@ -28,7 +28,7 @@ const Dhiclub = () => {
     return (
         <>
             <div
-                className={`py-12 max-sm:px-5 w-full transition-all duration-300 overflow-y-auto min-h-screen`}
+                className={`max-sm:px-5 w-full transition-all duration-300 overflow-y-auto min-h-screen`}
             >
                 <h1
                     className="text-2xl font-bold text-gray-800 cursor-pointer"

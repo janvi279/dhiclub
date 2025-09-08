@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { removeRole,removeToken } from "../utils/cookies/cookies";
+import { removeRole, removeToken } from "../utils/cookies/cookies";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false)
@@ -16,16 +16,16 @@ const Header = () => {
     setTimeout(() => {
       navigate('/login')
     }, 100)
- 
+
   }
   return (
     <>
-     <div className="fixed top-0 left-0 w-full z-50  flex justify-between items-center p-7 max-sm:p-5 max-sm:flex-wrap ">
+      <div className="fixed top-0 left-0 w-full z-50 bg-[#FFFFFF] shadow-sm  flex justify-between items-center p-5 max-sm:p-5  ">
 
 
-        <div className="max-sm:w-full max-sm:mb-5 flex gap-2 items-center">
-          <img src="/D Logo.png" alt="Dhiclub Logo" />
-          <p className="text-3xl font-bold font-size-30 ">Dhiclub</p>
+        <div className="max-sm:w-full  flex gap-2 items-center">
+          <img src="/D Logo.png" alt="Dhiclub Logo" className="max-sm:w-6" />
+          <p className="text-3xl font-bold font-size-30 max-sm:text-2xl ">Dhiclub</p>
         </div>
 
         {/* Search */}

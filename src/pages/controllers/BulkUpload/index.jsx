@@ -56,7 +56,7 @@ const BulkUpload = () => {
         <h1 className="text-primary-150 font-semibold text-xl">Bulk Upload</h1>
         <CountrySearch search={search} setSearch={setSearch} />
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-sm:flex-wrap">
           <CountryFilters
             filterCountry={filterCountry}
             setFilterCountry={setFilterCountry}

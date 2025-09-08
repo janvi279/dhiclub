@@ -56,7 +56,7 @@ const BulkUploadBusinessCategory = () => {
           Bulk Upload Business Category
         </h1>
         <BusinessSearch search={search} setSearch={setSearch} />
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-sm:flex-wrap">
           <BusinessFilters
             statusFilter={statusFilter}
             setStatusFilter={setStatusFilter}

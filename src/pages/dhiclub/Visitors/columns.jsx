@@ -20,7 +20,7 @@ export const visitorColumns = ({ onView }) => [
     name: "Status",
     cell: (row) => (
       <span
-        className={`px-5 py-1.5 text-xs rounded-full font-semibold ${
+        className={`px-5 py-1.5 whitespace-nowrap text-xs rounded-full font-semibold ${
           row.status === "Active"
             ? "bg-primary-350 text-primary-400"
             : "bg-primary-450 text-primary-500"

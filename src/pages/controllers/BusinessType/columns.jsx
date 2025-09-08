@@ -20,7 +20,7 @@ export const businessTypeColumns = ({
     name: "Status",
     cell: (row) => (
       <span
-        className={`px-5 py-1.5 rounded-full ${
+        className={`px-5 py-1.5 rounded-full whitespace-nowrap ${
           row.status === "Active"
             ? "bg-primary-350 text-primary-400 font-semibold"
             : "bg-primary-450 text-primary-500"

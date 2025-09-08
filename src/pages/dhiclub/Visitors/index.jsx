@@ -58,7 +58,7 @@ const VisitorPage = () => {
 
         <VisitorSearch search={search} setSearch={setSearch} />
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-sm:flex-wrap">
           <VisitorFilters
             cityFilter={cityFilter}           // ✅ pass correct prop
             setCityFilter={setCityFilter}     // ✅
