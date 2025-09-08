@@ -47,8 +47,9 @@ const CustomSelect = ({
         value={options.find((opt) => opt.value === field.value) || null}
         onChange={(option) => setFieldValue(field.name, option.value)}
         classNamePrefix="react-select"
-        styles={customStyles} // ✅ applied fixed styles
-        {...props}  
+        styles={customStyles}
+        isSearchable={false}
+        {...props}
       />
 
       <ErrorMessage

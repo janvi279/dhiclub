@@ -96,7 +96,7 @@ const Tyfcb = () => {
 
         <TyfcbSearch search={search} setSearch={setSearch} />
 
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 max-sm:flex-wrap items-center">
           <TyfcbFilters
             statusFilter={statusFilter}
             setStatusFilter={setStatusFilter}

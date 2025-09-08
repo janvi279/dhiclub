@@ -26,7 +26,7 @@ const CustomActions = ({ options = [] }) => {
       const rect = buttonRef.current.getBoundingClientRect();
       setPosition({
         top: rect.bottom + window.scrollY + 4, // 4px margin below button
-        left: rect.left + window.scrollX -  120, // adjust for dropdown width
+        left: rect.left + window.scrollX - 120, // adjust for dropdown width
       });
     }
 

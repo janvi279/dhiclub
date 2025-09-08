@@ -13,7 +13,7 @@ export const AttendanceColumns = ({ onView, updateAttendance }) => [
     selector: (row) => row.status,
     cell: (row) => (
       <span
-        className={`px-5 py-1.5 rounded-full text-xs font-medium ${
+        className={`px-5 py-1.5 whitespace-nowrap rounded-full text-xs font-medium ${
           row.status === "Active"
             ? "bg-primary-350 text-primary-400 font-semibold"
             : "bg-primary-450 text-primary-500"

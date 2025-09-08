@@ -60,7 +60,7 @@ const State = () => {
 
         <StateSearch search={search} setSearch={setSearch} />
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-sm:flex-wrap">
           <StateFilters
             filterState={filterState}
             setFilterState={setFilterState}

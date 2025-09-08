@@ -450,20 +450,27 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
   const handleNavClick = (item, e) => {
     if (!isSidebarOpen) {
-      // If sidebar is collapsed, expand it first
       setIsSidebarOpen(true);
       return;
     }
 
     if (item.submenu) {
       e.preventDefault();
+      // ✅ toggle only submenu, no navigate
       setActiveMenu((prev) => (prev === item.label ? null : item.label));
+      return;
     }
 
     if (item.path) {
       navigate(item.path);
+      // ✅ Auto-close sidebar on mobile
+      if (window.innerWidth <= 768) {
+        setIsSidebarOpen(false);
+      }
     }
   };
+
+
 
   // Close submenu when sidebar is collapsed
   useEffect(() => {
@@ -473,7 +480,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   }, [isSidebarOpen]);
 
   return (
-    <div className="flex  max-sm:w-10 pt-30 w-20 ">
+    <div className="flex  max-sm:mb-5 max-sm:pt-20 pt-30 w-20">
       <aside
         ref={sidebar}
         className={` z-40  left-0  bg-primary-750 rounded-2xl shadow-md
@@ -517,32 +524,28 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
         {/* Sidebar content */}
         <div
-          className={`h-full pt-16 pb-4 overflow-y-auto sidebar-scroll  ${
-            isSidebarOpen ? " w-64" : "w-16"
-          }`}
+          className={`h-full pt-16 pb-4 overflow-y-auto sidebar-scroll  ${isSidebarOpen ? "w-64 max-sm:h-screen" : "w-16 max-sm:h-0 max-sm:overflow-hidden max-sm:p-0"
+            }`}
         >
           <ul
-            className={`space-y-2 text-primary-850 ${
-              isSidebarOpen ? "px-4" : "px-2"
-            }`}
+            className={`space-y-2 text-primary-850 ${isSidebarOpen ? "px-4" : "px-2"
+              }`}
           >
             {navItems.map((item, index) => (
               <li key={index}>
                 {/* Main navigation item */}
                 <div
                   className={`flex items-center rounded-xl hover:bg-primary-300 hover:text-primary-200 transition-colors cursor-pointer
-                    ${
-                      isSidebarOpen
-                        ? "justify-between p-3"
-                        : "justify-center p-2"
+                    ${isSidebarOpen
+                      ? "justify-between p-3"
+                      : "justify-center p-2"
                     }`}
                   onClick={(e) => handleNavClick(item, e)}
                 >
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
-                      `flex items-center font-medium ${
-                        isSidebarOpen ? "gap-3 " : "justify-center"
+                      `flex items-center font-medium ${isSidebarOpen ? "gap-3 " : "justify-center"
                       } ${isActive ? "text-primary-200" : ""}`
                     }
                     onClick={(e) => e.preventDefault()}
@@ -581,22 +584,24 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                         <li key={subIndex}>
                           <NavLink
                             to={subItem.path}
+                            onClick={() => {
+                              navigate(subItem.path);
+                              // ✅ Close sidebar on mobile after submenu click
+                              if (window.innerWidth <= 768) {
+                                setIsSidebarOpen(false);
+                              }
+                            }}
                             className={({ isActive }) =>
                               `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium
-                              transition-colors hover:bg-primary-300 hover:text-primary-200 ${
-                                isActive
-                                  ? "bg-primary-300 text-primary-200"
-                                  : ""
+    transition-colors hover:bg-primary-300 hover:text-primary-200 ${isActive ? "bg-primary-300 text-primary-200" : ""
                               }`
                             }
                           >
-                            {subItem.icon && (
-                              <span className="flex-shrink-0">
-                                {subItem.icon}
-                              </span>
-                            )}
+                            {subItem.icon && <span className="flex-shrink-0">{subItem.icon}</span>}
                             <span className="truncate">{subItem.label}</span>
                           </NavLink>
+
+
                         </li>
                       ))}
                     </ul>

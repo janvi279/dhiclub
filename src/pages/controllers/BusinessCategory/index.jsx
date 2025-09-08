@@ -54,7 +54,7 @@ const BusinessCategory = () => {
         </h1>
 
         <BusinessCategorySearch search={search} setSearch={setSearch} />
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-sm:flex-wrap">
           <BusinessCategoryFilters
             sortOrder={sortOrder}
             setSortOrder={setSortOrder}

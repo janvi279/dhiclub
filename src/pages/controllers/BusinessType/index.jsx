@@ -48,7 +48,7 @@ const BusinessType = () => {
 
         <BusinessTypeSearch search={search} setSearch={setSearch} />
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-sm:flex-wrap">
           <BusinessTypeFilters sortOrder={sortOrder} setSortOrder={setSortOrder} />
           <button
             onClick={() => {

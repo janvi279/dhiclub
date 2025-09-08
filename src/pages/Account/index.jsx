@@ -74,7 +74,7 @@ const Account = () => {
       <div className="flex flex-wrap gap-4 items-center justify-between pb-11 border-b border-gray-200 mb-4">
         <h1 className="text-xl font-semibold text-primary-150">Account</h1>
         <AccountSearch search={search} setSearch={setSearch} />
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-sm:flex-wrap">
           
           <AccountFilters
             sortOrder={sortOrder}

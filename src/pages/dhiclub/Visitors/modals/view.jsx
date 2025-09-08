@@ -9,7 +9,7 @@ const ViewVisitorModal = ({ isOpen, onClose, visitor }) => {
     return (
         <CustomModal isOpen={isOpen} onClose={onClose} title="Visitor Profile">
             {/* Visitor Basic Info */}
-            <div className="flex gap-4 mb-4 mt-5">
+            <div className="flex gap-4 max-sm:flex-wrap mb-4 mt-5">
                 <div className="w-24 h-24 bg-gray-200 rounded-md" /> {/* Placeholder for image */}
                 <div className="flex-1 space-y-2 text-sm">
                     {[
@@ -28,7 +28,7 @@ const ViewVisitorModal = ({ isOpen, onClose, visitor }) => {
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-4  mb-4">
+            <div className="flex gap-4 max-sm:flex-wrap  mb-4">
                 <button
                     className={`pb-2 font-medium  ${activeTab === "chapter" ? "border-b-2 border-primary-200 text-primary-200" : "text-gray-500"}`}
                     onClick={() => setActiveTab("chapter")}
@@ -73,7 +73,7 @@ const ViewVisitorModal = ({ isOpen, onClose, visitor }) => {
 
             {/* Visiting Card */}
                <div className="font-semibold text-md pt-5 pb-2">Visiting Card</div>
-            <div className="flex gap-4 mt-4">
+            <div className="flex gap-4 max-sm:flex-wrap mt-4">
              
                 <div className="flex-1 bg-gray-200 h-32 rounded-md flex items-end justify-center">
                     <span className="text-xs text-gray-500 mb-2">Front</span>

@@ -157,7 +157,7 @@ const Meeting = () => {
             selector: (row) => row.status,
             cell: (row) => (
                 <span
-                    className={`px-5 py-1.5 rounded-full  ${row.status === "Active"
+                    className={`px-5 py-1.5 whitespace-nowrap rounded-full  ${row.status === "Active"
                         ? "bg-primary-350 text-primary-400 font-semibold  "
                         : "bg-primary-450 text-primary-500"
                         }`}
@@ -194,7 +194,7 @@ const Meeting = () => {
     ];
 
     return (
-        <div className="mx-auto text-primary-150 mt-10 bg-white shadow-lg rounded-lg p-5">
+        <div className="mx-auto text-primary-150 border border-primary-800 bg-white shadow-lg rounded-lg p-5">
             {/* Top Bar */}
             <div className="flex flex-wrap gap-4 items-center justify-between pb-4 border-b border-gray-200 mb-4">
                 <h1 className="text-xl font-semibold text-primary-150">Meeting</h1>

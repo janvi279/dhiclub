@@ -56,7 +56,7 @@ const filteredData = teams
         <h1 className="text-primary-150 font-semibold text-xl">Teams</h1>
 
         <TeamSearch search={search} setSearch={setSearch} />
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-sm:flex-wrap">
           <TeamFilters
           sortOrder={sortOrder}
           setSortOrder={setSortOrder}

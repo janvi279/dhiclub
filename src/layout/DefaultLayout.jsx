@@ -9,15 +9,15 @@ const DefaultLayout = () => {
     return (
         <>
             <Header />
-            <div className="flex h-screen overflow-hidden">
+            <div className="flex h-screen max-sm:block  overflow-hidden max-sm:overflow-auto">
                 <Sidebar
                     isSidebarOpen={isSidebarOpen}  // Pass isSidebarOpen to Sidebar
                     setIsSidebarOpen={setIsSidebarOpen}  // Pass the function to toggle the sidebar
                 />
-                <div className={`relative flex flex-col flex-1 overflow-x-hidden ${isSidebarOpen ? 'ml-50' : 'ml-0 p-0'}`}>
+                <div className={`relative flex flex-col flex-1  max-sm:mb-5 ${isSidebarOpen ? 'ml-50 max-sm:hidden ' : 'ml-0 p-0   '} `}>
                     {/* Adjust the margin-left based on sidebar state */}
                     <main>
-                        <div className="mx-auto max-w-screen-2xl px-4 pt-30 my-5 ">
+                        <div className="mx-auto  px-4 pt-30 my-5 max-sm:pt-5">
                             <Outlet /> {/* This renders the Dashboard component */}
                         </div>
                     </main>

@@ -54,7 +54,7 @@ const AttendanceList = () => {
 
         <AttendanceSearch search={search} setSearch={setSearch} />
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-sm:flex-wrap">
           <AttendanceFilters
             statusFilter={statusFilter}
             setStatusFilter={setStatusFilter}

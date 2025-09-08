@@ -26,7 +26,7 @@ export const businessCategoryColumns = ({ setEditData, deleteCategory, updateCat
     name: "Status",
     cell: (row) => (
       <span
-        className={`px-5 py-1.5 text-xs rounded-full font-medium ${
+        className={`px-5 py-1.5 text-xs rounded-full font-medium whitespace-nowrap ${
           row.status === "Active"
             ? "bg-primary-350 text-primary-400"
             : "bg-primary-450 text-primary-500"

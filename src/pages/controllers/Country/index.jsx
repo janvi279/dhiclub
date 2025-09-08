@@ -55,12 +55,12 @@ const Country = () => {
   return (
     <div className="mx-auto  bg-white border-primary-800 border rounded-lg p-5">
       {/* Header + Filters */}
-      <div className="flex flex-wrap gap-4 border-b items-center justify-between pb-11  border-gray-200 mb-4">
+      <div className="flex flex-wrap  gap-4 border-b items-center justify-between pb-11 max-sm:pb-2  border-gray-200 mb-4">
         <h1 className="text-primary-150 font-semibold text-xl">Country List</h1>
 
         <CountrySearch search={search} setSearch={setSearch} />
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-sm:flex-wrap max-sm:flex-wrap">
           <CountryFilters
             filterCountry={filterCountry}
             setFilterCountry={setFilterCountry}

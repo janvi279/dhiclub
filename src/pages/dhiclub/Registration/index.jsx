@@ -41,7 +41,7 @@ const RegistrationModule = () => {
 
         <CitySearch search={search} setSearch={setSearch} />
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-sm:flex-wrap">
           <CityFilters
             filterCountry={filterCountry}
             setFilterCountry={setFilterCountry}
