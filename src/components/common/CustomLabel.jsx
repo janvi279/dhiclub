@@ -1,5 +1,4 @@
 // components/common/CustomLabel.js
-import React from "react";
 import { isFieldRequired } from "../../utils/isFieldRequired";
 
 const CustomLabel = ({ name, label, validationSchema }) => {

@@ -3,17 +3,19 @@ import * as Yup from "yup";
 import CustomModal from "../../../../components/common/CustomModal";
 import CustomSelect from "../../../../components/common/CustomSelect";
 import CustomInput from "../../../../components/common/CustomInput";
+import {
+    CountrySelect,
+    StateSelect,
+    CitySelect,
+} from "react-country-state-city";
+import "react-country-state-city/dist/react-country-state-city.css";
+import { useState } from "react";
 
 const AddEditModal = ({ isOpen, onClose, onSave, city }) => {
-    const countries = ["INDIA", "USA", "UK"];
-    const states = ["Gujarat", "Maharashtra", "Delhi"];
-
-    // 🔹 Cities with codes mapped
-    const cities = [
-        { value: "Rajkot", label: "Rajkot", code: "RAJ" },
-        { value: "Ahmedabad", label: "Ahmedabad", code: "AMD" },
-        { value: "Surat", label: "Surat", code: "ST" },
-    ];
+    // Local state for dynamic selects
+    const [selectedCountry, setSelectedCountry] = useState(null);
+    const [selectedState, setSelectedState] = useState(null);
+    const [selectedCity, setSelectedCity] = useState(null);
 
     const validationSchema = Yup.object({
         country: Yup.string().required("Country is required"),
@@ -51,48 +53,57 @@ const AddEditModal = ({ isOpen, onClose, onSave, city }) => {
                 {({ setFieldValue, values }) => (
                     <Form className="flex flex-col gap-4">
                         {/* Country */}
-                        <Field
-                            name="country"
-                            component={CustomSelect}
-                            options={countries.map((c) => ({
-                                value: c,
-                                label: c,
-                            }))}
-                            required
-                            placeholder="Select Country"
+
+                        <CountrySelect
+                            onChange={(country) => {
+                                setSelectedCountry(country);
+                                setFieldValue("country", country.name);
+                                setFieldValue("state", "");
+                                setFieldValue("cityName", "");
+                                setFieldValue("cityCode", "");
+                            }}
+                            placeHolder="Select Country"
+                            defaultValue={selectedCountry}
+                            searchable={false}
+                            style={{ border: 'none', outline: 'none', padding: "3px" }}
                         />
+
 
                         {/* State */}
-                        <Field
-                            name="state"
-                            component={CustomSelect}
-                            options={states.map((s) => ({
-                                value: s,
-                                label: s,
-                            }))}
-                            required
-                            placeholder="Select State"
+
+                        <StateSelect
+                            countryid={selectedCountry?.id}
+                            onChange={(state) => {
+                                setSelectedState(state);
+                                setFieldValue("state", state.name);
+                                setFieldValue("cityName", "");
+                                setFieldValue("cityCode", "");
+                            }}
+                            placeHolder="Select State"
+                            defaultValue={selectedState}
+                            style={{ border: 'none', outline: 'none', padding: "3px" }}
                         />
 
-                        {/* City Name */}
-                        <Field
-                            name="cityName"
-                            component={CustomSelect}
-                            options={cities.map((c) => ({
-                                value: c.value,
-                                label: c.label,
-                            }))}
-                            required
-                            placeholder="Select City Name"
-                            onChange={(option) => {
-                                setFieldValue("cityName", option.value);
-                                // 🔹 auto set cityCode based on city selected
-                                const selected = cities.find((c) => c.value === option.value);
-                                if (selected) {
-                                    setFieldValue("cityCode", selected.code);
-                                }
+
+                        {/* City */}
+
+                        <CitySelect
+                            countryid={selectedCountry?.id}
+                            stateid={selectedState?.id}
+                            onChange={(cityObj) => {
+                                setSelectedCity(cityObj);
+                                setFieldValue("cityName", cityObj.name);
+                                // Auto generate city code (first 3 letters uppercase)
+                                setFieldValue(
+                                    "cityCode",
+                                    cityObj.name.slice(0, 3).toUpperCase()
+                                );
                             }}
+                            placeHolder="Select City"
+                            defaultValue={selectedCity}
+                            style={{ border: 'none', outline: 'none', padding: "3px" }}
                         />
+
 
                         {/* City Code (auto filled) */}
                         <Field
@@ -101,7 +112,7 @@ const AddEditModal = ({ isOpen, onClose, onSave, city }) => {
                             required
                             placeholder="City Code"
                             value={values.cityCode}
-                            readOnly // prevent manual editing
+                            readOnly
                         />
 
                         {/* Submit Button */}

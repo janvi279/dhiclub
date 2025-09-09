@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { removeRole, removeToken } from "../utils/cookies/cookies";
+import BellIcon from "../../assets/bell-svgrepo-com.svg";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false)
@@ -20,8 +21,7 @@ const Header = () => {
   }
   return (
     <>
-      <div className="fixed top-0 left-0 w-full z-50 bg-[#FFFFFF] shadow-sm  flex justify-between items-center p-5 max-sm:p-5  ">
-
+      <div className="fixed top-0 left-0 w-full z-50 bg-[#FFFFFF] shadow-sm  flex justify-between items-center p-6 max-sm:p-5  ">
 
         <div className="max-sm:w-full  flex gap-2 items-center">
           <img src="/D Logo.png" alt="Dhiclub Logo" className="max-sm:w-6" />
@@ -42,13 +42,13 @@ const Header = () => {
         </div> */}
         <div className="flex relative items-center gap-5 justify-end max-sm:[justify-normal] max-sm:gap-2 ">
           <img
-            src="/bell-svgrepo-com.svg"
-            className="bg-primary-300 p-4 h-[57px]  rounded-full max-sm:p-2 max-sm:h-[30px] max-sm:p-[0px]"
+            src={BellIcon} alt="Bell"
+            className="bg-primary-300 p-4 h-[57px]  rounded-full max-sm:p-2 max-sm:h-[30px] "
 
           />
           <img
             src="/User.png"
-            className="bg-primary-300 p-4 max-sm:p-2 rounded-full max-sm:h-[30px] max-sm:p-[5px]"
+            className="bg-primary-300 p-4 max-sm:p-2 rounded-full max-sm:h-[30px] "
             onClick={handleUserIconClick}
 
           />

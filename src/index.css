@@ -49,3 +49,41 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #c5c5c5 transparent;
 }
+/* override-country-select.css - Import this AFTER react-country-state-city CSS */
+
+/* Remove all borders from the library components */
+.csc-select,
+.csc-select *,
+.csc-select-container,
+.csc-select-container *,
+.csc-select-container > div,
+.csc-select-container > div * {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Add single border to main container only */
+.csc-select-container {
+    border: 1px solid #d1d5db !important;
+    border-radius: 6px !important;
+    transition: border-color 0.15s ease-in-out !important;
+}
+
+/* Focus state */
+.csc-select-container:focus-within {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Remove any margin/padding issues */
+.csc-select-container {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Ensure proper height */
+.csc-select {
+    min-height: 40px !important;
+    padding: 8px 12px !important;
+}

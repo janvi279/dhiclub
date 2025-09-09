@@ -214,8 +214,7 @@ import {
   MdAppRegistration,
 } from "react-icons/md";
 import { AiOutlineTeam } from "react-icons/ai";
-import { BiUserCheck, BiUserPlus, BiBuilding } from "react-icons/bi";
-import { RiTeamLine, RiUserSettingsLine } from "react-icons/ri";
+import { BiUserCheck,BiBuilding } from "react-icons/bi";
 import {
   HiOutlineUsers,
   HiOutlineDocumentReport,
@@ -470,8 +469,6 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     }
   };
 
-
-
   // Close submenu when sidebar is collapsed
   useEffect(() => {
     if (!isSidebarOpen) {
@@ -480,7 +477,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   }, [isSidebarOpen]);
 
   return (
-    <div className="flex  max-sm:mb-5 max-sm:pt-20 pt-30 w-20">
+    <div className=" flex  max-sm:mb-5 max-sm:pt-20 pt-30 w-20">
       <aside
         ref={sidebar}
         className={` z-40  left-0  bg-primary-750 rounded-2xl shadow-md

@@ -2,8 +2,6 @@ import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { getToken, getRole } from '../utils/cookies/cookies';
 import NotAuthorized from '../../pages/NotAuthorized';
 
-
-
 const filterRoutesForRole = (role, path) => {
   switch (role) {
     case 'Admin':
@@ -27,7 +25,7 @@ const filterRoutesForRole = (role, path) => {
         path === '/social-list'
       );
 
-      case 'Team Leader' : 
+    case 'Team Leader':
       return (
         path === '/' ||
         path.startsWith('/task') ||

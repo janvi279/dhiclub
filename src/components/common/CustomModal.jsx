@@ -1,5 +1,4 @@
 // components/common/CustomModal.jsx
-import React from "react";
 
 const CustomModal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;

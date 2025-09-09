@@ -6,8 +6,8 @@ import * as yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 import axiosAuthInstance from "../../../components/utils/axios/axiosAuthInstance";
 import { setToken, setRole } from "../../../components/utils/cookies/cookies";
-import Mail from "../../../../public/Mail.svg";
-import Pwd from "../../../../public/Pwd.svg";
+import Mail from "../../../../src/assets/Mail.svg"
+import Pwd from "../../../../src/assets/Pwd.svg";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
