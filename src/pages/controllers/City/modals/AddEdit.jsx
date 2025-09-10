@@ -1,7 +1,6 @@
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CustomModal from "../../../../components/common/CustomModal";
-import CustomSelect from "../../../../components/common/CustomSelect";
 import CustomInput from "../../../../components/common/CustomInput";
 import {
     CountrySelect,
@@ -9,32 +8,58 @@ import {
     CitySelect,
 } from "react-country-state-city";
 import "react-country-state-city/dist/react-country-state-city.css";
-import { useState } from "react";
 
 const AddEditModal = ({ isOpen, onClose, onSave, city }) => {
-    // Local state for dynamic selects
-    const [selectedCountry, setSelectedCountry] = useState(null);
-    const [selectedState, setSelectedState] = useState(null);
-    const [selectedCity, setSelectedCity] = useState(null);
-
     const validationSchema = Yup.object({
-        country: Yup.string().required("Country is required"),
-        state: Yup.string().required("State is required"),
-        cityName: Yup.string().trim().required("City Name is required"),
+        country: Yup.object().required("Country is required"),
+        state: Yup.object().required("State is required"),
+        city: Yup.object().required("City is required"),
         cityCode: Yup.string().trim().required("City Code is required"),
     });
 
-    const initialValues = city || {
-        country: "",
-        state: "",
-        cityName: "",
+    // ✅ Business type jaisi simple initial values
+    const initialValues = city ? {
+        country: city.countryId ? {
+            id: city.countryId,
+            name: city.countryName,
+            iso2: city.countryIso2
+        } : null,
+        state: city.stateId ? {
+            id: city.stateId,
+            name: city.stateName,
+            state_code: city.stateCode
+        } : null,
+        city: city.cityId ? {
+            id: city.cityId,
+            name: city.cityName
+        } : null,
+        cityCode: city.cityCode || "",
+        status: city.status || "Active",
+        createdAt: city.createdAt || new Date().toISOString(),
+    } : {
+        country: null,
+        state: null,
+        city: null,
         cityCode: "",
         status: "Active",
         createdAt: new Date().toISOString(),
     };
 
     const handleSubmit = (values, { resetForm }) => {
-        onSave(values);
+        const payload = {
+            countryId: values.country?.id,
+            countryName: values.country?.name,
+            countryIso2: values.country?.iso2,
+            stateId: values.state?.id,
+            stateName: values.state?.name,
+            stateCode: values.state?.state_code,
+            cityId: values.city?.id,
+            cityName: values.city?.name,
+            cityCode: values.cityCode,
+            status: values.status,
+            createdAt: values.createdAt,
+        };
+        onSave(payload);
         resetForm();
         onClose();
     };
@@ -49,73 +74,75 @@ const AddEditModal = ({ isOpen, onClose, onSave, city }) => {
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
+                enableReinitialize  // ✅ Aa important che editing ke liye
             >
                 {({ setFieldValue, values }) => (
                     <Form className="flex flex-col gap-4">
-                        {/* Country */}
+                        <div>
+                            <CountrySelect
+                                onChange={(country) => {
+                                    setFieldValue("country", country);
+                                    setFieldValue("state", null);
+                                    setFieldValue("city", null);
+                                    setFieldValue("cityCode", "");
+                                }}
+                                placeHolder="Select Country"
+                                defaultValue={values.country}  // ✅ defaultValue nahi, value use karo
+                                style={{ border: 'none', outline: 'none', padding: "3px" }}
+                            />
+                            <ErrorMessage
+                                name="country"
+                                component="div"
+                                className="text-[#D34053] text-sm sm:text-base "
+                            />
+                        </div>
+                        <div>
 
-                        <CountrySelect
-                            onChange={(country) => {
-                                setSelectedCountry(country);
-                                setFieldValue("country", country.name);
-                                setFieldValue("state", "");
-                                setFieldValue("cityName", "");
-                                setFieldValue("cityCode", "");
-                            }}
-                            placeHolder="Select Country"
-                            defaultValue={selectedCountry}
-                            searchable={false}
-                            style={{ border: 'none', outline: 'none', padding: "3px" }}
-                        />
-
-
-                        {/* State */}
-
-                        <StateSelect
-                            countryid={selectedCountry?.id}
-                            onChange={(state) => {
-                                setSelectedState(state);
-                                setFieldValue("state", state.name);
-                                setFieldValue("cityName", "");
-                                setFieldValue("cityCode", "");
-                            }}
-                            placeHolder="Select State"
-                            defaultValue={selectedState}
-                            style={{ border: 'none', outline: 'none', padding: "3px" }}
-                        />
-
-
-                        {/* City */}
-
-                        <CitySelect
-                            countryid={selectedCountry?.id}
-                            stateid={selectedState?.id}
-                            onChange={(cityObj) => {
-                                setSelectedCity(cityObj);
-                                setFieldValue("cityName", cityObj.name);
-                                // Auto generate city code (first 3 letters uppercase)
-                                setFieldValue(
-                                    "cityCode",
-                                    cityObj.name.slice(0, 3).toUpperCase()
-                                );
-                            }}
-                            placeHolder="Select City"
-                            defaultValue={selectedCity}
-                            style={{ border: 'none', outline: 'none', padding: "3px" }}
-                        />
-
-
-                        {/* City Code (auto filled) */}
+                            <StateSelect
+                                countryid={values.country?.id}
+                                onChange={(state) => {
+                                    setFieldValue("state", state);
+                                    setFieldValue("city", null);
+                                    setFieldValue("cityCode", "");
+                                }}
+                                placeHolder="Select State"
+                                defaultValue={values.state}  // ✅ defaultValue nahi, value use karo
+                                style={{ border: 'none', outline: 'none', padding: "3px" }}
+                            />
+                            <ErrorMessage
+                                name="state"
+                                component="div"
+                                className="text-[#D34053] text-sm sm:text-base "
+                            />
+                        </div>
+                        <div>
+                            <CitySelect
+                                countryid={values.country?.id}
+                                stateid={values.state?.id}
+                                onChange={(cityObj) => {
+                                    setFieldValue("city", cityObj);
+                                    // Auto generate city code
+                                    const generatedCode = cityObj?.name ? cityObj.name.slice(0, 3).toUpperCase() : "";
+                                    setFieldValue("cityCode", generatedCode);
+                                }}
+                                placeHolder="Select City"
+                                defaultValue={values.city}  // ✅ defaultValue nahi, value use karo
+                                style={{ border: 'none', outline: 'none', padding: "3px" }}
+                            />
+                            <ErrorMessage
+                                name="cityCode"
+                                component="div"
+                                className="text-[#D34053] text-sm sm:text-base "
+                            />
+                        </div>
                         <Field
                             name="cityCode"
                             component={CustomInput}
                             required
                             placeholder="City Code"
-                            value={values.cityCode}
                             readOnly
                         />
 
-                        {/* Submit Button */}
                         <div className="mt-4">
                             <button
                                 type="submit"

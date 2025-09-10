@@ -43,15 +43,26 @@ const Country = () => {
     setEditData(null);
   };
 
-  const handleSave = async (values) => {
+// In your index.jsx handleSave function, it should be like this:
+ const handleSave = (data) => {
+    console.log("handleSave called with:", data);
+    console.log("editData:", editData);
+    
     if (editData) {
-      await updateCountry(editData._id, values);
+      // Editing mode - make sure ID is included
+      const updatedData = {
+        ...data,
+        id: editData.id, // Ensure ID is preserved
+      };
+      console.log("Updating country:", updatedData);
+      updateCountry(updatedData);
     } else {
-      await addCountry(values);
+      // Adding mode
+      console.log("Adding new country:", data);
+      addCountry(data);
     }
     handleCloseModal();
   };
-
   return (
     <div className="mx-auto  bg-white border-primary-800 border rounded-lg p-5">
       {/* Header + Filters */}

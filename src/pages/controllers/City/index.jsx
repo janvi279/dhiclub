@@ -52,9 +52,9 @@ const City = () => {
 
 
   return (
-     <div className="mx-auto  bg-white shadow-md border border-primary-800 rounded-lg p-5">
+    <div className="mx-auto  bg-white shadow-md border border-primary-800 rounded-lg p-5">
       {/* Header + Filters */}
-        <div className="flex flex-wrap gap-4 items-center justify-between pb-11 border-b  border-gray-200 mb-4">
+      <div className="flex flex-wrap gap-4 items-center justify-between pb-11 border-b  border-gray-200 mb-4">
         <h1 className="text-primary-150 font-semibold text-xl">City List</h1>
 
         <CitySearch search={search} setSearch={setSearch} />
@@ -91,11 +91,11 @@ const City = () => {
         pagination
         highlightOnHover
         customStyles={customStyles}
-        
-          overflowY={false}
-  overflowYOffset="0px"
-  // આ પણ add કરો
-  style={{ overflow: 'visible' }}
+
+        overflowY={false}
+        overflowYOffset="0px"
+        // આ પણ add કરો
+        style={{ overflow: 'visible' }}
       />
 
       {/* Add Modal */}
