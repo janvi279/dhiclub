@@ -43,26 +43,26 @@ const Country = () => {
     setEditData(null);
   };
 
-// In your index.jsx handleSave function, it should be like this:
- const handleSave = (data) => {
-    console.log("handleSave called with:", data);
-    console.log("editData:", editData);
-    
+  const handleSave = (data) => {
     if (editData) {
-      // Editing mode - make sure ID is included
-      const updatedData = {
-        ...data,
-        id: editData.id, // Ensure ID is preserved
-      };
-      console.log("Updating country:", updatedData);
-      updateCountry(updatedData);
+      // Editing
+      updateCountry({
+        ...editData,   // keep old values
+        ...data,       // override with new values
+        id: editData.id, // preserve ID
+      });
     } else {
-      // Adding mode
-      console.log("Adding new country:", data);
-      addCountry(data);
+      // Adding
+      addCountry({
+        ...data,
+        id: Date.now(),
+        createdAt: new Date().toISOString(),
+        status: "Active", // default for new
+      });
     }
     handleCloseModal();
   };
+
   return (
     <div className="mx-auto  bg-white border-primary-800 border rounded-lg p-5">
       {/* Header + Filters */}

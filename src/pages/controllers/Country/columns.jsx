@@ -56,7 +56,7 @@ export const countryColumns = ({
           {
             label: "Active",
             icon: <span className="w-2 h-2 rounded-full bg-green-500"></span>,
-            onClick: () => updateCountry(row.id, { status: "Active" }),
+      onClick: () => updateCountry({ ...row, status: "Active" }),
             className:
               row.status === "Active"
                 ? "opacity-50 cursor-not-allowed"
@@ -65,7 +65,7 @@ export const countryColumns = ({
           {
             label: "Deactive",
             icon: <span className="w-2 h-2 rounded-full bg-yellow-500"></span>,
-            onClick: () => updateCountry(row.id, { status: "Deactive" }),
+         onClick: () => updateCountry({ ...row, status: "Deactive" }),
             className:
               row.status === "Deactive"
                 ? "opacity-50 cursor-not-allowed"
